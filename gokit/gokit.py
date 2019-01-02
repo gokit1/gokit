@@ -26,7 +26,7 @@ Author: Sridhar Neelamraju)
 
 from __future__ import print_function
 import numpy as np
-from gr import conmaps
+from conmap import conmaps
 from Bio.PDB.PDBParser import PDBParser
 import collections
 import mdtraj as md
@@ -65,7 +65,7 @@ class esbm(object):
             #print (' skip_glycine=',skip_glycine,'\n','dswap=',dswap,'\n','bt=',btparams,'\n','sopc=',sopc,'\n','CAcom=',CAcom,'\n','hphobic=',hphobic)
             global radtodeg,kcaltokj
             radtodeg = 57.295779513;kcaltokj=4.184
-            print (dsb)
+            #print (dsb)
             return
         def glycine_check(self,pdbfile):
             print ('>>in skip_glycine')
