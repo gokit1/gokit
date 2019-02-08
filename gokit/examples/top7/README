@@ -1,4 +1,0 @@
-With glycine
-python gokit.py --w_native 1qys_H.pdb 
-Without glycine
-python gokit.py --w_native 1qys.pdb
