@@ -30,6 +30,13 @@ $ ./INSTALL
 ```
 
 ## Examples
+### Generating a contact-mao
+
+### Flavours
 
 
+
+
+
+---
 GO-kit is mainly developed on a 64-bit OS X machine. 
