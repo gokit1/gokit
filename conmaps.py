@@ -861,7 +861,7 @@ class conmaps():
             for pp in ppb.build_peptides(structure):
                 seq += pp.get_sequence()
             #print (seq)
-            #print (len(seq))
+            print (len(seq))
             return seq
 
         def plot_map(self,x,y,title,xaxis,yaxis):

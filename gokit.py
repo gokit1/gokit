@@ -26,7 +26,7 @@ Author: Sridhar Neelamraju)
 
 from __future__ import print_function
 import numpy as np
-from gr import conmaps
+from conmaps import conmaps
 from Bio.PDB.PDBParser import PDBParser
 import collections
 import mdtraj as md
@@ -104,10 +104,9 @@ class esbm(object):
         def read_external_radius(self,radiusfile):
             print ('>>reading radii from file:',radiusfile)
             r= self.get_dict_from_csv(radiusfile)
-            print (r)
+            #print (r)
             return r
-
-
+            return r
         def potential_dict(self,potential):
             #three potentials only implemented for now.
             d = {'lj612': 1, 'lj1012': 2,'dsb': 8}
@@ -378,6 +377,7 @@ class esbm(object):
 
 
         def get_CB_radius(self,atomtypes,nativefile,sopc,scaling,CBradii):
+            print ('>> in get_CB_radius',atomtypes,nativefile,sopc,scaling,CBradii)
             #excluded volume for each cb bead is distance from its C-alpha.
             #sopc gets side-chain radii from BT params!
             scaling=float(scaling)
@@ -386,7 +386,7 @@ class esbm(object):
                 sopc=False
             if CBradii:
                 d=self.read_external_radius('radii.dat')
-                assert (len(d)==20)
+                assert (len(d)==20),'Must have 20 residues in file!'
             else:
                 d = self.amino_acid_radius_dict()
             ncb = Y.get_sidechain_atoms(nativefile)
@@ -397,8 +397,8 @@ class esbm(object):
             for i in ncb:
                 radius.append(d[Y.get_residue_name(nativefile,i)[0].strip()])
             radius=np.asarray(radius).reshape(1,len(ncb))
-            radius=(0.8*(radius+3.8))/2
-            print (radius)
+            #radius=(0.8*(radius+3.8))/2
+            #print (radius)
             return radius
 
             # pdbfile='native_cb.pdb'
@@ -443,7 +443,7 @@ class esbm(object):
                     x = 'CB' + str(count_cb)
                     count_cb=count_cb+1
                     atomname.append(x)
-            #print 'Found',len(atomname),'atoms'
+            print ('Found',len(atomname),'atoms')
             #make dict
             l1=np.arange(0,natoms)
             print (len(l1),len(atomname))
@@ -506,21 +506,18 @@ class esbm(object):
             f = open('SBM.INP', "a")
             if skip_glycine:
                 sopc=False
-            seq = Y.get_sequence(pdbfile)
-            d=self.amino_acid_dict()
-            nca=len(seq)
-            glyname='G'
+            seq = Y.get_sequence(pdbfile);nca=len(seq);d=self.amino_acid_dict();glyname='G'
             if atomtype==2:
-                gly = [pos + 1 for pos, char in enumerate(seq) if char == 'G']
+                #gly = [pos + 1 for pos, char in enumerate(seq) if char == 'G']
                 ncb = len(Y.get_CB_index('native_cb.pdb'))
-                if not skip_glycine:
-                    nca=len(Y.get_CA_index('native_cb.pdb'))
-                    glyname='G111'
+                if skip_glycine:
+                    glyname='G'
                 natoms = nca + ncb
                 #print (nca,ncb)
                 assert(natoms==Y.get_total_number_of_atoms('native_cb.pdb'))
             elif atomtype==1:
                 natoms=len(seq)
+
             natomtypes=len(self.get_atom_types(pdbfile,atomtype,sopc))
             f.write('%d %s\n' % (natomtypes,' atomtypes'))
             atomname=[]
@@ -529,7 +526,7 @@ class esbm(object):
             atomptype=['A']*natoms
             CA_rad = np.ones(nca, dtype=np.float32) * CA_rad
             #default CB radius
-        #print len(CB_rad[0]),len(CA_rad),len(gly)
+            #print len(CB_rad[0]),len(CA_rad),len(gly)
                     #assert len(CB_rad[0]) + len(CA_rad) == natoms
             count_ca=0
             c6=0.000
@@ -540,23 +537,29 @@ class esbm(object):
                 #print (atomname)
                 return atomname
 
-            if atomtype==2:
-                count = 0
-                count_cb = 0
+            elif atomtype==2:
+                #add CA first.
                 atomname.append(['CA', atommass[0], atomcharge[0], atomptype[0], c6, CA_rad[0]])
                 CB_rad = self.get_CB_radius(atomtype, 'native_cb.pdb', sopc, 1, CBradii)
-                #print (CB_rad)
-                #exit()
+                print (len(CB_rad[0]))
+                assert(len(CB_rad[0])==ncb)
+                count_cb=0
+                #loop over CA!
                 for i in seq:
                     if i != glyname:
                         x = 'CB' + str(count_cb)
+                        #print (count_cb)
+                        #print (CB_rad[0][count_cb],count_cb,i,len(seq ))
+                        #print (x,ncb,i,count_cb,glyname)
                         #print (atomcharge[count], atomptype[count], c6, CB_rad[0][count_cb], d[i])
-                        #print (x, atommass[count], atomcharge[count], atomptype[count], c6, CB_rad[0][count_cb], d[i])
-                        atomname.append([x,atommass[count],atomcharge[count],atomptype[count],c6,CB_rad[0][count_cb],d[i]])
+                        #print (x, '1', '0', atomptype[count_cb], c6, CB_rad[0][count_cb],)
+                        atomname.append([x,atommass[count_cb],atomcharge[count_cb],atomptype[count_cb],c6,CB_rad[0][count_cb],d[i]])
                         f.write('%d\t%8.5f\t%s\n' % (count_cb+2, CB_rad[0][count_cb], '1.00'))
                         count_cb = count_cb + 1
-            #print (len(atomname),natoms,count_cb)
-            return atomname
+                print (count_cb)
+                return atomname
+
+
 
         def write_atoms_section(self,pdbfile,atomtype,skip_glycine):
             print ('>> in write_atoms_section\t',atomtype,pdbfile,atomtype,sopc)
@@ -1297,7 +1300,7 @@ def main():
     parser.add_argument("--cutoff","-cutoff", help="Cut-off for contact-map generation")
     parser.add_argument("--scaling","-scaling", help="Scaling for mapping to all-atom contact-map.")
     parser.add_argument("--attype", "-attype",help="Number of atom types. E.g. 1 for CA, 2 for CA and CB")
-    parser.add_argument("--interaction","-interaction",action='store_true', default=False, help='User defined interactions in file interaction.dat.')
+    parser.add_argument("--matrix","-matrix",action='store_true', default=False, help='User defined interactions in file interaction.dat.')
     parser.add_argument("--CBcom","-CBcom", action='store_true', default=False,help='Put CB at center of mass of side-chain (no hydrogens)')
     parser.add_argument("--CBfar", "-CBfar", action='store_true', help="Place C-beta on farthest non-hydrogen atom.")
     parser.add_argument("--dsb", "-dsb",action='store_true', help="Use desolvation barrier potential for contacts.")
@@ -1373,7 +1376,7 @@ def main():
         Ka=float(args.Ka)
     if args.cutoff:
         cutoff=float(args.cutoff)
-    if args.interaction:
+    if args.matrix:
         U.file_exists('interaction.dat')
         btparams=True
     else:
@@ -1413,10 +1416,12 @@ def main():
         CBfar=True
 
     if args.btmap:
+        assert (int(args.attype)==2),'Attype set to 1!'
         import shutil
         shutil.copy2('btmap.dat','interaction.dat')
         btparams=True;btmap=True
     if args.mjmap:
+        assert (int(args.attype)==2),'Attype set to 1!'
         import shutil
         shutil.copy2('mjmap.dat', 'interaction.dat')
         btparams=True;mjmap=True
