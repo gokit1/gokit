@@ -5,7 +5,7 @@ from util import Utils
 import sys
 sys.path.append('/usr/lib64/python2.7/site-packages')
 import matplotlib.pyplot as plt
-from gr import conmaps
+from conmaps import conmaps
 import mdtraj as md
 
 
