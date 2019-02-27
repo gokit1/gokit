@@ -1,5 +1,4 @@
-# gokit
-Enabling energy landscape explorations of proteins
+# Go-kit: Enabling energy landscape explorations of proteins
 
 A set of python tools that assist setup and post-hoc analysis of simulations of proteins with various flavours of Structure-Based Models (SBMs) for GROMACS and OPTIM runs. 
 
@@ -23,10 +22,14 @@ Add Statistical potentials Miyazawa-Jernighan and Betancourt-Thirumalai. CB radi
 
 
 ### Installing stuff
-##Python and libraries##
-
 Make sure pip is installed and running.
-* ./INSTALL
 ```
+$ git clone https://github.com/gokit1/gokit.git
+$ cd gokit
+$ ./INSTALL
+```
+
+## Examples
+
 
 GO-kit is mainly developed on a 64-bit OS X machine. 
