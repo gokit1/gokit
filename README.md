@@ -30,7 +30,7 @@ $ ./INSTALL
 ```
 
 ## Examples
-### Generating a contact-mao
+### Generating a contact-map
 
 ### Flavours
 
