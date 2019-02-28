@@ -152,10 +152,20 @@ class Utils(object):
         import shutil
         mdfiles=['gromacs.gro','gromacs.top'];pathfiles=['SBM.INP','HYDROPHOBIC','IDENTICAL']
         for i in mdfiles:
-            shutil.copy2(i,mddir)
+            try:
+                shutil.copy2(i,mddir)
+            except:
+                pass
         for j in pathfiles:
-            shutil.copy2(j,pathdir)
+            try:
+                shutil.copy2(j,pathdir)
+            except:
+                pass
 
+    def dsb_check(self,dsbflag):
+        if dsbflag:
+            os.remove(PATH/SBM.INP)
+            print ("No dsb+hphobic implementation in PATHSAMPLE.")
 
         # shutil.move(os.path.join('./','SBM.INP'), os.path.join(pathdir, 'SBM.INP'))
         # shutil.move(os.path.join('./','gromacs.gro'), os.path.join(mddir, 'gromacs.gro'))
