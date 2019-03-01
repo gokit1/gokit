@@ -1,4 +1,4 @@
-#Go-kit: Enabling energy landscape explorations of proteins
+# Go-kit: Enabling energy landscape explorations of proteins
 
 A set of python tools that assist setup and post-hoc analysis of simulations of proteins with various flavours of Structure-Based Models (SBMs) for GROMACS and OPTIM runs. 
 
