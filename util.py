@@ -18,10 +18,6 @@ from Bio.PDB.PDBParser import PDBParser
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-PyeSBM:
-usage: python esbm.py --options
-
-Author: Sridhar Neelamraju)
 
 """
 
@@ -150,7 +146,7 @@ class Utils(object):
         return
     def make_dir_struc(self,pathdir,mddir):
         import shutil
-        mdfiles=['gromacs.gro','gromacs.top'];pathfiles=['SBM.INP','HYDROPHOBIC','IDENTICAL']
+        mdfiles=['gromacs.gro','gromacs.top'];pathfiles=['SBM.INP','HYDROPHOBIC','IDENTICAL','odata']
         for i in mdfiles:
             try:
                 shutil.copy2(i,mddir)
@@ -198,7 +194,8 @@ class Utils(object):
              7: "Fatal: Atomtype not implemented. Try --attype 1 or 2",
              8: "Fatal: Dihedral function type must be 1",
              9: "Fatal: Found Glycine with 0 hydrogen atoms. Add hydrogens, or set skip_glycine==True",
-             10: "Fatal: Found HETATM in pdbfile."}
+             10: "Fatal: Found HETATM in pdbfile.",
+             11: "Fatal: --attype must be 1 or 2."}
         print (d[errorid])
         exit()
         return True

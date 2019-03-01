@@ -65,6 +65,8 @@ class esbm(object):
             #print ('Global logicals are as follows:\n--------------------------')
             #print (' skip_glycine=',skip_glycine,'\n','dswap=',dswap,'\n','bt=',btparams,'\n','sopc=',sopc,'\n','CAcom=',CAcom,'\n','hphobic=',hphobic)
             global radtodeg,kcaltokj
+            #write to SBM.INP
+            global w_sbm; w_sbm=True
             radtodeg = 57.295779513;kcaltokj=4.184
             #print (dsb)
             return
@@ -556,7 +558,7 @@ class esbm(object):
                         atomname.append([x,atommass[count_cb],atomcharge[count_cb],atomptype[count_cb],c6,CB_rad[0][count_cb],d[i]])
                         f.write('%d\t%8.5f\t%s\n' % (count_cb+2, CB_rad[0][count_cb], '1.00'))
                         count_cb = count_cb + 1
-                print (count_cb)
+                #print (count_cb)
                 return atomname
 
 
@@ -1192,6 +1194,12 @@ class esbm(object):
             f.write('%s\n' % ('Macromolecule     1'))
             f.close()
             return
+        def write_odata_header(self):
+            f1=open('odata',"w+")
+            f1.write("%s\n" % ('STEPS 100000'))
+            f1.write("%s\n" % ('BFGSMIN 1.0D-6'))
+            f1.write("%s\n" % ('POINTS'))
+            f1.close()
 
         def write_gro_gro(self,grofilename,pdbfile,atomtypes,skip_glycine):
             self.write_CB_to_native(pdbfile,skip_glycine)
@@ -1201,6 +1209,8 @@ class esbm(object):
             print ('>> write_gro_gro',grofilename,pdbfile,atomtypes,sopc)
             Y=conmaps()
             f = open(grofilename, "w+")
+            self.write_odata_header()
+            f1= open('odata', "a")
             f.write('%s\n'%('Generated with Go-kit'))
             a = self.write_atoms_section(pdbfile,atomtypes,sopc)
             if atomtypes==1:
@@ -1220,9 +1230,11 @@ class esbm(object):
             for i in xrange(0,len(a)):
                 #print a[i][2],a[i][3],a[i][4],d[count],c[i][0],c[i][1],c[i][2],a[i][0]
                 f.write("%5d%-5s%5s%5d%8.3f%8.3f%8.3f\n" % (a[i][2],a[i][3],d[count][:2],a[i][0],c[i][0],c[i][1],c[i][2]))
+                f1.write("%-5s%8.3f%8.3f%8.3f\n" % ('SB',c[i][0],c[i][1],c[i][2]))
                 count=count+1
-            f.write('%8.4f %8.4f %8.4f'%(50.000,50.000,5.0000))
+            f.write('%8.4f %8.4f %8.4f'%(50.000,50.000,50.0000))
             f.close()
+            f1.close()
             return
 
         def write_gromacs_top(self,topfilename,atomtypes,pdbfile,nativefile,CA_rad,sopc,btparams,Ka,Kb,Kd,cutoff,CBcom,CBradii):
@@ -1234,6 +1246,8 @@ class esbm(object):
             contacttype=2;bond_type=1
             assert contacttype==2
             #write gromacs format files.
+            #SBM order: atoms, contacts, bonds, angles, dihedrals.
+            #GROMACS order: atomtypes, moleculetype,atoms,bonds, angles, dihedrals,pairs,exclusions,system,
             self.write_gro_header(topfilename,atomtypes)
             self.write_header_SBM()
             self.write_gro_atomtypes(topfilename,atomtypes,pdbfile,sopc,CA_rad,CBcom,CBradii)
