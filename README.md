@@ -78,7 +78,7 @@ $ python gokit.py --attype 2 --aa pdb 1ris.pdb -mjmap -skip_glycine
 ```
 Two-bead model: Customised side-chain interactions
 ```
-$ python gokit.py --attype 2 --aa pdb 1ris.pdb -skip_glycine -CArad 3.8 -interactions 
+$ python gokit.py --attype 2 --aa pdb 1ris.pdb -skip_glycine -CA_rad 3.8 -interactions 
 ```
 include file called interactions.dat in the format of mjmap.dat or btmap.dat.
 
