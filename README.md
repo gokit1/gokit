@@ -31,11 +31,56 @@ $ ./INSTALL
 
 ## Examples
 ### Generating a contact-map
+Flags work with both - and --
+
+```
+$ python conmaps.py --get_pdb 1ris.pdb
+```
+Remove HETATM records and ensure residue numbering starts from 1. 
+```
+$ python conmaps.py --gconmap 1ris.pdb
+```
 
 ### Flavours
+Generate coarse-grained representation
+```
+$ python gokit.py --w_native 1ris.pdb --skip_glycine
+```
+One-bead C-alpha: 12-10 LJ
+```
+$ python gokit.py -attype 1 -aa_pdb 1ris.pdb 
+```
+Remove --skip_glycine if Hydrogen atoms are present in the PDB file. CB beads are placed on the Glycine Hydrogen atom. This is done in the two-bead model of Thirumalai for e.g. 
 
+One-bead C-alpha: 12-10 LJ + hydrophobic
+```
+$ python gokit.py --attype 1 -aa_pdb 1ris.pdb -hphobic 
+```
+One-bead C-alpha: dsb
+```
+$ python gokit.py -attype 1 -aa_pdb 1ris.pdb -dsb
+```
+This is the desolvation barrier potential of Chan et al. 
 
+One-bead C-alpha: dsb + hydrophobic
 
+```
+$ python gokit.py -attype 1 -aa_pdb 1ris.pdb -dsb -hphobic
+```
+Note: The dsb+hp potential is not implemented in OPTIM. Use only for gromacs4 runs. dsb works in OPTIM though. 
+
+Two-bead model: Cheung-Thirumalai. 
+```
+$ python gokit.py --attype 2 --aa pdb 1ris.pdb --skip_glycine
+```
+Two-bead model: Betancourt-Thirumalai
+```
+$ python gokit.py --attype 2 --aa pdb 1ris.pdb -btmap -skip_glycine
+```
+Two-bead model: Miyazawa-Jernighan 
+```
+$ python gokit.py --attype 2 --aa pdb 1ris.pdb -mjmap -skip_glycine
+```
 
 
 ---
