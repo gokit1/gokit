@@ -29,7 +29,7 @@ $ ./INSTALL
 Flags work with both - and --
 
 ```
-$ python conmaps.py --get_pdb 1ris.pdb
+$ python conmaps.py --get_pdb 1ris
 ```
 Remove HETATM records and ensure residue numbering starts from 1. 
 ```
