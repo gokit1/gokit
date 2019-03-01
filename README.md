@@ -83,7 +83,7 @@ PATH contains an SBM.INP file that is required for OPTIM runs.
 
 See [OPTIM](http://www-wales.ch.cam.ac.uk/OPTIM.doc/node1.html) and [PATHSAMPLE](https://wikis.ch.cam.ac.uk/ro-walesdocs/wiki/index.php/PATHSAMPLE)
 
-[Example](http://www-wales.ch.cam.ac.uk/examples/OPTIM/t3/) is a sample OPTIM run for S6 that uses an SBM.INP generated form Go-kit. 
+[Example](http://www-wales.ch.cam.ac.uk/examples/OPTIM/t3/) of a sample OPTIM run for S6 that uses an SBM.INP generated form Go-kit. 
 
 
 
