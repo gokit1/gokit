@@ -91,4 +91,4 @@ See [GROMACS](http://www.gromacs.org/Documentation/Installation_Instructions_4.5
 
 
 --------
-GO-kit is mainly developed on a 64-bit OS X machine. GROMACS v4.5.3 and PATHSAMPLE/OPTIM versions on 1.3.2019 were used.
+GO-kit is mainly developed and tested on a 64-bit MacOS(MOJAVE) machine. GROMACS v4.5.3 and PATHSAMPLE/OPTIM versions on 1.3.2019 were used.
