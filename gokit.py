@@ -66,7 +66,8 @@ class esbm(object):
             #print (' skip_glycine=',skip_glycine,'\n','dswap=',dswap,'\n','bt=',btparams,'\n','sopc=',sopc,'\n','CAcom=',CAcom,'\n','hphobic=',hphobic)
             global radtodeg,kcaltokj
             #write to SBM.INP
-            global w_sbm; w_sbm=True
+            global w_sbm,w_gro
+            w_sbm=True;w_gro=True
             radtodeg = 57.295779513;kcaltokj=4.184
             #print (dsb)
             return
@@ -492,7 +493,7 @@ class esbm(object):
 
         def write_header_SBM(self):
             f = open('SBM.INP', "w+")
-            f.write('%s\n' % ('SBM topology file for use with OPTIM/PATHSAMPLE generated from Go-kit repo.'))
+            f.write('%s\n' % ('; Topology file generated from Go-kit. https://github.org/gokit1/gokit/'))
             f.write('%s\n' % ('Debye-Huckel Parameters: PREFACTOR, Dielectric Constant, Monovalent Ion Concentration, DH switching distance, DH cutoff distance'))
             f.write('%s\n' % (' 332.000   80.000    0.100   12.000   15.000'))
 
@@ -521,7 +522,8 @@ class esbm(object):
                 natoms=len(seq)
 
             natomtypes=len(self.get_atom_types(pdbfile,atomtype,sopc))
-            f.write('%d %s\n' % (natomtypes,' atomtypes'))
+            if w_sbm:
+             f.write('%d %s\n' % (natomtypes,' atomtypes'))
             atomname=[]
             atommass=np.ones(natoms,dtype=np.float32)
             atomcharge=np.zeros(natoms,dtype=np.float32)
@@ -532,7 +534,8 @@ class esbm(object):
                     #assert len(CB_rad[0]) + len(CA_rad) == natoms
             count_ca=0
             c6=0.000
-            f.write('%d\t%8.5f\t%s\n' % (1, CA_rad[count_ca], '1.00'))
+            if w_sbm:
+             f.write('%d\t%8.5f\t%s\n' % (1, CA_rad[count_ca], '1.00'))
 
             if atomtype==1:
                 atomname.append(['CA', atommass[0], atomcharge[0], atomptype[0], c6, CA_rad[0]])
@@ -556,7 +559,8 @@ class esbm(object):
                         #print (atomcharge[count], atomptype[count], c6, CB_rad[0][count_cb], d[i])
                         #print (x, '1', '0', atomptype[count_cb], c6, CB_rad[0][count_cb],)
                         atomname.append([x,atommass[count_cb],atomcharge[count_cb],atomptype[count_cb],c6,CB_rad[0][count_cb],d[i]])
-                        f.write('%d\t%8.5f\t%s\n' % (count_cb+2, CB_rad[0][count_cb], '1.00'))
+                        if w_sbm:
+                            f.write('%d\t%8.5f\t%s\n' % (count_cb+2, CB_rad[0][count_cb], '1.00'))
                         count_cb = count_cb + 1
                 #print (count_cb)
                 return atomname
@@ -587,27 +591,32 @@ class esbm(object):
             mass=1.00000
             if atomtype==2:
                 natoms = nca + ncb
-                f.write('\n%d %s\n' % (natoms, str1))
+                if w_sbm:
+                    f.write('\n%d %s\n' % (natoms, str1))
             if atomtype==1 and not dswap:
-                f.write('\n%d %s\n' % (nca, str1))
                 natoms=nca
+                if w_sbm:
+                    f.write('\n%d %s\n' % (nca, str1))
             if atomtype==1 and dswap:
-                f.write('\n%d %s\n' % (2*nca, str1))
                 natoms=nca
+                if w_sbm:
+                    f.write('\n%d %s\n' % (2*nca, str1))
+
             #write Calphas first
             rescount=0
             count=0
             all=[]
             for i in seq:
-                f.write(' %d\t%d\t%d\t%s\t%s\t%f\t%f\n' % (count+1, h[g[count].strip()]+1,rescount+1,d[i],g[count],charge,mass))
                 all.append([count+1, atomtype_ca,rescount+1,d[i],'CA',charge,mass])
+                if w_sbm:
+                 f.write(' %d\t%d\t%d\t%s\t%s\t%f\t%f\n' % (count+1, h[g[count].strip()]+1,rescount+1,d[i],g[count],charge,mass))
                 count=count+1
                 if atomtype==2:
                     #print count
                     if d[i].strip()!=glyname:
-                        f.write(
-                           ' %d\t%d\t%d\t%s\t%s\t%f\t%f\n' % (count + 1, h[g[count].strip()]+1, rescount + 1, d[i], g[count], charge, mass))
                         all.append([count + 1, atomtype_cb, rescount + 1, d[i], 'CB', charge, mass])
+                        if w_sbm:
+                         f.write(' %d\t%d\t%d\t%s\t%s\t%f\t%f\n' % (count + 1, h[g[count].strip()]+1, rescount + 1, d[i], g[count], charge, mass))
                         count=count+1
                 rescount=rescount+1
             #print count,natoms,glyname
@@ -655,23 +664,25 @@ class esbm(object):
                 l2 = np.arange(0, len(l1))
                 assert len(l1) == len(l2)
                 dict1 = self.two_lists_to_dict(l2, l1)
-                print (dict1)
+             #   print (dict1)
                 num_contacts=len(contacts_ca)
                 if hphobic:
                     hp_pairs=Y.write_hydrophobic_contacts('contacts.txt',pdbfile)
                     num_contacts=num_contacts+len(hp_pairs)
-                f.write('\n%d\t%s\n' % (num_contacts, 'contacts'))
+                if w_sbm:
+                 f.write('\n%d\t%s\n' % (num_contacts, 'contacts'))
                 contacts = []
                 count=0
-                print ("CA_contacts\n")
+                #print ("CA_contacts\n")
                 if dsb:
                     contacttype=8;strength_CA=1.00000e+00
                 for i in contacts_ca:
                     if dsb:
                         contacts.append([dict1[int(i[0])] + 1, dict1[int(i[1])] + 1, contacttype, dist_ca[count] * 10, strength_CA])
                     contacts.append([dict1[int(i[0])]+1,dict1[int(i[1])]+1,contacttype,dist_ca[count]*10,strength_CA])
-                    f.write('%s\t%s\t%d\t%f\t%12.9e\n'%(dict1[int(i[0])]+1,dict1[int(i[1])]+1,contacttype, dist_ca[count]*10,strength_CA))
                     f2.write(' %s\t%d\t%s\t%d\n' % ('1', dict1[int(i[0])] + 1, '1', dict1[int(i[1])] + 1))
+                    if w_sbm:
+                        f.write('%s\t%s\t%d\t%f\t%12.9e\n'%(dict1[int(i[0])]+1,dict1[int(i[1])]+1,contacttype, dist_ca[count]*10,strength_CA))
                     count=count+1
                 if hphobic:
                     print("hydrophobic contacts\n")
@@ -683,9 +694,10 @@ class esbm(object):
                     for i in p:
                         #print (i[0],i[1],counthp)
                         contacts.append([dict1[int(i[0])]+1,dict1[int(i[1])]+1,contacttype,hpdist,hpstrength])
-                        f.write('%s\t%s\t%d\t%f\t%e\n' % (
-                        dict1[int(i[0])] + 1, dict1[int(i[1])] + 1, contacttype, hpdist, hpstrength))
                         f2.write(' %s\t%d\t%s\t%d\n' % ('1', dict1[int(i[0])] + 1, '1', dict1[int(i[1])] + 1))
+                        if w_sbm:
+                            f.write('%s\t%s\t%d\t%f\t%e\n' % (
+                                dict1[int(i[0])] + 1, dict1[int(i[1])] + 1, contacttype, hpdist, hpstrength))
                         counthp = counthp + 1
 
                 f2.close()
@@ -811,20 +823,19 @@ class esbm(object):
             for i in a:
                 #print i[0],i[1],i[2],i[3],i[4]
                 #"%.10lf\n
-                f.write(' %d\t%d\t%d\t%.12f\t%10.3f\n' % (i[0],i[1],i[2],i[3],i[4]))
                 f1.write(' %s\t%s\t%s\t%s\t%s\t%s\t%s\n' % ('1',i[0],'1',i[1], i[2], i[3], i[4]))
-
+                if w_sbm:
+                    f.write(' %d\t%d\t%d\t%.12f\t%10.3f\n' % (i[0],i[1],i[2],i[3],i[4]))
             f.close()
             f1.close();f2.close()#;f3.close();f4.close()
             return contacts
 
-        def write_exclusions_section(self,pdbfile,nativefile,btfile,cutoff,atomtype,sopc,btparams):
+        def write_exclusions_section(self):
+            print (">>Writing exclusions section.")
             f = open('SBM.INP', "a")
-            print (">>Exclusions are automatically accounted for in OPTIM.")
-            contacts=self.write_contacts_section(pdbfile,nativefile,btfile,cutoff,atomtype,sopc,btparams,dswap)
-            f.write('\n%d\t%s\n' % (len(contacts), 'contacts'))
-            for i in xrange(0,len(contacts)):
-                f.write('\n%d\t%s\n' % (len(contacts), 'contacts'))
+            #contacts=self.write_contacts_section(pdbfile,nativefile,btfile,cutoff,atomtype,sopc,btparams,dswap)
+            f.write('\n%s\n' % ('0 exclusions'))
+            f.write('\n%s\n' % ('0 position restraints'))
             f.close()
             return
 
@@ -863,7 +874,8 @@ class esbm(object):
                 CAB_dist=Y.get_distances(traj,pairs_CB) * 10
                 num_CAB=CAB_dist.size
             num_bonds=num_CAB + CA_dist.size
-            f.write('\n%d\t%s\n' % (num_bonds, 'bonds'))
+            if w_sbm:
+             f.write('\n%d\t%s\n' % (num_bonds, 'bonds'))
             num_bonds=num_CAB + CA_dist.size
             bondtype=1
             #read externally.
@@ -885,8 +897,10 @@ class esbm(object):
             for i in all:
                 #print Y.get_atom_name(nativefile,i[0]),Y.get_atom_name(nativefile,i[1]),dists[count]
                 all1.append([i[0]+1, i[1]+1, bondtype, i[2], K_bond])
-                f.write(' %d\t%d\t%d\t%8.5f\t%e\n' % (i[0]+1, i[1]+1, bondtype, i[2], K_bond))
+                if w_sbm:
+                    f.write(' %d\t%d\t%d\t%8.5f\t%e\n' % (i[0]+1, i[1]+1, bondtype, i[2], K_bond))
                     #print (dsb_pairs)
+            f.close()
             return all1
 
         def write_angles_section(self,nativefile,Ka):
@@ -901,7 +915,8 @@ class esbm(object):
             #triplets=list(combinations(CA_indices,3))
             num_angles=len(coords)-2
             f = open('SBM.INP', "a")
-            f.write('\n%d\t%s\n' % (num_angles, 'angles'))
+            if w_sbm:
+             f.write('\n%d\t%s\n' % (num_angles, 'angles'))
             CA_angles=Y.get_angles(nativefile,triplets)
             K_angle=float(Ka)
             #write CA-CA angles.
@@ -911,13 +926,15 @@ class esbm(object):
             for i in xrange(len(triplets)):
                 #print triplets[i],CA_angles[0][i]
                 all.append([triplets[i][0]+1,triplets[i][1]+1,triplets[i][2]+1, CA_angles[0][i],K_angle])
-                f.write(' %s\t%s\t%d\t%f\t%e\n' % (triplets[i][0]+1,triplets[i][1]+1,triplets[i][2]+1, CA_angles[0][i],K_angle))
+                if w_sbm:
+                 f.write(' %s\t%s\t%d\t%f\t%e\n' % (triplets[i][0]+1,triplets[i][1]+1,triplets[i][2]+1, CA_angles[0][i],K_angle))
                 count=count+1
             if dswap:
                  count=0
                  for i in xrange(len(triplets)):
                      all.append([triplets[i][0]+1+num_atoms,triplets[i][1]+1+num_atoms,triplets[i][2]+1+num_atoms, CA_angles[0][i], K_angle])
-                     f.write(' %s\t%s\t%d\t%f\t%e\n' % (triplets[i][0]+1+num_atoms,triplets[i][1]+1+num_atoms,triplets[i][2]+1+num_atoms, CA_angles[0][i],K_angle))
+                     if w_sbm:
+                      f.write(' %s\t%s\t%d\t%f\t%e\n' % (triplets[i][0]+1+num_atoms,triplets[i][1]+1+num_atoms,triplets[i][2]+1+num_atoms, CA_angles[0][i],K_angle))
                      count=count+1
             f.close()
             return  all
@@ -940,8 +957,8 @@ class esbm(object):
                 num_dihedrals=2*len(quadruplets)
             else:
                 num_dihedrals = len(quadruplets)
-
-            f.write('\n%d\t%s\n' % (num_dihedrals, 'dihedrals'))
+            if w_sbm:
+             f.write('\n%d\t%s\n' % (num_dihedrals, 'dihedrals'))
             dihedrals=Y.get_dihedrals(nativefile,quadruplets)
             count=0
             all=[]
@@ -950,7 +967,8 @@ class esbm(object):
             for i in xrange(len(quadruplets)):
                 #print triplets[i],CA_angles[0][i]
                 all.append([quadruplets[i][0],quadruplets[i][1],quadruplets[i][2],quadruplets[i][3], '1 ', dihedrals[0][i],K_dihedral])
-                f.write(' %d\t%d\t%d\t%d\t%s\t%e\t%e\n'% (quadruplets[i][0]+1,quadruplets[i][1]+1,quadruplets[i][2]+1,quadruplets[i][3]+1, '1 ', dihedrals[0][i],K_dihedral))
+                if w_sbm:
+                 f.write(' %d\t%d\t%d\t%d\t%s\t%e\t%e\n'% (quadruplets[i][0]+1,quadruplets[i][1]+1,quadruplets[i][2]+1,quadruplets[i][3]+1, '1 ', dihedrals[0][i],K_dihedral))
                 count=count+1
             if dswap:
                 for i in xrange(len(quadruplets)):
@@ -966,20 +984,22 @@ class esbm(object):
         def write_gro_moleculetype(self,topfilename):
             print ('>>writing GROMACS moleculetypesection', topfilename)
             f = open(topfilename, "a")
-            f.write('%s\n' % ('[ moleculetype ]'))
-            f.write('%s\n' % ('; name            nrexcl'))
-            f.write('%s\n' % ('  Macromolecule   3'))
+            if w_gro:
+             f.write('%s\n' % ('[ moleculetype ]'))
+             f.write('%s\n' % ('; name            nrexcl'))
+             f.write('%s\n' % ('  Macromolecule   3'))
             f.close()
             return 1
         def write_gro_header(self,topfilename,atomtypes):
             print ('>>writing GROMACS header section', topfilename)
             f = open(topfilename, "w+")
-            f.write('%s\n' % (';'))
-            f.write('%s\n' % ('; Topology file generated from Go-kit. '))
-            f.write('%s\n' % ('; https://github.org/gokit1/gokit/wiki/Home'))
-            f.write('\n%s\n' % ('[ defaults  ]'))
-            f.write('%s\n' % ('; nbfunc comb-rule gen-pairs'))
-            f.write('%s\n' % ('  1      1         no   \n'))
+            if w_gro:
+             f.write('%s\n' % (';'))
+             f.write('%s\n' % ('; Topology file generated from Go-kit. '))
+             f.write('%s\n' % ('; https://github.org/gokit1/gokit/wiki/Home'))
+             f.write('\n%s\n' % ('[ defaults  ]'))
+             f.write('%s\n' % ('; nbfunc comb-rule gen-pairs'))
+             f.write('%s\n' % ('  1      1         no   \n'))
             return
 
 
@@ -988,12 +1008,18 @@ class esbm(object):
 
         def write_gro_nonbondparams(self,topfilename,sopc):
             assert (sopc)
+            if not w_gro:
+                return
             f = open(topfilename, "w+")
-            f.write('%s\n' % ('[ nonbond_params ]'))
+            if w_gro:
+             f.write('%s\n' % ('[ nonbond_params ]'))
             #add non-bonded r6 term in sop-sc model for all non-bonded non-native interactions.
-            f.write('%s\n' % ('; i j  func sigma(c6)    eps(c12)'))
-
+             f.write('%s\n' % ('; i j  func sigma(c6)    eps(c12)'))
+            f.close()
+            return 1
         def write_gro_atomtypes(self,topfilename,atomtypes,pdbfile,sopc,CA_rad,CBcom,CBradii):
+            if not w_gro:
+                return
             print (">> writing GROMACS atomtypes section",topfilename,atomtypes,pdbfile,sopc,CA_rad)
             #CA_rad=float(3.8)
             f = open(topfilename, "a")
@@ -1013,6 +1039,8 @@ class esbm(object):
             f.close()
 
         def write_gro_atoms(self,topfilename,atomtypes,pdbfile,nativefile,sopc):
+            if not w_gro:
+                return
             print (">> writing GROMACS atom section",topfilename,atomtypes,pdbfile,nativefile,sopc)
             f = open(topfilename, "a")
             assert atomtypes<=2
@@ -1036,6 +1064,8 @@ class esbm(object):
             f.close()
             return
         def write_gro_bonds(self,topfilename,atomtypes,nativefile,Kb,ptype,dsb):
+            if not w_gro:
+                return
             ptype=1 #READ POTENTIAL FROM DICTIONARY HERE IF NEEDED.
             print (">> writing GROMACS bonds section", topfilename, atomtypes,nativefile,Kb)
             Kb = float(Kb * 100)
@@ -1088,6 +1118,8 @@ class esbm(object):
 
 
         def write_gro_angles(self,topfilename,atomtypes,nativefile,Ka):
+            if not w_gro:
+                return
             print (">> writing GROMACS angle section", topfilename, atomtypes, nativefile, Ka)
             assert atomtypes <= 2
             Y=conmaps()
@@ -1103,6 +1135,8 @@ class esbm(object):
             return
 
         def write_gro_dihedrals(self,topfilename,atomtypes,nativefile,Kd):
+            if not w_gro:
+                return
             print (">> writing GROMACS dihedrals section", topfilename, atomtypes, nativefile, Kd)
             Y=conmaps()
             num_atoms=Y.get_total_number_of_atoms(nativefile)
@@ -1127,8 +1161,11 @@ class esbm(object):
                 f.write('\t%d\t%d\t%d\t%d %d %12.9e %12.9e %s\n' % (d1+1, d2+1, d3+1, d4+1,d5,l1,Kd,'1'))
                 f.write('\t%d\t%d\t%d\t%d %d %12.9e %12.9e %s\n' % (d1+1, d2+1, d3+1, d4+1,d5,l1*3,Kd/2,'3'))
             f.close()
+            return
 
         def write_gro_pairs(self,topfilename,atomtypes,nativefile,pdbfile,contacttype,cutoff,sopc,btparams):
+            if not w_gro:
+                return
             print (">> writing GROMACS pairs sections",topfilename,atomtypes,nativefile,pdbfile,contacttype,cutoff,sopc,btparams)
             contacts_allowed=[1,2]
             assert atomtypes <= 2
@@ -1184,6 +1221,8 @@ class esbm(object):
             return
 
         def write_gro_tail(self,topfilename):
+            if not w_gro:
+                return
             print (">> writing GROMACS tail section",topfilename)
             f = open(topfilename, "a")
             f.write('\n%s\n' % ('[ system ]'))
@@ -1202,6 +1241,7 @@ class esbm(object):
             f1.close()
 
         def write_gro_gro(self,grofilename,pdbfile,atomtypes,skip_glycine):
+            global w_sbm;w_sbm=False
             self.write_CB_to_native(pdbfile,skip_glycine)
             sopc=True
             if skip_glycine:
@@ -1239,25 +1279,41 @@ class esbm(object):
 
         def write_gromacs_top(self,topfilename,atomtypes,pdbfile,nativefile,CA_rad,sopc,btparams,Ka,Kb,Kd,cutoff,CBcom,CBradii):
             #Order for SBM file
+            global w_sbm, w_gro
+            w_sbm = True
+            w_gro = True
             assert atomtypes <= 2
-            #2 = 10-12 potential
-            print (atomtypes)
-            # Note: Parameters in GROMACS units need tweaking.
+            #SBM.INP
+            self.write_header_SBM()
+            self.write_atomtypes_section(pdbfile, atomtypes, sopc, CA_rad, CBcom, CBradii)
+            self.write_atoms_section(pdbfile,atomtypes,skip_glycine)
+            btfile='interaction.dat'
+            self.write_contacts_section(pdbfile,nativefile,btfile,cutoff,atomtypes,sopc,btparams,dswap)
+            self.write_bonds_section(nativefile, Kb, atomtypes)
+            self.write_angles_section(nativefile,Ka)
+            self.write_dihedrals_section(nativefile,Kd)
+            self.write_exclusions_section()
+            exit()
             contacttype=2;bond_type=1
-            assert contacttype==2
+            #assert contacttype==2
             #write gromacs format files.
             #SBM order: atoms, contacts, bonds, angles, dihedrals.
             #GROMACS order: atomtypes, moleculetype,atoms,bonds, angles, dihedrals,pairs,exclusions,system,
+            exit()
             self.write_gro_header(topfilename,atomtypes)
             self.write_header_SBM()
             self.write_gro_atomtypes(topfilename,atomtypes,pdbfile,sopc,CA_rad,CBcom,CBradii)
             self.write_gro_moleculetype(topfilename)
             self.write_gro_atoms(topfilename, atomtypes, pdbfile, nativefile, sopc)
-            print (dsb)
             self.write_gro_bonds(topfilename, atomtypes, nativefile, Kb, bond_type,dsb)
             self.write_gro_angles(topfilename,atomtypes,nativefile,Ka)
             self.write_gro_dihedrals(topfilename,atomtypes,nativefile,Kd)
             self.write_gro_pairs(topfilename, atomtypes, nativefile, pdbfile, contacttype, cutoff, sopc, btparams)
+            global w_sbm,w_gro
+            w_sbm=True;w_gro=False
+            self.write_atomtypes_section(pdbfile, atomtypes, sopc, CA_rad, CBcom, CBradii)
+
+
             #for dswap write original protein files again.
             #self.write_CB_to_native(pdbfile,sopc)
 #            bond_ptype = 1
