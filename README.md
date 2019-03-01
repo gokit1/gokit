@@ -15,11 +15,6 @@ A set of python tools that assist setup and post-hoc analysis of simulations of 
 ### What does Go-kit do?
 Starting from a PDBID, it generates input files for both GROMACS and OPTIM/PATHSAMPLE potential files with the SBM of choice. After the runs are complete, it can be used to analyse results as well. 
 
-* Notes on eSBM:
-Find position of C-beta based on type of SBM used. BT model keeps glycines intact. 
-Add Statistical potentials Miyazawa-Jernighan and Betancourt-Thirumalai. CB radii are automatically assigned. Interaction type and strength is automatically assigned. Cut-off based contact-map is generated. Bonds, angles, dihedrals and  distances are added. File conversion to .gro, .top and SBM.INP.
-
-
 
 ### Installing stuff
 Make sure pip is installed and running.
@@ -29,7 +24,7 @@ $ cd gokit
 $ ./INSTALL
 ```
 
-## Examples
+## Examples: Input files for GROMACS and OPTIM.
 ### Generating a contact-map
 Flags work with both - and --
 
