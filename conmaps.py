@@ -137,8 +137,8 @@ class conmaps():
             print (seq)
             gly = [pos + 1 for pos, char in enumerate(seq) if char == 'G'][0]
             print ('Glycine in residue:',gly)
-            print(self.get_sc_atoms_in_residue(topology,gly))
-            print (len(self.get_sc_atoms_in_residue(topology,gly)))
+            #print(self.get_sc_atoms_in_residue(topology,gly))
+            #       print (len(self.get_sc_atoms_in_residue(topology,gly)))
 
             if not skiph:
                  assert(len(self.get_sc_atoms_in_residue(topology,gly))>1),'No Hydrogens found on Glycine. Use --skip_glycine command to proceed.'
@@ -432,7 +432,7 @@ class conmaps():
                 savecon=np.vstack((ch1,map[:,0],ch1,map[:,1]))
                 savecon.reshape(len(map),4)
                 np.savetxt( 'contacts.txt', savecon.T, fmt='%d')
-                print('See file: contacts.txt for reading into other codes. \n See file: pdb_contacts for details.')
+                print('See file: contacts.txt for reading into other codes like SMOG. \n See file: pdb_contacts for details.')
             #conmap contains the following:
             #resno1 resno2 atom-atom-dist ca-ca-dist
             return conmap

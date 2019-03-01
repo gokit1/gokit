@@ -668,7 +668,7 @@ class esbm(object):
                     if dsb:
                         contacts.append([dict1[int(i[0])] + 1, dict1[int(i[1])] + 1, contacttype, dist_ca[count] * 10, strength_CA])
                     contacts.append([dict1[int(i[0])]+1,dict1[int(i[1])]+1,contacttype,dist_ca[count]*10,strength_CA])
-                    f.write('%s\t%s\t%d\t%f\t%e\n'%(dict1[int(i[0])]+1,dict1[int(i[1])]+1,contacttype, dist_ca[count]*10,strength_CA))
+                    f.write('%s\t%s\t%d\t%f\t%12.9e\n'%(dict1[int(i[0])]+1,dict1[int(i[1])]+1,contacttype, dist_ca[count]*10,strength_CA))
                     f2.write(' %s\t%d\t%s\t%d\n' % ('1', dict1[int(i[0])] + 1, '1', dict1[int(i[1])] + 1))
                     count=count+1
                 if hphobic:
@@ -679,7 +679,7 @@ class esbm(object):
                     #dist_hp = md.compute_distances(traj_hp, p, periodic=False, opt=True)[0][0]
                     counthp=0
                     for i in p:
-                        print (i[0],i[1],counthp)
+                        #print (i[0],i[1],counthp)
                         contacts.append([dict1[int(i[0])]+1,dict1[int(i[1])]+1,contacttype,hpdist,hpstrength])
                         f.write('%s\t%s\t%d\t%f\t%e\n' % (
                         dict1[int(i[0])] + 1, dict1[int(i[1])] + 1, contacttype, hpdist, hpstrength))
@@ -1038,9 +1038,7 @@ class esbm(object):
             print (">> writing GROMACS bonds section", topfilename, atomtypes,nativefile,Kb)
             Kb = float(Kb * 100)
             #GROMACS 4.5.2 : FENE=7 AND HARMONIC=1
-            allowed_pots=[1,7,9]
-            assert ptype in allowed_pots
-            assert atomtypes <= 2
+            allowed_pots=[1,7,9];assert ptype in allowed_pots;assert atomtypes <= 2
             Y=conmaps()
             num_atoms=Y.get_total_number_of_atoms(nativefile)
             f = open(topfilename, "a")
@@ -1052,7 +1050,7 @@ class esbm(object):
                 ptype=9
             if ptype==1:
                 for i in xrange(0,len(bonds)):
-                    f.write('\t%d\t%d\t%s %e %e\n' %(bonds[i][0],bonds[i][1], str(ptype),bonds[i][3]/10,Kb))
+                    f.write('\t%d\t%d\t%s %12.9e %12.9e\n' %(bonds[i][0],bonds[i][1], str(ptype),bonds[i][3]/10,Kb))
                 f.close()
                 #print (bonds)
                 return bonds
@@ -1063,11 +1061,11 @@ class esbm(object):
                 R=float(0.2) #nm
                 for i in xrange(0,len(bonds)):
                     #not sure of format for top file. (where does distance go?)
-                    f.write('\t%d\t%d\t%s %e %e %e\n' %(bonds[i][0]+1,bonds[i][1]+1, str(ptype),bonds[i][2]/10,R,Kb))
+                    f.write('\t%d\t%d\t%s %12.9e %12.9e %12.9e\n' %(bonds[i][0]+1,bonds[i][1]+1, str(ptype),bonds[i][2]/10,R,Kb))
                 f.close()
             elif ptype==9:
                 for i in xrange(0,len(bonds)):
-                    f.write('\t%d\t%d\t%s %e %e\n' %(bonds[i][0],bonds[i][1], str(ptype),bonds[i][3]/10,Kb))
+                    f.write('\t%d\t%d\t%s %12.9e %12.9e\n' %(bonds[i][0],bonds[i][1], str(ptype),bonds[i][3]/10,Kb))
                 #contacts written in bonds section.
                 #get_contacts from contacts.txt
                 dsb_contacts=Y.get_pairs_ext('contacts.txt')
@@ -1091,13 +1089,14 @@ class esbm(object):
             print (">> writing GROMACS angle section", topfilename, atomtypes, nativefile, Ka)
             assert atomtypes <= 2
             Y=conmaps()
+            Ka=float(Ka)
             num_atoms=Y.get_total_number_of_atoms(nativefile)
             f = open(topfilename, "a")
             f.write('\n%s\n' % ('[ angles ]'))
             f.write('%s\t%s\t%s\t%s\t%s\t%s\n' % (';ai', 'aj', 'ak','func', 'th0(deg)', 'Ka'))
             angles=self.write_angles_section(nativefile,Ka)
             for i in xrange(0, len(angles)):
-                f.write('\t%d\t%d\t%d\t%s %e %e\n' % (angles[i][0],angles[i][1],angles[i][2],'1',angles[i][3]*radtodeg, Ka))
+                f.write('\t%d\t%d\t%d\t%s %12.9e %12.9e\n' % (angles[i][0],angles[i][1],angles[i][2],'1',angles[i][3]*radtodeg, Ka))
             f.close()
             return
 
@@ -1123,8 +1122,8 @@ class esbm(object):
                 if d5!=1:
                     U.fatal_errors(8)
                 #print l1,d1,d2,d3,d4
-                f.write('\t%d\t%d\t%d\t%d %d %e %e %s\n' % (d1+1, d2+1, d3+1, d4+1,d5,l1,Kd,'1'))
-                f.write('\t%d\t%d\t%d\t%d %d %e %e %s\n' % (d1+1, d2+1, d3+1, d4+1,d5,l1*3,Kd/2,'3'))
+                f.write('\t%d\t%d\t%d\t%d %d %12.9e %12.9e %s\n' % (d1+1, d2+1, d3+1, d4+1,d5,l1,Kd,'1'))
+                f.write('\t%d\t%d\t%d\t%d %d %12.9e %12.9e %s\n' % (d1+1, d2+1, d3+1, d4+1,d5,l1*3,Kd/2,'3'))
             f.close()
 
         def write_gro_pairs(self,topfilename,atomtypes,nativefile,pdbfile,contacttype,cutoff,sopc,btparams):
@@ -1157,11 +1156,14 @@ class esbm(object):
                     # optim contact types differ.
                     epsilonij=float(contacts[i][4])
                     #print epsilonij
-                    #12-19 potential.
+                    #12-10 potential.
+                    # Add all sorts of potentials here. Change.
+                    #default is 12-10 with table files.
+                    #Add 12-6 LJ here!
                     B=((contacts[i][3]*0.1)**12)*5*epsilonij
                     A=((contacts[i][3]*0.1)**10)*6*epsilonij
                     #i-j
-                    f.write('\t%d\t%d\t%s\t%e\t%e\n' % (contacts[i][0],contacts[i][1],'1',A,B))
+                    f.write('\t%d\t%d\t%s\t%12.9e\t%12.9e\n' % (contacts[i][0],contacts[i][1],'1',A,B))
                 # elif contacttype==1 and sopc:
                 #     count_angles=count_angles+1
                 #     A=float(0.0)
@@ -1178,6 +1180,7 @@ class esbm(object):
                 f.write('\t%d\t%d\n'%(contacts[i][0],contacts[i][1]))
             f.close()
             return
+
         def write_gro_tail(self,topfilename):
             print (">> writing GROMACS tail section",topfilename)
             f = open(topfilename, "a")
@@ -1190,7 +1193,6 @@ class esbm(object):
             f.close()
             return
 
-
         def write_gro_gro(self,grofilename,pdbfile,atomtypes,skip_glycine):
             self.write_CB_to_native(pdbfile,skip_glycine)
             sopc=True
@@ -1199,7 +1201,7 @@ class esbm(object):
             print ('>> write_gro_gro',grofilename,pdbfile,atomtypes,sopc)
             Y=conmaps()
             f = open(grofilename, "w+")
-            f.write('%s\n'%('Grofile generated from Lab16 repo. See https://bitbucket.org/nsridhar/lab16'))
+            f.write('%s\n'%('Generated with Go-kit'))
             a = self.write_atoms_section(pdbfile,atomtypes,sopc)
             if atomtypes==1:
                 c=Y.get_coordinates('native_ca.pdb')
@@ -1208,8 +1210,8 @@ class esbm(object):
             elif atomtypes==2:
                 c=Y.get_coordinates('native_cb.pdb')
             else:
-                print ('atomtypes must be 1 or 2')
-                exit()
+                U.fatal_errors[11]
+                #print ('atomtypes must be 1 or 2')
             f.write('%d\n'%(len(a)))
             #print ((len(c),len(a)))
             #assert len(c)==len(a)
@@ -1278,16 +1280,6 @@ class esbm(object):
                 f.close()
                 return 1
 
-
-
-
-
-
-
-
-                #print (traj.xyz)[0]
-
-
 def main():
     import argparse
     parser = argparse.ArgumentParser(description="Generate GROMACS and OPTIM potential files for enhanced SBM models.")
@@ -1332,10 +1324,10 @@ def main():
     #U.print_preamble()
     #X.MJparams('miyazawa-jernighan.dat')
     #Y.write_hydrophobic_contacts('contacts.txt','1ris.pdb')
-    import json
-    d=X.amino_acid_radius_dict()
-    with open('file.txt', 'w') as file:
-        file.write(json.dumps(d))
+    # import json
+    # d=X.amino_acid_radius_dict()
+    # with open('file.txt', 'w') as file:
+    #     file.write(json.dumps(d))
 
 
     #Test here
@@ -1438,7 +1430,7 @@ def main():
 
     if not args.ext_conmap and args.aa_pdb:
         pdbfile=args.aa_pdb
-        Y.all_atom_contacts(pdbfile,cutoff,1.2)
+        Y.all_atom_contacts(pdbfile,cutoff,scaling)
 
     if args.w_native:
         pdbfile=args.w_native
