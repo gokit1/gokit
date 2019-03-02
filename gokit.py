@@ -427,6 +427,7 @@ class esbm(object):
 
 
         def get_atom_types(self,pdbfile,atomtypes,sopc):
+            print ('>> in get_atom_types:')
             Y=conmaps()
             seq = Y.get_sequence(pdbfile)
             d = self.amino_acid_dict()
@@ -446,7 +447,7 @@ class esbm(object):
                     x = 'CB' + str(count_cb)
                     count_cb=count_cb+1
                     atomname.append(x)
-            print ('Found',len(atomname),'atoms')
+            #print ('Found',len(atomname),'atoms')
             #make dict
             l1=np.arange(0,natoms)
             print (len(l1),len(atomname))
@@ -521,7 +522,10 @@ class esbm(object):
             elif atomtype==1:
                 natoms=len(seq)
 
+
             natomtypes=len(self.get_atom_types(pdbfile,atomtype,sopc))
+            if atomtype==1:
+                natomtypes=1
             if w_sbm:
              f.write('%d %s\n' % (natomtypes,' atomtypes'))
             atomname=[]
@@ -1276,13 +1280,17 @@ class esbm(object):
             f.close()
             f1.close()
             return
+        def set_false_global_wsbm(self):
+            global w_sbm
+            w_sbm=False
+            return
+
 
         def write_gromacs_top(self,topfilename,atomtypes,pdbfile,nativefile,CA_rad,sopc,btparams,Ka,Kb,Kd,cutoff,CBcom,CBradii):
             #Order for SBM file
-            global w_sbm, w_gro
-            w_sbm = True
-            w_gro = True
+            #global w_sbm, w_gro
             assert atomtypes <= 2
+            print (w_sbm)
             #SBM.INP
             self.write_header_SBM()
             self.write_atomtypes_section(pdbfile, atomtypes, sopc, CA_rad, CBcom, CBradii)
@@ -1293,15 +1301,17 @@ class esbm(object):
             self.write_angles_section(nativefile,Ka)
             self.write_dihedrals_section(nativefile,Kd)
             self.write_exclusions_section()
-            exit()
             contacttype=2;bond_type=1
             #assert contacttype==2
             #write gromacs format files.
             #SBM order: atoms, contacts, bonds, angles, dihedrals.
             #GROMACS order: atomtypes, moleculetype,atoms,bonds, angles, dihedrals,pairs,exclusions,system,
-            exit()
+            #global w_sbm
+            #w_sbm = False
+            #print (w_sbm)
+            self.set_false_global_wsbm()
+            #print (w_sbm)
             self.write_gro_header(topfilename,atomtypes)
-            self.write_header_SBM()
             self.write_gro_atomtypes(topfilename,atomtypes,pdbfile,sopc,CA_rad,CBcom,CBradii)
             self.write_gro_moleculetype(topfilename)
             self.write_gro_atoms(topfilename, atomtypes, pdbfile, nativefile, sopc)
@@ -1309,9 +1319,9 @@ class esbm(object):
             self.write_gro_angles(topfilename,atomtypes,nativefile,Ka)
             self.write_gro_dihedrals(topfilename,atomtypes,nativefile,Kd)
             self.write_gro_pairs(topfilename, atomtypes, nativefile, pdbfile, contacttype, cutoff, sopc, btparams)
-            global w_sbm,w_gro
-            w_sbm=True;w_gro=False
-            self.write_atomtypes_section(pdbfile, atomtypes, sopc, CA_rad, CBcom, CBradii)
+#            global w_sbm,w_gro
+#            w_sbm=True;w_gro=False
+ #           self.write_atomtypes_section(pdbfile, atomtypes, sopc, CA_rad, CBcom, CBradii)
 
 
             #for dswap write original protein files again.
