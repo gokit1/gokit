@@ -430,7 +430,7 @@ class esbm(object):
             print ('>> in get_atom_types:')
             Y=conmaps()
             seq = Y.get_sequence(pdbfile)
-            d = self.amino_acid_dict()
+            #d = self.amino_acid_dict()
             glyname='G'
             gly = [pos + 1 for pos, char in enumerate(seq) if char == 'G']
             ncb = len(seq) - len(gly)
@@ -438,7 +438,6 @@ class esbm(object):
                 glyname='G111'
                 ncb=len(seq)
             natoms = 1 + ncb #one for CA
-            #print (natoms)
             count_cb=0
             atomname=[]
             atomname.append('CA')
@@ -447,10 +446,9 @@ class esbm(object):
                     x = 'CB' + str(count_cb)
                     count_cb=count_cb+1
                     atomname.append(x)
-            #print ('Found',len(atomname),'atoms')
             #make dict
             l1=np.arange(0,natoms)
-            print (len(l1),len(atomname))
+            #print (len(l1),len(atomname))
             assert len(l1)==len(atomname)
             d=self.two_lists_to_dict(atomname,l1)
             return collections.OrderedDict(sorted(d.items()))
@@ -584,8 +582,7 @@ class esbm(object):
             ncb=len(seq) - len(gly)
             glyname='GLY'
             if skip_glycine:
-                ncb=len(seq)
-                glyname='GLY111'
+                glyname='GLY'
             str1= 'atoms (atomnum, atomtype, resnum, resname, atomname, charge, mass)'
             g=self.get_atom_names(pdbfile,atomtype,skip_glycine)
             h=self.get_atom_types(pdbfile,atomtype,skip_glycine)
@@ -623,7 +620,7 @@ class esbm(object):
                          f.write(' %d\t%d\t%d\t%s\t%s\t%f\t%f\n' % (count + 1, h[g[count].strip()]+1, rescount + 1, d[i], g[count], charge, mass))
                         count=count+1
                 rescount=rescount+1
-            #print count,natoms,glyname
+            print (count,natoms,glyname)
             assert count==natoms
 
             return all
@@ -1239,7 +1236,7 @@ class esbm(object):
             return
         def write_odata_header(self):
             f1=open('odata',"w+")
-            f1.write("%s\n" % ('STEPS 100000'))
+            f1.write("%s\n" % ('STEPS 1000'))
             f1.write("%s\n" % ('BFGSMIN 1.0D-6'))
             f1.write("%s\n" % ('POINTS'))
             f1.close()

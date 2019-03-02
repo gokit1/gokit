@@ -272,7 +272,7 @@ class conmaps():
 
         def get_backbone_contacts(self,pdbfile,cutoff,scaling,separation):
             #partition all-atom pdb into backbone and side-chain components.
-            print(">> in backbone_contacts", pdbfile, "cutoff =",cutoff, "scaling=",scaling )
+            print(">> in backbone_contacts", pdbfile, "cutoff =",cutoff, "scaling=",scaling,"separation",separation )
             cutoff = float(cutoff);scaling=float(scaling)
             topology = md.load(pdbfile).topology; seq=self.get_sequence(pdbfile)
             traj=md.load(pdbfile)
@@ -861,7 +861,6 @@ class conmaps():
             for pp in ppb.build_peptides(structure):
                 seq += pp.get_sequence()
             #print (seq)
-            print (len(seq))
             return seq
 
         def plot_map(self,x,y,title,xaxis,yaxis):
