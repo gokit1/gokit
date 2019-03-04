@@ -55,13 +55,13 @@ class esbm(object):
         def __init__(self):
             return
 
-        def globals(self,Ka1,Kb1,Kd1,CA_rad1,skip_glycine1,sopc1,dswap1,btparams1,CAcom1,hphobic1,hpstrength1,hpdist1,dsb1,mjmap1,btmap1,CBfar1,casep1,cbsep1,cabsep1,scaling1):
+        def globals(self,Ka1,Kb1,Kd1,CA_rad1,skip_glycine1,sopc1,dswap1,btparams1,CAcom1,hphobic1,hpstrength1,hpdist1,dsb1,mjmap1,btmap1,CBfar1,casep1,cbsep1,cabsep1,scaling1,gauss1):
             #Give default values to global variables.
             global Ka,Kb,Kd,CA_rad,hpdist,hpstrength,casep,cbsep,cabsep,scaling
             Ka=Ka1;Kb=Kb1;Kd=Kd1;CA_rad=CA_rad1;hpdist=float(hpdist1);hpstrength=float(hpstrength1);casep=casep1;cbsep=cbsep1;cabsep=cabsep1
-            global skip_glycine,sopc,dswap,btparams,CAcom,hphobic,dsb,btmap,mjmap,CBfar
+            global skip_glycine,sopc,dswap,btparams,CAcom,hphobic,dsb,btmap,mjmap,CBfar,gauss
             skip_glycine=skip_glycine1;dswap=dswap1;btparams=btparams1;sopc=sopc1;CAcom=CAcom1;hphobic=hphobic1;dsb=dsb1;CBfar=CBfar1;scaling=scaling1
-            mjmap=mjmap1;btmap=btmap1
+            mjmap=mjmap1;btmap=btmap1;gauss=gauss1
             #print ('Global logicals are as follows:\n--------------------------')
             #print (' skip_glycine=',skip_glycine,'\n','dswap=',dswap,'\n','bt=',btparams,'\n','sopc=',sopc,'\n','CAcom=',CAcom,'\n','hphobic=',hphobic)
             global radtodeg,kcaltokj
@@ -629,20 +629,20 @@ class esbm(object):
             U=Utils()
             U.split_chain(pdbfile)
 
+        def get_pair_coefficients(self,pottype):
+            return
+
+
         def write_contacts_section(self,pdbfile,nativefile,btfile,cutoff,atomtype,sopc,btparams,dswap):
-            #Cheung-Thirumalai eSBM. #Parameters from btfile are read.
-            #should write a file called  CT_SBM.INP that can be used with OPTIM.
-            ##################################native###############################
             assert atomtype <= 2
             U=Utils()
-            #atomtype=2
             print ('>>writing contacts section,atomtype=',atomtype,'SOPC=',sopc)
             cutoff=float(cutoff)
             Y = conmaps()
             d = self.amino_acid_dict2()
             f = open('SBM.INP', "a")
             f1= open('contacts.txt', "w+")
-            f2 = open('backbone.txt', "w+")
+            #f2 = open('backbone.txt', "w+")
             #f3 = open('sidechain.txt', "w+")
             #f4 = open('bb_sc.txt', "w+")
             traj=md.load(nativefile)
@@ -681,7 +681,7 @@ class esbm(object):
                     if dsb:
                         contacts.append([dict1[int(i[0])] + 1, dict1[int(i[1])] + 1, contacttype, dist_ca[count] * 10, strength_CA])
                     contacts.append([dict1[int(i[0])]+1,dict1[int(i[1])]+1,contacttype,dist_ca[count]*10,strength_CA])
-                    f2.write(' %s\t%d\t%s\t%d\n' % ('1', dict1[int(i[0])] + 1, '1', dict1[int(i[1])] + 1))
+             #       f2.write(' %s\t%d\t%s\t%d\n' % ('1', dict1[int(i[0])] + 1, '1', dict1[int(i[1])] + 1))
                     if w_sbm:
                         f.write('%s\t%s\t%d\t%f\t%12.9e\n'%(dict1[int(i[0])]+1,dict1[int(i[1])]+1,contacttype, dist_ca[count]*10,strength_CA))
                     count=count+1
@@ -695,13 +695,11 @@ class esbm(object):
                     for i in p:
                         #print (i[0],i[1],counthp)
                         contacts.append([dict1[int(i[0])]+1,dict1[int(i[1])]+1,contacttype,hpdist,hpstrength])
-                        f2.write(' %s\t%d\t%s\t%d\n' % ('1', dict1[int(i[0])] + 1, '1', dict1[int(i[1])] + 1))
+                        #f2.write(' %s\t%d\t%s\t%d\n' % ('1', dict1[int(i[0])] + 1, '1', dict1[int(i[1])] + 1))
                         if w_sbm:
                             f.write('%s\t%s\t%d\t%f\t%e\n' % (
                                 dict1[int(i[0])] + 1, dict1[int(i[1])] + 1, contacttype, hpdist, hpstrength))
                         counthp = counthp + 1
-
-                f2.close()
                 f.close()
                 return contacts
             elif atomtype==2:
@@ -740,7 +738,7 @@ class esbm(object):
                     pair = ([res1, res2])
                     pair = np.reshape(pair, (1, 2))
                     dist = md.compute_distances(traj, pair, periodic=False, opt=True)[0][0]*10
-                    f2.write(' %s\t%d\t%s\t%d\n' % ('1', int(res1)+1, '1', int(res2)+1))
+                    #f2.write(' %s\t%d\t%s\t%d\n' % ('1', int(res1)+1, '1', int(res2)+1))
                     contacts.append([res1+1, res2+1, int(contacttype), dist, strength_CA])
 
                 # write side-chain contacts next
@@ -828,7 +826,7 @@ class esbm(object):
                 if w_sbm:
                     f.write(' %d\t%d\t%d\t%.12f\t%10.3f\n' % (i[0],i[1],i[2],i[3],i[4]))
             f.close()
-            f1.close();f2.close()#;f3.close();f4.close()
+            f1.close();#f2.close()#;f3.close();f4.close()
             return contacts
 
         def write_exclusions_section(self):
@@ -1064,10 +1062,11 @@ class esbm(object):
                      atoms[i][0]+num_atoms, d[i], atoms[i][2]+num_atoms,atoms[i][3], d[i].strip()[:2], atoms[i][0]))
             f.close()
             return
+
         def write_gro_bonds(self,topfilename,atomtypes,nativefile,Kb,ptype,dsb):
             if not w_gro:
                 return
-            ptype=1 #READ POTENTIAL FROM DICTIONARY HERE IF NEEDED.
+            #ptype=1 #READ POTENTIAL FROM DICTIONARY HERE IF NEEDED.
             print (">> writing GROMACS bonds section", topfilename, atomtypes,nativefile,Kb)
             Kb = float(Kb * 100)
             #GROMACS 4.5.2 : FENE=7 AND HARMONIC=1
@@ -1236,8 +1235,8 @@ class esbm(object):
             return
         def write_odata_header(self):
             f1=open('odata',"w+")
-            f1.write("%s\n" % ('STEPS 1000'))
-            f1.write("%s\n" % ('BFGSMIN 1.0D-6'))
+            f1.write("%s\n" % ('STEPS 10000'))
+            f1.write("%s\n" % ('BFGSMIN 1.0D-3'))
             f1.write("%s\n" % ('POINTS'))
             f1.close()
 
@@ -1391,7 +1390,7 @@ def main():
     parser.add_argument('--CA_sep',"-CA_sep", help='Backbone separation. Default is >=4')
     parser.add_argument('--CB_sep',"-CB_sep", help='Side-chain separation. Default is >=2')
     parser.add_argument('--CAB_sep',"-CAB_sep", help='Backbone-sidechain separation. Default is >=2')
-
+    parser.add_argument('--gauss',"-gauss", help="Gaussian interactions for contacts.")
 
 
     args = parser.parse_args()
@@ -1435,8 +1434,7 @@ def main():
     CBcom=True
     casep=4;cbsep=2;cabsep=2
     scaling=1.2
-    #print (args.CB_radii)
-
+    gauss=False
     if args.Kb:
         Kb=float(args.Kb)
     if args.Kd:
@@ -1468,7 +1466,6 @@ def main():
         print ("Setting CA_rad to ",CA_rad)
     if args.hphobic:
         hphobic=True
-
     if args.dsb:
         dsb=True
     if args.hpdist:
@@ -1483,7 +1480,6 @@ def main():
     if args.CBfar:
         CBcom=False
         CBfar=True
-
     if args.btmap:
         assert (int(args.attype)==2),'Attype set to 1!'
         import shutil
@@ -1502,8 +1498,9 @@ def main():
         cabsep=int(args.CAB_sep)
     if args.scaling:
         scaling=float(scaling)
-
-    X.globals(Ka,Kb,Kd,CA_rad,skip_glycine,sopc,dswap,btparams,CAcom,hphobic,hpstrength,hpdist,dsb,mjmap,btmap,CBfar,casep,cbsep,cabsep,scaling)
+    if args.gauss:
+        gauss=True
+    X.globals(Ka,Kb,Kd,CA_rad,skip_glycine,sopc,dswap,btparams,CAcom,hphobic,hpstrength,hpdist,dsb,mjmap,btmap,CBfar,casep,cbsep,cabsep,scaling,gauss)
 
     if not args.ext_conmap and args.aa_pdb:
         pdbfile=args.aa_pdb
