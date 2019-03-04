@@ -1,1 +1,0 @@
-../../1tit_ca/MD/run_gro.sh
