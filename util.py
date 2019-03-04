@@ -149,12 +149,12 @@ class Utils(object):
         mdfiles=['gromacs.gro','gromacs.top'];pathfiles=['SBM.INP','HYDROPHOBIC','IDENTICAL','odata']
         for i in mdfiles:
             try:
-                shutil.copy2(i,mddir)
+                shutil.move(i,mddir)
             except:
                 pass
         for j in pathfiles:
             try:
-                shutil.copy2(j,pathdir)
+                shutil.move(j,pathdir)
             except:
                 pass
 
@@ -195,7 +195,8 @@ class Utils(object):
              8: "Fatal: Dihedral function type must be 1",
              9: "Fatal: Found Glycine with 0 hydrogen atoms. Add hydrogens, or set skip_glycine==True",
              10: "Fatal: Found HETATM in pdbfile.",
-             11: "Fatal: --attype must be 1 or 2."}
+             11: "Fatal: --attype must be 1 or 2.",
+             12: "Fatal: Must give --attype with --aa_pdb"}
         print (d[errorid])
         exit()
         return True

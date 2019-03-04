@@ -497,7 +497,7 @@ class esbm(object):
             f.write('%s\n' % (' 332.000   80.000    0.100   12.000   15.000'))
 
             f.write('%s\n' % ('nonbonded switching distance, truncate distance'))
-            f.write('%s\n' % ('7.999999 8.999999'))
+            f.write('%s\n' % ('9.9999 12.999999'))
             f.close()
 
         def write_atomtypes_section(self, pdbfile, atomtype,sopc,CA_rad,CBcom,CBradii):
@@ -512,15 +512,15 @@ class esbm(object):
             if atomtype==2:
                 #gly = [pos + 1 for pos, char in enumerate(seq) if char == 'G']
                 ncb = len(Y.get_CB_index('native_cb.pdb'))
-                if skip_glycine:
-                    glyname='G'
-                natoms = nca + ncb
-                #print (nca,ncb)
+                nca = len(Y.get_CA_index('native_cb.pdb'))
+                natoms=nca+ncb
+                # print (ncb)
+                # if skip_glycine:
+                #     glyname='G111'
+             # natoms = nca + ncb
                 assert(natoms==Y.get_total_number_of_atoms('native_cb.pdb'))
             elif atomtype==1:
                 natoms=len(seq)
-
-
             natomtypes=len(self.get_atom_types(pdbfile,atomtype,sopc))
             if atomtype==1:
                 natomtypes=1
@@ -582,7 +582,7 @@ class esbm(object):
             ncb=len(seq) - len(gly)
             glyname='GLY'
             if skip_glycine:
-                glyname='GLY'
+                glyname='GLY111'
             str1= 'atoms (atomnum, atomtype, resnum, resname, atomname, charge, mass)'
             g=self.get_atom_names(pdbfile,atomtype,skip_glycine)
             h=self.get_atom_types(pdbfile,atomtype,skip_glycine)
@@ -613,7 +613,7 @@ class esbm(object):
                  f.write(' %d\t%d\t%d\t%s\t%s\t%f\t%f\n' % (count+1, h[g[count].strip()]+1,rescount+1,d[i],g[count],charge,mass))
                 count=count+1
                 if atomtype==2:
-                    #print count
+                    print (d[i].strip())
                     if d[i].strip()!=glyname:
                         all.append([count + 1, atomtype_cb, rescount + 1, d[i], 'CB', charge, mass])
                         if w_sbm:
@@ -708,16 +708,16 @@ class esbm(object):
                 if skip_glycine:
                     sopc=False
                 if sopc:
-                   nc = Y.get_bb_contacts_SOPC(pdbfile,nativefile,4,1.0,4)
-                   sc = Y.get_ss_contacts_SOPC(pdbfile,nativefile,4,1.0,2)
-                   nc_sc=Y.get_bs_contacts_SOPC(pdbfile,nativefile,4,1.0,2)
-                   nn_angles = Y.get_SOPC_non_native_angles(pdbfile, nativefile, 3.8, 1.0)
+                   nc = Y.get_bb_contacts_SOPC(pdbfile,nativefile,4,1.0,casep)
+                   sc = Y.get_ss_contacts_SOPC(pdbfile,nativefile,4,1.0,cbsep)
+                   nc_sc=Y.get_bs_contacts_SOPC(pdbfile,nativefile,4,1.0,cabsep)
+                   nn_angles = Y.get_SOPC_non_native_angles(pdbfile, nativefile, CA_rad, 1.0)
                 else:
                     #separation is always >=
                     #cacasep=4;cacbsep=3;cbcbsep=3
                     nc = Y.get_backbone_contacts(pdbfile, cutoff,scaling,casep)
-                    sc = Y.get_side_chain_contacts(pdbfile, cutoff,scaling,3)
-                    nc_sc = Y.get_bb_sc_contacts(pdbfile, cutoff,scaling,3)
+                    sc = Y.get_side_chain_contacts(pdbfile, cutoff,scaling,cbsep)
+                    nc_sc = Y.get_bb_sc_contacts(pdbfile, cutoff,scaling,cabsep)
                 topology=md.load(nativefile).topology
                 #f.write('\n%d\t%s\n' % (ncontacts, 'contacts'))
                 print ('Found', len(nc), 'backbone contacts')
@@ -765,7 +765,7 @@ class esbm(object):
                         res1bt = d[Y.get_residue_name(nativefile, int(res1))[0]]
                         res2bt = d[Y.get_residue_name(nativefile, int(res2))[0]]
                         strength_CB=float(Y.get_btmap_val(res1bt,res2bt,'interaction.dat'))
-                        strength_CB=0.5*(0.7- float(strength_CB))*300*Kb #kcal/mol
+                        #strength_CB=0.5*(0.7- float(strength_CB))*300*Kb #kcal/mol
                         contacts.append([res1 + 1, res2 + 1, int(contacttype), dist,strength_CB])
                         #print ([res1 + 1, res2 + 1, int(contacttype), dist, strength_CB, 'SCSCbt'])
                     else:
@@ -812,7 +812,7 @@ class esbm(object):
             test=[]
             for i in contacts:
                 j=tuple(i)
-                print (j)
+                #print (j)
                 test.append(j)
             #remove repeat contacts.
             a=set(test)
@@ -1368,7 +1368,7 @@ def main():
     parser.add_argument("--cutoff","-cutoff", help="Cut-off for contact-map generation")
     parser.add_argument("--scaling","-scaling", help="Scaling for mapping to all-atom contact-map.")
     parser.add_argument("--attype", "-attype",help="Number of atom types. E.g. 1 for CA, 2 for CA and CB")
-    parser.add_argument("--matrix","-matrix",action='store_true', default=False, help='User defined interactions in file interaction.dat.')
+    parser.add_argument("--interactions","-interactions",action='store_true', default=False, help='User defined interactions in file interaction.dat.')
     parser.add_argument("--CBcom","-CBcom", action='store_true', default=False,help='Put CB at center of mass of side-chain (no hydrogens)')
     parser.add_argument("--CBfar", "-CBfar", action='store_true', help="Place C-beta on farthest non-hydrogen atom.")
     parser.add_argument("--dsb", "-dsb",action='store_true', help="Use desolvation barrier potential for contacts.")
@@ -1443,7 +1443,7 @@ def main():
         Ka=float(args.Ka)
     if args.cutoff:
         cutoff=float(args.cutoff)
-    if args.matrix:
+    if args.interactions:
         U.file_exists('interaction.dat')
         btparams=True
     else:
@@ -1500,6 +1500,8 @@ def main():
         scaling=float(scaling)
     if args.gauss:
         gauss=True
+    if args.aa_pdb and not args.attype:
+        U.fatal_errors(12)
     X.globals(Ka,Kb,Kd,CA_rad,skip_glycine,sopc,dswap,btparams,CAcom,hphobic,hpstrength,hpdist,dsb,mjmap,btmap,CBfar,casep,cbsep,cabsep,scaling,gauss)
 
     if not args.ext_conmap and args.aa_pdb:
