@@ -426,17 +426,17 @@ class esbm(object):
             #return radius
 
 
+
         def get_atom_types(self,pdbfile,atomtypes,sopc):
             print ('>> in get_atom_types:')
             Y=conmaps()
             seq = Y.get_sequence(pdbfile)
             #d = self.amino_acid_dict()
             glyname='G'
-            gly = [pos + 1 for pos, char in enumerate(seq) if char == 'G']
-            ncb = len(seq) - len(gly)
-            if sopc:
+            if skip_glycine:
                 glyname='G111'
-                ncb=len(seq)
+            gly = [pos + 1 for pos, char in enumerate(seq) if char == glyname]
+            ncb = len(seq) - len(gly)
             natoms = 1 + ncb #one for CA
             count_cb=0
             atomname=[]
@@ -458,6 +458,7 @@ class esbm(object):
             seq = Y.get_sequence(pdbfile)
             d = self.amino_acid_dict()
             glyname='G'
+
             if atomtype==1:
                 atomname=[]
                 for i in seq:
@@ -497,7 +498,7 @@ class esbm(object):
             f.write('%s\n' % (' 332.000   80.000    0.100   12.000   15.000'))
 
             f.write('%s\n' % ('nonbonded switching distance, truncate distance'))
-            f.write('%s\n' % ('9.9999 12.999999'))
+            f.write('%s\n' % ('7.999999 8.999999'))
             f.close()
 
         def write_atomtypes_section(self, pdbfile, atomtype,sopc,CA_rad,CBcom,CBradii):
@@ -580,20 +581,17 @@ class esbm(object):
             gly= [pos+1 for pos,char in enumerate(seq) if char== 'G']
             print('Glycine in residues:', gly)
             ncb=len(seq) - len(gly)
-            glyname='GLY'
+            glyname='GLY111'
             if skip_glycine:
-                glyname='GLY111'
+                glyname='GLY'
             str1= 'atoms (atomnum, atomtype, resnum, resname, atomname, charge, mass)'
             g=self.get_atom_names(pdbfile,atomtype,skip_glycine)
             h=self.get_atom_types(pdbfile,atomtype,skip_glycine)
+            print (g)
             atomtype_ca=1
             atomtype_cb=2
             charge=0.00000
             mass=1.00000
-            if atomtype==2:
-                natoms = nca + ncb
-                if w_sbm:
-                    f.write('\n%d %s\n' % (natoms, str1))
             if atomtype==1 and not dswap:
                 natoms=nca
                 if w_sbm:
@@ -602,6 +600,10 @@ class esbm(object):
                 natoms=nca
                 if w_sbm:
                     f.write('\n%d %s\n' % (2*nca, str1))
+            if atomtype == 2:
+                natoms = nca + ncb
+                if w_sbm:
+                    f.write('\n%d %s\n' % (natoms, str1))
 
             #write Calphas first
             rescount=0
@@ -613,14 +615,15 @@ class esbm(object):
                  f.write(' %d\t%d\t%d\t%s\t%s\t%f\t%f\n' % (count+1, h[g[count].strip()]+1,rescount+1,d[i],g[count],charge,mass))
                 count=count+1
                 if atomtype==2:
-                    print (d[i].strip())
                     if d[i].strip()!=glyname:
+                        #print([count + 1, atomtype_cb, rescount + 1, d[i], 'CB', charge, mass])
                         all.append([count + 1, atomtype_cb, rescount + 1, d[i], 'CB', charge, mass])
                         if w_sbm:
                          f.write(' %d\t%d\t%d\t%s\t%s\t%f\t%f\n' % (count + 1, h[g[count].strip()]+1, rescount + 1, d[i], g[count], charge, mass))
+                         print (count+1, h[g[count].strip()]+1)
                         count=count+1
                 rescount=rescount+1
-            print (count,natoms,glyname)
+#            print (count,natoms,glyname)
             assert count==natoms
 
             return all
@@ -1243,9 +1246,8 @@ class esbm(object):
         def write_gro_gro(self,grofilename,pdbfile,atomtypes,skip_glycine):
             global w_sbm;w_sbm=False
             self.write_CB_to_native(pdbfile,skip_glycine)
-            sopc=True
-            if skip_glycine:
-                sopc=False
+            #if skip_glycine:
+            #    sopc=False
             print ('>> write_gro_gro',grofilename,pdbfile,atomtypes,sopc)
             Y=conmaps()
             f = open(grofilename, "w+")
@@ -1270,7 +1272,7 @@ class esbm(object):
             for i in xrange(0,len(a)):
                 #print a[i][2],a[i][3],a[i][4],d[count],c[i][0],c[i][1],c[i][2],a[i][0]
                 f.write("%5d%-5s%5s%5d%8.3f%8.3f%8.3f\n" % (a[i][2],a[i][3],d[count][:2],a[i][0],c[i][0],c[i][1],c[i][2]))
-                f1.write("%-5s%8.3f%8.3f%8.3f\n" % ('SB',c[i][0],c[i][1],c[i][2]))
+                f1.write("%-5s%8.3f%8.3f%8.3f\n" % ('SB',c[i][0]*10,c[i][1]*10,c[i][2]*10))
                 count=count+1
             f.write('%8.4f %8.4f %8.4f'%(50.000,50.000,50.0000))
             f.close()
@@ -1302,11 +1304,8 @@ class esbm(object):
             #write gromacs format files.
             #SBM order: atoms, contacts, bonds, angles, dihedrals.
             #GROMACS order: atomtypes, moleculetype,atoms,bonds, angles, dihedrals,pairs,exclusions,system,
-            #global w_sbm
-            #w_sbm = False
-            #print (w_sbm)
             self.set_false_global_wsbm()
-            #print (w_sbm)
+            btfile='interaction.dat'
             self.write_gro_header(topfilename,atomtypes)
             self.write_gro_atomtypes(topfilename,atomtypes,pdbfile,sopc,CA_rad,CBcom,CBradii)
             self.write_gro_moleculetype(topfilename)
@@ -1455,6 +1454,7 @@ def main():
         CBradii=False
     if args.skip_glycine:
         skip_glycine=True
+        sopc=False
         #assert(args.attype==2)
     if args.CAcom:
         CAcom=True
@@ -1485,10 +1485,12 @@ def main():
         import shutil
         shutil.copy2('btmap.dat','interaction.dat')
         btparams=True;btmap=True
+        skip_glycine=True
     if args.mjmap:
         assert (int(args.attype)==2),'Attype set to 1!'
         import shutil
         shutil.copy2('mjmap.dat', 'interaction.dat')
+        skip_glycine=True
         btparams=True;mjmap=True
     if args.CA_sep:
         casep=int(args.CA_sep)
