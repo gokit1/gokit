@@ -43,24 +43,24 @@ $ python gokit.py --w_native 1ris.pdb --skip_glycine
 ```
 One-bead C-alpha: 12-10 LJ
 ```
-$ python gokit.py -attype 1 -aa_pdb 1ris.pdb 
+$ python gokit.py -attype 1 -aa_pdb 1ris.pdb -skip_glycine
 ```
 Remove --skip_glycine if Hydrogen atoms are present in the PDB file. CB beads are placed on the Glycine Hydrogen atom. This is done in the two-bead model of Thirumalai for e.g. 
 
 One-bead C-alpha: 12-10 LJ + hydrophobic
 ```
-$ python gokit.py --attype 1 -aa_pdb 1ris.pdb -hphobic 
+$ python gokit.py --attype 1 -aa_pdb 1ris.pdb -hphobic -skip_glycine
 ```
 One-bead C-alpha: dsb
 ```
-$ python gokit.py -attype 1 -aa_pdb 1ris.pdb -dsb
+$ python gokit.py -attype 1 -aa_pdb 1ris.pdb -dsb -skip_glycine
 ```
 This is the desolvation barrier potential of Chan et al. 
 
 One-bead C-alpha: dsb + hydrophobic
 
 ```
-$ python gokit.py -attype 1 -aa_pdb 1ris.pdb -dsb -hphobic
+$ python gokit.py -attype 1 -aa_pdb 1ris.pdb -dsb -hphobic -skip_glycine
 ```
 Note: The dsb+hp potential is not implemented in OPTIM. Use only for gromacs4 runs. dsb works in OPTIM though. 
 
