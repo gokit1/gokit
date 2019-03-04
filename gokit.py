@@ -1107,7 +1107,7 @@ class esbm(object):
                 print (dsb_contacts[0][0])
                 count_dsb=0
                 for i in xrange(0,len(dsb_contacts)):
-                    f.write('\t%d\t%d\t%s %s %s\n' % (dsb_contacts[i][0],dsb_contacts[i][1], str(ptype),str(count_dsb), '1'))
+                    f.write('\t%d\t%d\t%s %s %s\n' % (dsb_contacts[i][0]+1,dsb_contacts[i][1]+1, str(ptype),str(count_dsb), '1'))
                     count_dsb=count_dsb+1
                 #generate table_files here
                 Z=tables()
@@ -1272,7 +1272,7 @@ class esbm(object):
             for i in xrange(0,len(a)):
                 #print a[i][2],a[i][3],a[i][4],d[count],c[i][0],c[i][1],c[i][2],a[i][0]
                 f.write("%5d%-5s%5s%5d%8.3f%8.3f%8.3f\n" % (a[i][2],a[i][3],d[count][:2],a[i][0],c[i][0],c[i][1],c[i][2]))
-                f1.write("%-5s%8.3f%8.3f%8.3f\n" % ('SB',c[i][0]*10,c[i][1]*10,c[i][2]*10))
+                f1.write("%-5s%8.3f%8.3f%8.3f\n" % ('SB',c[i][0]*10,c[i][1]*10,c[i][2]*10))#nm to A
                 count=count+1
             f.write('%8.4f %8.4f %8.4f'%(50.000,50.000,50.0000))
             f.close()
