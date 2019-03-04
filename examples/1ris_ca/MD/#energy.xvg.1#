@@ -1,0 +1,38 @@
+# This file was created Mon Mar  4 18:03:56 2019
+# Created by:
+# GROMACS:      gmx energy, VERSION 5.0.7
+# Executable:   /usr/local/gromacs/bin/gmx
+# Library dir:  /usr/local/gromacs/share/gromacs/top
+# Command line:
+#   g_energy
+# g_energy is part of G R O M A C S:
+#
+# Gromacs Runs One Microsecond At Cannonball Speeds
+#
+@    title "Gromacs Energies"
+@    xaxis  label "Time (ps)"
+@    yaxis  label "(kJ/mol)"
+@TYPE xy
+@ view 0.15, 0.15, 0.75, 0.85
+@ legend on
+@ legend box on
+@ legend loctype view
+@ legend 0.78, 0.8
+@ legend length 2
+@ s0 legend "Total Energy"
+    0.000000  -91.330246
+    0.002000  -95.067612
+    0.004000  -93.920189
+    0.006000  -93.640671
+    0.008000  -93.408783
+    0.010000  -93.680069
+    0.012000  -94.844803
+    0.014000  -95.492828
+    0.016000  -95.303856
+    0.018000  -94.307602
+    0.020000  -94.197601
+    0.022000  -93.261673
+    0.024000  -93.016747
+    0.026000  -92.410828
+    0.028000  -91.863113
+    0.030000  -91.746613

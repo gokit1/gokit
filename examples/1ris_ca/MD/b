@@ -1,0 +1,62 @@
+GROMACS:    gmx grompp, VERSION 5.0.7
+
+GROMACS is written by:
+Emile Apol         Rossen Apostolov   Herman J.C. Berendsen Par Bjelkmar       
+Aldert van Buuren  Rudi van Drunen    Anton Feenstra     Sebastian Fritsch  
+Gerrit Groenhof    Christoph Junghans Peter Kasson       Carsten Kutzner    
+Per Larsson        Justin A. Lemkul   Magnus Lundborg    Pieter Meulenhoff  
+Erik Marklund      Teemu Murtola      Szilard Pall       Sander Pronk       
+Roland Schulz      Alexey Shvetsov    Michael Shirts     Alfons Sijbers     
+Peter Tieleman     Christian Wennberg Maarten Wolf       
+and the project leaders:
+Mark Abraham, Berk Hess, Erik Lindahl, and David van der Spoel
+
+Copyright (c) 1991-2000, University of Groningen, The Netherlands.
+Copyright (c) 2001-2014, The GROMACS development team at
+Uppsala University, Stockholm University and
+the Royal Institute of Technology, Sweden.
+check out http://www.gromacs.org for more information.
+
+GROMACS is free software; you can redistribute it and/or modify it
+under the terms of the GNU Lesser General Public License
+as published by the Free Software Foundation; either version 2.1
+of the License, or (at your option) any later version.
+
+GROMACS:      gmx grompp, VERSION 5.0.7
+Executable:   /usr/local/gromacs/bin/gmx
+Library dir:  /usr/local/gromacs/share/gromacs/top
+Command line:
+  grompp -f md.mdp -c gromacs.gro -p gromacs.top -po mdout.out -o run.tpr -maxwarn 1
+
+Replacing old mdp entry 'nstxtcout' by 'nstxout-compressed'
+Replacing old mdp entry 'xtc_grps' by 'compressed-x-grps'
+
+Back Off! I just backed up mdout.out.mdp to ./#mdout.out.mdp.1#
+
+NOTE 1 [file md.mdp]:
+  The group cutoff scheme is deprecated in Gromacs 5.0 and will be removed
+  in a future release when all interaction forms are supported for the
+  verlet scheme. The verlet scheme already scales better, and it is
+  compatible with GPUs and other accelerators.
+
+
+NOTE 2 [file md.mdp]:
+  Setting nstcalcenergy (100) equal to nstenergy (20)
+
+
+WARNING 1 [file md.mdp]:
+  Removing the rotation around the center of mass in a periodic system,
+  this can lead to artifacts. Only use this on a single (cluster of)
+  molecules. This cluster should not cross periodic boundaries.
+
+Generated 1 of the 1 non-bonded parameter combinations
+Excluding 3 bonded neighbours molecule type 'Macromolecule'
+Velocities were taken from a Maxwell distribution at 100 K
+Number of degrees of freedom in T-Coupling group System is 285.00
+
+There were 2 notes
+
+There was 1 warning
+
+gcq#366: "I removed all the lambda defaults so that users have to think!" (Berk Hess)
+
