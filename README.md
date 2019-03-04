@@ -66,7 +66,7 @@ Note: The dsb+hp potential is not implemented in OPTIM. Use only for gromacs4 ru
 
 Two-bead model: Cheung-Thirumalai. 
 ```
-$ python gokit.py --attype 2 --aa pdb 1ris.pdb --skip_glycine
+$ python gokit.py --attype 2 --aa_pdb 1ris.pdb --skip_glycine
 ```
 Two-bead model: Betancourt-Thirumalai
 ```

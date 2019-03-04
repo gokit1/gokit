@@ -1,0 +1,5 @@
+1tit_ca/MD: command 1. Ran GROMCAS 5.0.7 with output.
+Examples merely demostrate that the formats of files produced are compatible with OPTIM and GROMACS. Convergence criteria, cutoffs, switching potential cutoffs are very lose. Not to be used for production runs.
+
+
+1tit_ca/PATH: command 1. Ran OPTIM minimisation.
