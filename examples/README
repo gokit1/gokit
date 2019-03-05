@@ -1,5 +1,40 @@
-1tit_ca/MD: command 1. Ran GROMCAS 5.0.7 with output.
+Examples are provided for different SBM flavours. 
+ca=single bead c alpha
+cahp=single bead c alpha and hydrophobic contacts
+bt=betacourt-thirumalai model
+dsb=desolvation barrier potential
+
+
+
+
+
+Each folder contains MD and PATH directories with sample outputs produced from GROMACS and OPTIM respectively. 
+
+MD:
+Table files for the 12-10 LJ potential called table_file.xvg and tablep.xvg are provided with the distribution. These need to be linked to the MD folder. 
+
+gmx grompp -f md.mdp  -c gromacs.gro  -p gromacs.top  -po mdout.mdp -o run.tpr -maxwarn 1 > a 2> b
+
+gmx mdrun -x traj.xtc -e ener.edr -o traj.trr -s run.tpr -g md.log -table table_file.xvg  1>out
+
+Tested for GROMACS 2018.3 distribution on a 64-bit Mac OS Mojave. 
+ 
+OPTIM:
+Download OPTIM distribution from:
+
+http://www-wales.ch.cam.ac.uk/software.html
+
+A simple odata file is generated for performing one L-BFGS optimisation. 
+
+In order to connect multiple local minima and generate disconnectivity graphs,
+see PATHSAMPLE manual. 
+
+Ideally, run MD with GROMACS at Tf, cluster structures, add as local minima with ADDMINXYZ into PATHSAMPLE database, the connect with odata.connect. 
+
+
+
+
+
 Examples merely demostrate that the formats of files produced are compatible with OPTIM and GROMACS. Convergence criteria, cutoffs, switching potential cutoffs are very lose. Not to be used for production runs.
 
 
-1tit_ca/PATH: command 1. Ran OPTIM minimisation.
