@@ -196,7 +196,9 @@ class Utils(object):
              9: "Fatal: Found Glycine with 0 hydrogen atoms. Add hydrogens, or set skip_glycine==True",
              10: "Fatal: Found HETATM in pdbfile.",
              11: "Fatal: --attype must be 1 or 2.",
-             12: "Fatal: Must give --attype with --aa_pdb"}
+             12: "Fatal: Must give --attype with --aa_pdb",
+             13: "--dsb argumet only implemented for attype 1 (CA). Change --attype to 1",
+             14: "Only atoms named CA or CB must be present in native files."}
         print (d[errorid])
         exit()
         return True
