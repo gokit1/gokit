@@ -27,7 +27,7 @@ of the License, or (at your option) any later version.
 GROMACS:      gmx mdrun, version 2018.3
 Executable:   /usr/local/bin/../Cellar/gromacs/2018.3/bin/gmx
 Data prefix:  /usr/local/bin/../Cellar/gromacs/2018.3
-Working dir:  /Users/sridharn/gokit/examples/1ris_ca/MD
+Working dir:  /Users/sridharn/gokit/examples/1tit_ca/MD
 Command line:
   gmx mdrun -x traj.xtc -e ener.edr -o traj.trr -s run.tpr -g md.log -table table_file.xvg
 
@@ -50,9 +50,9 @@ starting mdrun 'Macromolecule'
 Writing final coordinates.
 
                Core t (s)   Wall t (s)        (%)
-       Time:        0.030        0.030      100.0
+       Time:        0.038        0.038      100.0
                  (ns/day)    (hour/ns)
-Performance:      114.258        0.210
+Performance:       91.365        0.263
 
-GROMACS reminds you: "The loveliest theories are being overthrown by these damned experiments; it is no fun being a chemist any more." (Justus von Liebig, letter to J.J. Berzelius 1834)
+GROMACS reminds you: "You Own the Sun" (Throwing Muses)
 

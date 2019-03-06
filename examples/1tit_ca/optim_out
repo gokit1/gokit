@@ -1,0 +1,17 @@
+At line 114 of file /Users/sridharn/svn/OPTIM/source/getparams.f (unit = 5)
+Fortran runtime error: Cannot open file 'odata': No such file or directory
+
+Error termination. Backtrace:
+#0  0x15c15034c
+#1  0x15c151055
+#2  0x15c1517c9
+#3  0x15c28bcbf
+#4  0x15c28c00c
+#5  0x1020b4f09
+#6  0x102ad052e
+
+ OPTIM version 35020, Copyright (C) David J. Wales
+ OPTIM comes with ABSOLUTELY NO WARRANTY; for details supply WARRANTY as an input keyword.
+ This is free software, and you are welcome to redistribute it
+ under certain conditions; provide keyword COPYRIGHT to see the details.
+

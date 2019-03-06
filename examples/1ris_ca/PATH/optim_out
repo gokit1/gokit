@@ -496,5 +496,5 @@
 
  Elapsed time=                                 0.06
  OPTIM> # of energy calls=                          0 time=           0.00 %=  0.0
- OPTIM> # of energy+gradient calls=               432 time=           0.05 %= 81.9
+ OPTIM> # of energy+gradient calls=               432 time=           0.05 %= 84.0
  OPTIM> # of energy+gradient+Hessian calls=         0 time=           0.00 %=  0.0

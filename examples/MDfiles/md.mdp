@@ -1,0 +1,53 @@
+;Run control: Use Langevin dynamics.
+integrator = sd
+;time step in reduced units. Since we use mass of a carbon=1, the time step is smaller that many other MD simulations.
+dt = 0.0001
+;number of integration steps
+nsteps = 400     
+;frequency to write coordinates to output trajectory .trr file
+nstxout = 200   
+;frequency to write velocities to output trajectory .trr file
+nstvout = 200   
+;frequency to write energies to log file
+nstlog = 200  
+;frequency to write energies to energy file
+nstenergy = 200 
+;frequency to write coordinates to .xtc trajectory
+nstxtcout = 200  
+;group(s) to write to .xtc trajectory.
+;NOTE: group name "system" is defined if you are NOT using an index file. If you use an index file, all group references need to be consistent with the names given in the index file. Our webpage, by default, names the chains "1", "2", ... You can change these names to whatever you like, just make sure the mdp file uses the same naming scheme. For more information on group usage, please consult the Gromacs manual.
+xtc_grps = system
+;group(s) to write to energy file
+energygrps = system
+;Frequency to update the neighbor list (and the long-range forces,
+;when using twin-range cut-off's).
+nstlist = 20
+;Make a grid in the box and only check atoms in neighboring grid cells
+;when constructing a new neighbor list every nstlist steps.
+ns_type = grid
+;cut-off distance for the short-range neighbor list (NOTE: cut-offs should be longer if running a CA model than an AA model). 3.0 nm is about 2.5 times the typical longest interaction in a CA model. Using a cutoff of 2.0 nm is completely reasonable as a 12A contact will have only ~1% of its potential energy at that distance. We leave 3.0 nm here for safety, but if you know what you are doing feel free to decrease to 2.0 nm. If you have longer contacts, then of course increase these numbers.
+rlist = 3.0
+;treatment of electrostatic interactions
+rcoulomb = 3.0
+;treatment of van der waals interactions
+rvdw = 3.0
+;this tells gromacs to use the tables that we give it, instead of the standard interaction types
+coulombtype = User
+vdwtype = User
+cutoff-scheme = Group
+; Periodic boudary conditions in all the directions
+pbc = xyz
+table-extension = 38 ; (nm) !IMPORTANT! Set this so that rvdw + table-extension equals half of the box's longest diagonal. 1.5 + 32.5939 = 34.0939
+;Temperature coupling
+tc-grps = system
+tau_t = 1.0 ; Temperature coupling time constant. Smaller values = stronger coupling.
+ref_t = 100  ; In reduced units (see Gromacs Manual for explanation. We find many proteins fold around T=100-120)
+;Pressure coupling
+Pcoupl = no
+;Velocity generation
+gen_vel = yes
+gen_temp = 100
+gen_seed = 30
+ld_seed = 130
+comm_mode = angular ; center of mass velocity removal. Make sure you select what is proper for your simulation.
+;NOTE on comm_mode: When using periodic boundary conditions, which improves the speed of neighbor searching, removing the angular velocity will lead to a warning at the grompp stage of simulations. So long as the box size is properly sized, such that your system does not cross the boundaries, then this warning is harmless and you can simply issue -maxwarn X, where X is the number of allowed warning messages. 

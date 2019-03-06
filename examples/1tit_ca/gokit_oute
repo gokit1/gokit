@@ -1,0 +1,110 @@
+>> in all_atom_contacts 1tit.pdb
+Atoms in pdb    1376
+Residues in pdb 89
+Found 271 contacts in all-atom file 1tit.pdb with cut-off 0.45 nm
+See file: contacts.txt for reading into other codes like SMOG. 
+ See file: pdb_contacts for details.
+>> in get_side_chain_COM: 1tit.pdb False
+<Chain id=A>
+Excluding glycine, res =  10
+Excluding glycine, res =  16
+Excluding glycine, res =  32
+Excluding glycine, res =  38
+Excluding glycine, res =  53
+Excluding glycine, res =  66
+Excluding glycine, res =  69
+>> in get_back_bone_COM 1tit.pdb
+>>in write_CB_to_native: 1tit.pdb False
+See file: native_cb.pdb with  171 atoms
+CB= 82 CA= 89
+True
+>> in write_atomtypes_section 1tit.pdb 1 False 4.0
+>> in get_atom_types: 1 False
+83
+83 83
+>> in write_atoms_section1	 1 1tit.pdb True
+[[1, 1, 1, 'LEU', 'CA', 0, 1.0], [2, 1, 2, 'ILE', 'CA', 0, 1.0], [3, 1, 3, 'GLU', 'CA', 0, 1.0], [4, 1, 4, 'VAL', 'CA', 0, 1.0], [5, 1, 5, 'GLU', 'CA', 0, 1.0], [6, 1, 6, 'LYS', 'CA', 0, 1.0], [7, 1, 7, 'PRO', 'CA', 0, 1.0], [8, 1, 8, 'LEU', 'CA', 0, 1.0], [9, 1, 9, 'TYR', 'CA', 0, 1.0], [10, 1, 10, 'GLY', 'CA', 0, 1.0], [11, 1, 11, 'VAL', 'CA', 0, 1.0], [12, 1, 12, 'GLU', 'CA', 0, 1.0], [13, 1, 13, 'VAL', 'CA', 0, 1.0], [14, 1, 14, 'PHE', 'CA', 0, 1.0], [15, 1, 15, 'VAL', 'CA', 0, 1.0], [16, 1, 16, 'GLY', 'CA', 0, 1.0], [17, 1, 17, 'GLU', 'CA', 0, 1.0], [18, 1, 18, 'THR', 'CA', 0, 1.0], [19, 1, 19, 'ALA', 'CA', 0, 1.0], [20, 1, 20, 'HIS', 'CA', 0, 1.0], [21, 1, 21, 'PHE', 'CA', 0, 1.0], [22, 1, 22, 'GLU', 'CA', 0, 1.0], [23, 1, 23, 'ILE', 'CA', 0, 1.0], [24, 1, 24, 'GLU', 'CA', 0, 1.0], [25, 1, 25, 'LEU', 'CA', 0, 1.0], [26, 1, 26, 'SER', 'CA', 0, 1.0], [27, 1, 27, 'GLU', 'CA', 0, 1.0], [28, 1, 28, 'PRO', 'CA', 0, 1.0], [29, 1, 29, 'ASP', 'CA', 0, 1.0], [30, 1, 30, 'VAL', 'CA', 0, 1.0], [31, 1, 31, 'HIS', 'CA', 0, 1.0], [32, 1, 32, 'GLY', 'CA', 0, 1.0], [33, 1, 33, 'GLN', 'CA', 0, 1.0], [34, 1, 34, 'TRP', 'CA', 0, 1.0], [35, 1, 35, 'LYS', 'CA', 0, 1.0], [36, 1, 36, 'LEU', 'CA', 0, 1.0], [37, 1, 37, 'LYS', 'CA', 0, 1.0], [38, 1, 38, 'GLY', 'CA', 0, 1.0], [39, 1, 39, 'GLN', 'CA', 0, 1.0], [40, 1, 40, 'PRO', 'CA', 0, 1.0], [41, 1, 41, 'LEU', 'CA', 0, 1.0], [42, 1, 42, 'THR', 'CA', 0, 1.0], [43, 1, 43, 'ALA', 'CA', 0, 1.0], [44, 1, 44, 'SER', 'CA', 0, 1.0], [45, 1, 45, 'PRO', 'CA', 0, 1.0], [46, 1, 46, 'ASP', 'CA', 0, 1.0], [47, 1, 47, 'CYS', 'CA', 0, 1.0], [48, 1, 48, 'GLU', 'CA', 0, 1.0], [49, 1, 49, 'ILE', 'CA', 0, 1.0], [50, 1, 50, 'ILE', 'CA', 0, 1.0], [51, 1, 51, 'GLU', 'CA', 0, 1.0], [52, 1, 52, 'ASP', 'CA', 0, 1.0], [53, 1, 53, 'GLY', 'CA', 0, 1.0], [54, 1, 54, 'LYS', 'CA', 0, 1.0], [55, 1, 55, 'LYS', 'CA', 0, 1.0], [56, 1, 56, 'HIS', 'CA', 0, 1.0], [57, 1, 57, 'ILE', 'CA', 0, 1.0], [58, 1, 58, 'LEU', 'CA', 0, 1.0], [59, 1, 59, 'ILE', 'CA', 0, 1.0], [60, 1, 60, 'LEU', 'CA', 0, 1.0], [61, 1, 61, 'HIS', 'CA', 0, 1.0], [62, 1, 62, 'ASN', 'CA', 0, 1.0], [63, 1, 63, 'CYS', 'CA', 0, 1.0], [64, 1, 64, 'GLN', 'CA', 0, 1.0], [65, 1, 65, 'LEU', 'CA', 0, 1.0], [66, 1, 66, 'GLY', 'CA', 0, 1.0], [67, 1, 67, 'MET', 'CA', 0, 1.0], [68, 1, 68, 'THR', 'CA', 0, 1.0], [69, 1, 69, 'GLY', 'CA', 0, 1.0], [70, 1, 70, 'GLU', 'CA', 0, 1.0], [71, 1, 71, 'VAL', 'CA', 0, 1.0], [72, 1, 72, 'SER', 'CA', 0, 1.0], [73, 1, 73, 'PHE', 'CA', 0, 1.0], [74, 1, 74, 'GLN', 'CA', 0, 1.0], [75, 1, 75, 'ALA', 'CA', 0, 1.0], [76, 1, 76, 'ALA', 'CA', 0, 1.0], [77, 1, 77, 'ASN', 'CA', 0, 1.0], [78, 1, 78, 'ALA', 'CA', 0, 1.0], [79, 1, 79, 'LYS', 'CA', 0, 1.0], [80, 1, 80, 'SER', 'CA', 0, 1.0], [81, 1, 81, 'ALA', 'CA', 0, 1.0], [82, 1, 82, 'ALA', 'CA', 0, 1.0], [83, 1, 83, 'ASN', 'CA', 0, 1.0], [84, 1, 84, 'LEU', 'CA', 0, 1.0], [85, 1, 85, 'LYS', 'CA', 0, 1.0], [86, 1, 86, 'VAL', 'CA', 0, 1.0], [87, 1, 87, 'LYS', 'CA', 0, 1.0], [88, 1, 88, 'GLU', 'CA', 0, 1.0], [89, 1, 89, 'LEU', 'CA', 0, 1.0]]
+>>writing contacts section,atomtype= 1 SOPC= False
+>> in get_side_chain_COM: 1tit.pdb False
+<Chain id=A>
+Excluding glycine, res =  10
+Excluding glycine, res =  16
+Excluding glycine, res =  32
+Excluding glycine, res =  38
+Excluding glycine, res =  53
+Excluding glycine, res =  66
+Excluding glycine, res =  69
+>> in get_back_bone_COM 1tit.pdb
+>>in write_CB_to_native: 1tit.pdb False
+See file: native_cb.pdb with  171 atoms
+CB= 82 CA= 89
+>> in all_atom_contacts 1tit.pdb
+Atoms in pdb    1376
+Residues in pdb 89
+Found 271 contacts in all-atom file 1tit.pdb with cut-off 0.45 nm
+See file: contacts.txt for reading into other codes like SMOG. 
+ See file: pdb_contacts for details.
+>>writing bonds_section: Native=  native_ca.pdb
+>>writing angles_section native_ca.pdb 40
+>>writing dihedrals section native_ca.pdb 1
+>>Writing exclusions section.
+>>writing GROMACS header section gromacs.top
+>> writing GROMACS atomtypes section gromacs.top 1 1tit.pdb False 4.0
+>> in write_atomtypes_section 1tit.pdb 1 False 4.0
+>> in get_atom_types: 1 False
+83
+83 83
+>>writing GROMACS moleculetypesection gromacs.top
+>> writing GROMACS atom section gromacs.top 1 1tit.pdb native_ca.pdb False
+>> in write_atoms_section1	 1 1tit.pdb False
+[[1, 1, 1, 'LEU', 'CA', 0, 1.0], [2, 1, 2, 'ILE', 'CA', 0, 1.0], [3, 1, 3, 'GLU', 'CA', 0, 1.0], [4, 1, 4, 'VAL', 'CA', 0, 1.0], [5, 1, 5, 'GLU', 'CA', 0, 1.0], [6, 1, 6, 'LYS', 'CA', 0, 1.0], [7, 1, 7, 'PRO', 'CA', 0, 1.0], [8, 1, 8, 'LEU', 'CA', 0, 1.0], [9, 1, 9, 'TYR', 'CA', 0, 1.0], [10, 1, 10, 'GLY', 'CA', 0, 1.0], [11, 1, 11, 'VAL', 'CA', 0, 1.0], [12, 1, 12, 'GLU', 'CA', 0, 1.0], [13, 1, 13, 'VAL', 'CA', 0, 1.0], [14, 1, 14, 'PHE', 'CA', 0, 1.0], [15, 1, 15, 'VAL', 'CA', 0, 1.0], [16, 1, 16, 'GLY', 'CA', 0, 1.0], [17, 1, 17, 'GLU', 'CA', 0, 1.0], [18, 1, 18, 'THR', 'CA', 0, 1.0], [19, 1, 19, 'ALA', 'CA', 0, 1.0], [20, 1, 20, 'HIS', 'CA', 0, 1.0], [21, 1, 21, 'PHE', 'CA', 0, 1.0], [22, 1, 22, 'GLU', 'CA', 0, 1.0], [23, 1, 23, 'ILE', 'CA', 0, 1.0], [24, 1, 24, 'GLU', 'CA', 0, 1.0], [25, 1, 25, 'LEU', 'CA', 0, 1.0], [26, 1, 26, 'SER', 'CA', 0, 1.0], [27, 1, 27, 'GLU', 'CA', 0, 1.0], [28, 1, 28, 'PRO', 'CA', 0, 1.0], [29, 1, 29, 'ASP', 'CA', 0, 1.0], [30, 1, 30, 'VAL', 'CA', 0, 1.0], [31, 1, 31, 'HIS', 'CA', 0, 1.0], [32, 1, 32, 'GLY', 'CA', 0, 1.0], [33, 1, 33, 'GLN', 'CA', 0, 1.0], [34, 1, 34, 'TRP', 'CA', 0, 1.0], [35, 1, 35, 'LYS', 'CA', 0, 1.0], [36, 1, 36, 'LEU', 'CA', 0, 1.0], [37, 1, 37, 'LYS', 'CA', 0, 1.0], [38, 1, 38, 'GLY', 'CA', 0, 1.0], [39, 1, 39, 'GLN', 'CA', 0, 1.0], [40, 1, 40, 'PRO', 'CA', 0, 1.0], [41, 1, 41, 'LEU', 'CA', 0, 1.0], [42, 1, 42, 'THR', 'CA', 0, 1.0], [43, 1, 43, 'ALA', 'CA', 0, 1.0], [44, 1, 44, 'SER', 'CA', 0, 1.0], [45, 1, 45, 'PRO', 'CA', 0, 1.0], [46, 1, 46, 'ASP', 'CA', 0, 1.0], [47, 1, 47, 'CYS', 'CA', 0, 1.0], [48, 1, 48, 'GLU', 'CA', 0, 1.0], [49, 1, 49, 'ILE', 'CA', 0, 1.0], [50, 1, 50, 'ILE', 'CA', 0, 1.0], [51, 1, 51, 'GLU', 'CA', 0, 1.0], [52, 1, 52, 'ASP', 'CA', 0, 1.0], [53, 1, 53, 'GLY', 'CA', 0, 1.0], [54, 1, 54, 'LYS', 'CA', 0, 1.0], [55, 1, 55, 'LYS', 'CA', 0, 1.0], [56, 1, 56, 'HIS', 'CA', 0, 1.0], [57, 1, 57, 'ILE', 'CA', 0, 1.0], [58, 1, 58, 'LEU', 'CA', 0, 1.0], [59, 1, 59, 'ILE', 'CA', 0, 1.0], [60, 1, 60, 'LEU', 'CA', 0, 1.0], [61, 1, 61, 'HIS', 'CA', 0, 1.0], [62, 1, 62, 'ASN', 'CA', 0, 1.0], [63, 1, 63, 'CYS', 'CA', 0, 1.0], [64, 1, 64, 'GLN', 'CA', 0, 1.0], [65, 1, 65, 'LEU', 'CA', 0, 1.0], [66, 1, 66, 'GLY', 'CA', 0, 1.0], [67, 1, 67, 'MET', 'CA', 0, 1.0], [68, 1, 68, 'THR', 'CA', 0, 1.0], [69, 1, 69, 'GLY', 'CA', 0, 1.0], [70, 1, 70, 'GLU', 'CA', 0, 1.0], [71, 1, 71, 'VAL', 'CA', 0, 1.0], [72, 1, 72, 'SER', 'CA', 0, 1.0], [73, 1, 73, 'PHE', 'CA', 0, 1.0], [74, 1, 74, 'GLN', 'CA', 0, 1.0], [75, 1, 75, 'ALA', 'CA', 0, 1.0], [76, 1, 76, 'ALA', 'CA', 0, 1.0], [77, 1, 77, 'ASN', 'CA', 0, 1.0], [78, 1, 78, 'ALA', 'CA', 0, 1.0], [79, 1, 79, 'LYS', 'CA', 0, 1.0], [80, 1, 80, 'SER', 'CA', 0, 1.0], [81, 1, 81, 'ALA', 'CA', 0, 1.0], [82, 1, 82, 'ALA', 'CA', 0, 1.0], [83, 1, 83, 'ASN', 'CA', 0, 1.0], [84, 1, 84, 'LEU', 'CA', 0, 1.0], [85, 1, 85, 'LYS', 'CA', 0, 1.0], [86, 1, 86, 'VAL', 'CA', 0, 1.0], [87, 1, 87, 'LYS', 'CA', 0, 1.0], [88, 1, 88, 'GLU', 'CA', 0, 1.0], [89, 1, 89, 'LEU', 'CA', 0, 1.0]]
+>> in get_atom_types: 1 False
+83
+83 83
+>> writing GROMACS bonds section gromacs.top 1 native_ca.pdb 200
+>>writing bonds_section: Native=  native_ca.pdb
+>> writing GROMACS angle section gromacs.top 1 native_ca.pdb 40
+>>writing angles_section native_ca.pdb 40.0
+>> writing GROMACS dihedrals section gromacs.top 1 native_ca.pdb 1
+>>writing dihedrals section native_ca.pdb 1.0
+>> writing GROMACS pairs sections gromacs.top 1 native_ca.pdb 1tit.pdb 2 4.5 False False
+>>writing contacts section,atomtype= 1 SOPC= False
+>> in get_side_chain_COM: 1tit.pdb False
+<Chain id=A>
+Excluding glycine, res =  10
+Excluding glycine, res =  16
+Excluding glycine, res =  32
+Excluding glycine, res =  38
+Excluding glycine, res =  53
+Excluding glycine, res =  66
+Excluding glycine, res =  69
+>> in get_back_bone_COM 1tit.pdb
+>>in write_CB_to_native: 1tit.pdb False
+See file: native_cb.pdb with  171 atoms
+CB= 82 CA= 89
+>> in all_atom_contacts 1tit.pdb
+Atoms in pdb    1376
+Residues in pdb 89
+Found 271 contacts in all-atom file 1tit.pdb with cut-off 0.45 nm
+See file: contacts.txt for reading into other codes like SMOG. 
+ See file: pdb_contacts for details.
+>> writing GROMACS tail section gromacs.top
+>> in get_side_chain_COM: 1tit.pdb False
+<Chain id=A>
+Excluding glycine, res =  10
+Excluding glycine, res =  16
+Excluding glycine, res =  32
+Excluding glycine, res =  38
+Excluding glycine, res =  53
+Excluding glycine, res =  66
+Excluding glycine, res =  69
+>> in get_back_bone_COM 1tit.pdb
+>>in write_CB_to_native: 1tit.pdb False
+See file: native_cb.pdb with  171 atoms
+CB= 82 CA= 89
+>> write_gro_gro gromacs.gro 1tit.pdb 1 False
+>> in write_atoms_section1	 1 1tit.pdb False
+[[1, 1, 1, 'LEU', 'CA', 0, 1.0], [2, 1, 2, 'ILE', 'CA', 0, 1.0], [3, 1, 3, 'GLU', 'CA', 0, 1.0], [4, 1, 4, 'VAL', 'CA', 0, 1.0], [5, 1, 5, 'GLU', 'CA', 0, 1.0], [6, 1, 6, 'LYS', 'CA', 0, 1.0], [7, 1, 7, 'PRO', 'CA', 0, 1.0], [8, 1, 8, 'LEU', 'CA', 0, 1.0], [9, 1, 9, 'TYR', 'CA', 0, 1.0], [10, 1, 10, 'GLY', 'CA', 0, 1.0], [11, 1, 11, 'VAL', 'CA', 0, 1.0], [12, 1, 12, 'GLU', 'CA', 0, 1.0], [13, 1, 13, 'VAL', 'CA', 0, 1.0], [14, 1, 14, 'PHE', 'CA', 0, 1.0], [15, 1, 15, 'VAL', 'CA', 0, 1.0], [16, 1, 16, 'GLY', 'CA', 0, 1.0], [17, 1, 17, 'GLU', 'CA', 0, 1.0], [18, 1, 18, 'THR', 'CA', 0, 1.0], [19, 1, 19, 'ALA', 'CA', 0, 1.0], [20, 1, 20, 'HIS', 'CA', 0, 1.0], [21, 1, 21, 'PHE', 'CA', 0, 1.0], [22, 1, 22, 'GLU', 'CA', 0, 1.0], [23, 1, 23, 'ILE', 'CA', 0, 1.0], [24, 1, 24, 'GLU', 'CA', 0, 1.0], [25, 1, 25, 'LEU', 'CA', 0, 1.0], [26, 1, 26, 'SER', 'CA', 0, 1.0], [27, 1, 27, 'GLU', 'CA', 0, 1.0], [28, 1, 28, 'PRO', 'CA', 0, 1.0], [29, 1, 29, 'ASP', 'CA', 0, 1.0], [30, 1, 30, 'VAL', 'CA', 0, 1.0], [31, 1, 31, 'HIS', 'CA', 0, 1.0], [32, 1, 32, 'GLY', 'CA', 0, 1.0], [33, 1, 33, 'GLN', 'CA', 0, 1.0], [34, 1, 34, 'TRP', 'CA', 0, 1.0], [35, 1, 35, 'LYS', 'CA', 0, 1.0], [36, 1, 36, 'LEU', 'CA', 0, 1.0], [37, 1, 37, 'LYS', 'CA', 0, 1.0], [38, 1, 38, 'GLY', 'CA', 0, 1.0], [39, 1, 39, 'GLN', 'CA', 0, 1.0], [40, 1, 40, 'PRO', 'CA', 0, 1.0], [41, 1, 41, 'LEU', 'CA', 0, 1.0], [42, 1, 42, 'THR', 'CA', 0, 1.0], [43, 1, 43, 'ALA', 'CA', 0, 1.0], [44, 1, 44, 'SER', 'CA', 0, 1.0], [45, 1, 45, 'PRO', 'CA', 0, 1.0], [46, 1, 46, 'ASP', 'CA', 0, 1.0], [47, 1, 47, 'CYS', 'CA', 0, 1.0], [48, 1, 48, 'GLU', 'CA', 0, 1.0], [49, 1, 49, 'ILE', 'CA', 0, 1.0], [50, 1, 50, 'ILE', 'CA', 0, 1.0], [51, 1, 51, 'GLU', 'CA', 0, 1.0], [52, 1, 52, 'ASP', 'CA', 0, 1.0], [53, 1, 53, 'GLY', 'CA', 0, 1.0], [54, 1, 54, 'LYS', 'CA', 0, 1.0], [55, 1, 55, 'LYS', 'CA', 0, 1.0], [56, 1, 56, 'HIS', 'CA', 0, 1.0], [57, 1, 57, 'ILE', 'CA', 0, 1.0], [58, 1, 58, 'LEU', 'CA', 0, 1.0], [59, 1, 59, 'ILE', 'CA', 0, 1.0], [60, 1, 60, 'LEU', 'CA', 0, 1.0], [61, 1, 61, 'HIS', 'CA', 0, 1.0], [62, 1, 62, 'ASN', 'CA', 0, 1.0], [63, 1, 63, 'CYS', 'CA', 0, 1.0], [64, 1, 64, 'GLN', 'CA', 0, 1.0], [65, 1, 65, 'LEU', 'CA', 0, 1.0], [66, 1, 66, 'GLY', 'CA', 0, 1.0], [67, 1, 67, 'MET', 'CA', 0, 1.0], [68, 1, 68, 'THR', 'CA', 0, 1.0], [69, 1, 69, 'GLY', 'CA', 0, 1.0], [70, 1, 70, 'GLU', 'CA', 0, 1.0], [71, 1, 71, 'VAL', 'CA', 0, 1.0], [72, 1, 72, 'SER', 'CA', 0, 1.0], [73, 1, 73, 'PHE', 'CA', 0, 1.0], [74, 1, 74, 'GLN', 'CA', 0, 1.0], [75, 1, 75, 'ALA', 'CA', 0, 1.0], [76, 1, 76, 'ALA', 'CA', 0, 1.0], [77, 1, 77, 'ASN', 'CA', 0, 1.0], [78, 1, 78, 'ALA', 'CA', 0, 1.0], [79, 1, 79, 'LYS', 'CA', 0, 1.0], [80, 1, 80, 'SER', 'CA', 0, 1.0], [81, 1, 81, 'ALA', 'CA', 0, 1.0], [82, 1, 82, 'ALA', 'CA', 0, 1.0], [83, 1, 83, 'ASN', 'CA', 0, 1.0], [84, 1, 84, 'LEU', 'CA', 0, 1.0], [85, 1, 85, 'LYS', 'CA', 0, 1.0], [86, 1, 86, 'VAL', 'CA', 0, 1.0], [87, 1, 87, 'LYS', 'CA', 0, 1.0], [88, 1, 88, 'GLU', 'CA', 0, 1.0], [89, 1, 89, 'LEU', 'CA', 0, 1.0]]
+See file: gromacs.top for GROMACS topology.
+('>>in make_dir:', 'PATH')
+('>>in make_dir:', 'MD')
