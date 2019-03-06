@@ -449,13 +449,13 @@ class esbm(object):
                     count_cb=count_cb+1
                     atomname.append(x)
             #make dict
-            print (len(atomname))
+            #print (len(atomname))
             l1=np.arange(0,natoms)
-            #print (len(l1),len(atomname))
+            print (len(l1),len(atomname))
             assert len(l1)==len(atomname)
             d=self.two_lists_to_dict(atomname,l1)
-            print (d)
-            print (collections.OrderedDict(sorted(d.items())))
+            #print (d)
+            #print (collections.OrderedDict(sorted(d.items())))
             return collections.OrderedDict(sorted(d.items()))
 
         def get_atom_names(self,pdbfile,atomtype,sopc):
@@ -550,7 +550,7 @@ class esbm(object):
                 #add CA first.
                 atomname.append(['CA', atommass[0], atomcharge[0], atomptype[0], c6, CA_rad[0]])
                 CB_rad = self.get_CB_radius(atomtype, 'native_cb.pdb', sopc, 1, CBradii)
-                print (len(CB_rad[0]))
+                #print (len(CB_rad[0]))
                 assert(len(CB_rad[0])==ncb)
                 count_cb=0
                 #loop over CA!
@@ -669,7 +669,7 @@ class esbm(object):
             #print (count,natoms,glyname)
 
             assert count==natoms
-            print (all)
+            #print (all)
             return all
 
         def split_chains(self,pdbfile):
@@ -747,6 +747,7 @@ class esbm(object):
                             f.write('%s\t%s\t%d\t%f\t%e\n' % (
                                 dict1[int(i[0])] + 1, dict1[int(i[1])] + 1, contacttype, hpdist, hpstrength))
                         counthp = counthp + 1
+
                 f.close()
                 return contacts
             elif atomtype==2:
@@ -812,7 +813,8 @@ class esbm(object):
                         res1bt = d[Y.get_residue_name(nativefile, int(res1))[0]]
                         res2bt = d[Y.get_residue_name(nativefile, int(res2))[0]]
                         strength_CB=float(Y.get_btmap_val(res1bt,res2bt,'interaction.dat'))
-                        #strength_CB=0.5*(0.7- float(strength_CB))*300*Kb #kcal/mol
+                        if btparams:
+                            strength_CB=0.5*(0.7- float(strength_CB))*300*Kb #kcal/mol
                         contacts.append([res1 + 1, res2 + 1, int(contacttype), dist,strength_CB])
                         #print ([res1 + 1, res2 + 1, int(contacttype), dist, strength_CB, 'SCSCbt'])
                     else:
@@ -1042,7 +1044,7 @@ class esbm(object):
             if w_gro:
              f.write('%s\n' % (';'))
              f.write('%s\n' % ('; Topology file generated from Go-kit. '))
-             f.write('%s\n' % ('; https://github.org/gokit1/gokit/wiki/Home'))
+             f.write('%s\n' % ('; https://github.org/gokit1/gokit/'))
              f.write('\n%s\n' % ('[ defaults  ]'))
              f.write('%s\n' % ('; nbfunc comb-rule gen-pairs'))
              f.write('%s\n' % ('  1      1         no   \n'))
@@ -1249,10 +1251,12 @@ class esbm(object):
                     #print epsilonij
                     #12-10 potential.
                     # Add all sorts of potentials here. Change.
-                    #default is 12-10 with table files.
+                    #default is 12-10 with table file.
                     #Add 12-6 LJ here!
+
                     B=((contacts[i][3]*0.1)**12)*5*epsilonij
                     A=((contacts[i][3]*0.1)**10)*6*epsilonij
+                    #print (A,B)
                     #i-j
                     f.write('\t%d\t%d\t%s\t%12.9e\t%12.9e\n' % (contacts[i][0],contacts[i][1],'1',A,B))
                 # elif contacttype==1 and sopc:
@@ -1482,9 +1486,9 @@ def main():
     dsb=False
     CBfar=False
     CBcom=True
+    gauss=False
     casep=4;cbsep=2;cabsep=2
     scaling=1.2
-    gauss=False
     if args.Kb:
         Kb=float(args.Kb)
     if args.Kd:
@@ -1527,6 +1531,7 @@ def main():
         hpstrength = args.hpstrength
     else:
         hpstrength=1
+
     #set global variables
     if args.CBfar:
         CBcom=False
@@ -1599,5 +1604,6 @@ def main():
             Y.plot_map(xi,yi,'conmap','Res2','Res1')
         U.make_dir('PATH');U.make_dir('MD')
         U.make_dir_struc('PATH','MD')
+
 if __name__ == '__main__':
     main()
