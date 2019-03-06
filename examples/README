@@ -6,7 +6,7 @@ Examples are provided for different SBM flavours.
 ca=single bead c alpha
 cahp=single bead c alpha and hydrophobic contacts
 bt=betacourt-thirumalai model
-dsb=desolvation barrier potential. Note: MD table file input works for GROMACS V.5.4.3. Changes to be made for later versions. 
+dsb=desolvation barrier potential. Note: MD table file input works for GROMACS V.5.4.3. See -table_b option in mdrun for future versions. 
 
 Each folder contains MD and PATH directories with sample outputs produced from GROMACS and OPTIM respectively. 
 
@@ -34,13 +34,13 @@ Ideally, run MD with GROMACS at Tf, cluster structures, add as local minima with
 Compiled and tested on 64-bit Mac OS Mojave.
 
 ---------------------
-Examples merely demostrate that the formats of files produced are compatible with OPTIM and GROMACS. Convergence criteria, cutoffs, switching potential cutoff, MD timestep, etc.s are not optimal. Not to be used for production runs.
+Examples merely demostrate that the formats of files produced are compatible with OPTIM and GROMACS. Convergence criteria, cutoffs, switching potential cutoff, MD timestep, etc. are not optimal. Not to be used for production runs.
 
 For example of a single connected pathway with OPTIM for a  production run:
 
 See http://www-wales.ch.cam.ac.uk/examples/OPTIM/t3/
 
-See command file in folder to automatically run MD and OPTIM
+See "command" file in folder to automatically run MD and OPTIM
 
 ---------------------
 
