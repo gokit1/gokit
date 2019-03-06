@@ -1927,7 +1927,7 @@
  geopt>                          **** CONVERGED ****
 
 
- Elapsed time=                                 0.42
+ Elapsed time=                                 0.44
  OPTIM> # of energy calls=                          0 time=           0.00 %=  0.0
- OPTIM> # of energy+gradient calls=              1865 time=           0.37 %= 88.8
+ OPTIM> # of energy+gradient calls=              1865 time=           0.40 %= 89.2
  OPTIM> # of energy+gradient+Hessian calls=         0 time=           0.00 %=  0.0

@@ -1,6 +1,6 @@
 ;
 ; Topology file generated from Go-kit. 
-; https://github.org/gokit1/gokit/wiki/Home
+; https://github.org/gokit1/gokit/
 
 [ defaults  ]
 ; nbfunc comb-rule gen-pairs
