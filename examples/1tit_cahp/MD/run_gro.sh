@@ -1,1 +1,1 @@
-/Users/sridharn/gokit/examples/1ris_ca/MD/run_gro.sh
+../../MDfiles/run_gro.sh

@@ -1,4 +1,4 @@
-                      :-) GROMACS - gmx grompp, 2018.3 (-:
+                      :-) GROMACS - gmx mdrun, 2018.3 (-:
 
                             GROMACS is written by:
      Emile Apol      Rossen Apostolov      Paul Bauer     Herman J.C. Berendsen
@@ -24,36 +24,35 @@ under the terms of the GNU Lesser General Public License
 as published by the Free Software Foundation; either version 2.1
 of the License, or (at your option) any later version.
 
-GROMACS:      gmx grompp, version 2018.3
+GROMACS:      gmx mdrun, version 2018.3
 Executable:   /usr/local/bin/../Cellar/gromacs/2018.3/bin/gmx
 Data prefix:  /usr/local/bin/../Cellar/gromacs/2018.3
-Working dir:  /Users/sridharn/gokit/examples/1tit_ca/MD
+Working dir:  /Users/sridharn/gokit/examples/1tit_cahp/MD
 Command line:
-  gmx grompp -f md.mdp -c gromacs.gro -p gromacs.top -po mdout.mdp -o run.tpr -maxwarn 1
+  gmx mdrun -x traj.xtc -e ener.edr -o traj.trr -s run.tpr -g md.log -table table_file.xvg
 
-Replacing old mdp entry 'nstxtcout' by 'nstxout-compressed'
-Replacing old mdp entry 'xtc_grps' by 'compressed-x-grps'
+Compiled SIMD: AVX_256, but for this host/run AVX2_256 might be better (see
+log).
+Reading file run.tpr, VERSION 2018.3 (single precision)
 
-NOTE 1 [file md.mdp]:
-  The group cutoff scheme is deprecated since GROMACS 5.0 and will be
-  removed in a future release when all interaction forms are supported for
-  the verlet scheme. The verlet scheme already scales better, and it is
-  compatible with GPUs and other accelerators.
+NOTE: Parallelization is limited by the small number of atoms,
+      only starting 1 thread-MPI ranks.
+      You can use the -nt and/or -ntmpi option to optimize the number of threads.
 
+Using 1 MPI thread
 
-WARNING 1 [file md.mdp]:
-  Removing the rotation around the center of mass in a periodic system,
-  this can lead to artifacts. Only use this on a single (cluster of)
-  molecules. This cluster should not cross periodic boundaries.
+NOTE: This file uses the deprecated 'group' cutoff_scheme. This will be
+removed in a future release when 'verlet' supports all interaction forms.
 
-Generated 1 of the 1 non-bonded parameter combinations
-Excluding 3 bonded neighbours molecule type 'Macromolecule'
-Velocities were taken from a Maxwell distribution at 100 K
-Number of degrees of freedom in T-Coupling group System is 261.00
+starting mdrun 'Macromolecule'
+400 steps,      0.0 ps.
 
-There was 1 note
+Writing final coordinates.
 
-There was 1 warning
+               Core t (s)   Wall t (s)        (%)
+       Time:        0.045        0.045      100.0
+                 (ns/day)    (hour/ns)
+Performance:       76.946        0.312
 
-GROMACS reminds you: "The great tragedy of science - the slaying of a beautiful hypothesis by an ugly fact." (Thomas Henry Huxley)
+GROMACS reminds you: "The best model of a cat is another cat..., specially the same cat." (Arturo Rosenblueth)
 

@@ -1,0 +1,22 @@
+#!/bin/bash
+pdbfile=$1
+if [ -z "$1" ]
+then
+echo "Add pdbfile as input"
+exit
+fi
+home=$(pwd)
+mdfiles=../MDfiles
+rm -rf $home/MD $home/PATH
+python gokit.py --aa_pdb $1 --attype 1 --skip_glycine --hphobic &> gokit_oute
+
+cd $home/PATH
+ln -s ~/bin/OPTIM $home/PATH/OPTIM
+./OPTIM &> $home/PATH/optim_out
+cd $home/MD
+ln -s ../../MDfiles/table_file.xvg
+ln -s ../../MDfiles/tablep.xvg
+ln -s ../../MDfiles/run_gro.sh
+ln -s ../../MDfiles/md.mdp
+sh run_gro.sh
+cd $home

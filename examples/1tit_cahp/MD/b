@@ -41,10 +41,6 @@ NOTE 1 [file md.mdp]:
   compatible with GPUs and other accelerators.
 
 
-NOTE 2 [file md.mdp]:
-  Setting nstcalcenergy (100) equal to nstenergy (20)
-
-
 WARNING 1 [file md.mdp]:
   Removing the rotation around the center of mass in a periodic system,
   this can lead to artifacts. Only use this on a single (cluster of)
@@ -55,11 +51,9 @@ Excluding 3 bonded neighbours molecule type 'Macromolecule'
 Velocities were taken from a Maxwell distribution at 100 K
 Number of degrees of freedom in T-Coupling group System is 261.00
 
-There were 2 notes
+There was 1 note
 
 There was 1 warning
 
-Back Off! I just backed up run.tpr to ./#run.tpr.2#
-
-GROMACS reminds you: "Philosophy of science is about as useful to scientists as ornithology is to birds." (Richard Feynman)
+GROMACS reminds you: "Jede der Scherben spiegelt das Licht" (Wir sind Helden)
 
