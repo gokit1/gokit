@@ -1,9 +1,9 @@
 ;Run control: Use Langevin dynamics.
 integrator = sd
 ;time step in reduced units. Since we use mass of a carbon=1, the time step is smaller that many other MD simulations.
-dt = 0.0001
+dt = 0.0002
 ;number of integration steps
-nsteps = 400     
+nsteps = 100         
 ;frequency to write coordinates to output trajectory .trr file
 nstxout = 200   
 ;frequency to write velocities to output trajectory .trr file
@@ -41,12 +41,12 @@ table-extension = 38 ; (nm) !IMPORTANT! Set this so that rvdw + table-extension 
 ;Temperature coupling
 tc-grps = system
 tau_t = 1.0 ; Temperature coupling time constant. Smaller values = stronger coupling.
-ref_t = 100  ; In reduced units (see Gromacs Manual for explanation. We find many proteins fold around T=100-120)
+ref_t = 200  ; In reduced units (see Gromacs Manual for explanation. We find many proteins fold around T=100-120)
 ;Pressure coupling
 Pcoupl = no
 ;Velocity generation
 gen_vel = yes
-gen_temp = 100
+gen_temp = 200
 gen_seed = 30
 ld_seed = 130
 comm_mode = angular ; center of mass velocity removal. Make sure you select what is proper for your simulation.

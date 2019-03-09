@@ -16,7 +16,10 @@ ln -s ~/bin/OPTIM $home/PATH/OPTIM
 cd $home/MD
 ln -s ../../MDfiles/table_file.xvg
 ln -s ../../MDfiles/tablep.xvg
-ln -s ../../MDfiles/run_gro.sh
+ln -s ../../MDfiles/run_gro_dsb.sh
 ln -s ../../MDfiles/md.mdp
-sh run_gro.sh
+cd $home/MD/table_files
+sh ../../../MDfiles/add0.sh
+cd $home/MD
+sh run_gro_dsb.sh
 cd $home
