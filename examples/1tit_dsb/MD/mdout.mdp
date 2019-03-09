@@ -1,8 +1,8 @@
 ;
 ;	File 'mdout.mdp' was generated
 ;	By user: sridharn (501)
-;	On host: sridhars-MacBook-Pro.local
-;	At date: Wed Mar  6 15:59:55 2019
+;	On host: dhcp-10-248-131-119.eduroam.wireless.private.cam.ac.uk
+;	At date: Sat Mar  9 18:13:17 2019
 ;
 ;	Created by:
 ;	                     :-) GROMACS - gmx grompp, 2018.3 (-:
@@ -24,8 +24,8 @@ define                   =
 integrator               = sd
 ; Start time and timestep in ps
 tinit                    = 0
-dt                       = 0.0001
-nsteps                   = 400
+dt                       = 0.0002
+nsteps                   = 100
 ; For exact run continuation or redoing part of a run
 init-step                = 0
 ; Part index is updated automatically on checkpointing (keeps files separate)
@@ -163,7 +163,7 @@ print-nose-hoover-chain-variables = no
 tc-grps                  = system
 ; Time constant (ps) and reference temperature (K)
 tau_t                    = 1.0
-ref_t                    = 100
+ref_t                    = 200
 ; pressure coupling     
 Pcoupl                   = no
 pcoupltype               = Isotropic
@@ -212,7 +212,7 @@ annealing-temp           =
 
 ; GENERATE VELOCITIES FOR STARTUP RUN
 gen_vel                  = yes
-gen_temp                 = 100
+gen_temp                 = 200
 gen_seed                 = 30
 
 ; OPTIONS FOR BONDS    

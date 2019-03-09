@@ -1,5 +1,5 @@
-Log file opened on Wed Mar  6 15:58:38 2019
-Host: sridhars-MacBook-Pro.local  pid: 37017  rank ID: 0  number of ranks:  1
+Log file opened on Sat Mar  9 18:13:17 2019
+Host: dhcp-10-248-131-119.eduroam.wireless.private.cam.ac.uk  pid: 6947  rank ID: 0  number of ranks:  1
                       :-) GROMACS - gmx mdrun, 2018.3 (-:
 
                             GROMACS is written by:
@@ -31,7 +31,7 @@ Executable:   /usr/local/bin/../Cellar/gromacs/2018.3/bin/gmx
 Data prefix:  /usr/local/bin/../Cellar/gromacs/2018.3
 Working dir:  /Users/sridharn/gokit/examples/1tit_dsb/MD
 Command line:
-  gmx mdrun -x traj.xtc -e ener.edr -o traj.trr -s run.tpr -g md.log -tablep table_file.xvg -table table_file.xvg -tableb table_b1.xvg table_b2.xvg table_b3.xvg
+  gmx mdrun -x traj.xtc -e ener.edr -o traj.trr -s run.tpr -g md.log -tablep table_file.xvg -table table_file.xvg -tableb table_files/table_b1.xvg table_files/table_b10.xvg table_files/table_b100.xvg table_files/table_b101.xvg table_files/table_b102.xvg table_files/table_b103.xvg table_files/table_b104.xvg table_files/table_b105.xvg table_files/table_b106.xvg table_files/table_b107.xvg table_files/table_b108.xvg table_files/table_b109.xvg table_files/table_b11.xvg table_files/table_b110.xvg table_files/table_b111.xvg table_files/table_b112.xvg table_files/table_b113.xvg table_files/table_b114.xvg table_files/table_b115.xvg table_files/table_b116.xvg table_files/table_b117.xvg table_files/table_b118.xvg table_files/table_b119.xvg table_files/table_b12.xvg table_files/table_b120.xvg table_files/table_b121.xvg table_files/table_b122.xvg table_files/table_b123.xvg table_files/table_b124.xvg table_files/table_b125.xvg table_files/table_b126.xvg table_files/table_b127.xvg table_files/table_b128.xvg table_files/table_b129.xvg table_files/table_b13.xvg table_files/table_b130.xvg table_files/table_b131.xvg table_files/table_b132.xvg table_files/table_b133.xvg table_files/table_b134.xvg table_files/table_b135.xvg table_files/table_b136.xvg table_files/table_b137.xvg table_files/table_b138.xvg table_files/table_b139.xvg table_files/table_b14.xvg table_files/table_b140.xvg table_files/table_b141.xvg table_files/table_b142.xvg table_files/table_b143.xvg table_files/table_b144.xvg table_files/table_b145.xvg table_files/table_b146.xvg table_files/table_b147.xvg table_files/table_b148.xvg table_files/table_b149.xvg table_files/table_b15.xvg table_files/table_b150.xvg table_files/table_b151.xvg table_files/table_b152.xvg table_files/table_b153.xvg table_files/table_b154.xvg table_files/table_b155.xvg table_files/table_b156.xvg table_files/table_b157.xvg table_files/table_b158.xvg table_files/table_b159.xvg table_files/table_b16.xvg table_files/table_b160.xvg table_files/table_b161.xvg table_files/table_b162.xvg table_files/table_b163.xvg table_files/table_b164.xvg table_files/table_b165.xvg table_files/table_b166.xvg table_files/table_b167.xvg table_files/table_b168.xvg table_files/table_b169.xvg table_files/table_b17.xvg table_files/table_b170.xvg table_files/table_b171.xvg table_files/table_b172.xvg table_files/table_b173.xvg table_files/table_b174.xvg table_files/table_b175.xvg table_files/table_b176.xvg table_files/table_b177.xvg table_files/table_b178.xvg table_files/table_b179.xvg table_files/table_b18.xvg table_files/table_b180.xvg table_files/table_b181.xvg table_files/table_b182.xvg table_files/table_b183.xvg table_files/table_b184.xvg table_files/table_b185.xvg table_files/table_b186.xvg table_files/table_b187.xvg table_files/table_b188.xvg table_files/table_b189.xvg table_files/table_b19.xvg table_files/table_b190.xvg table_files/table_b191.xvg table_files/table_b192.xvg table_files/table_b193.xvg table_files/table_b194.xvg table_files/table_b195.xvg table_files/table_b196.xvg table_files/table_b197.xvg table_files/table_b198.xvg table_files/table_b199.xvg table_files/table_b2.xvg table_files/table_b20.xvg table_files/table_b200.xvg table_files/table_b201.xvg table_files/table_b202.xvg table_files/table_b203.xvg table_files/table_b204.xvg table_files/table_b205.xvg table_files/table_b206.xvg table_files/table_b207.xvg table_files/table_b208.xvg table_files/table_b209.xvg table_files/table_b21.xvg table_files/table_b210.xvg table_files/table_b211.xvg table_files/table_b212.xvg table_files/table_b213.xvg table_files/table_b214.xvg table_files/table_b215.xvg table_files/table_b216.xvg table_files/table_b217.xvg table_files/table_b218.xvg table_files/table_b219.xvg table_files/table_b22.xvg table_files/table_b220.xvg table_files/table_b221.xvg table_files/table_b222.xvg table_files/table_b223.xvg table_files/table_b224.xvg table_files/table_b225.xvg table_files/table_b226.xvg table_files/table_b227.xvg table_files/table_b228.xvg table_files/table_b229.xvg table_files/table_b23.xvg table_files/table_b230.xvg table_files/table_b231.xvg table_files/table_b232.xvg table_files/table_b233.xvg table_files/table_b234.xvg table_files/table_b235.xvg table_files/table_b236.xvg table_files/table_b237.xvg table_files/table_b238.xvg table_files/table_b239.xvg table_files/table_b24.xvg table_files/table_b240.xvg table_files/table_b241.xvg table_files/table_b242.xvg table_files/table_b243.xvg table_files/table_b244.xvg table_files/table_b245.xvg table_files/table_b246.xvg table_files/table_b247.xvg table_files/table_b248.xvg table_files/table_b249.xvg table_files/table_b25.xvg table_files/table_b250.xvg table_files/table_b251.xvg table_files/table_b252.xvg table_files/table_b253.xvg table_files/table_b254.xvg table_files/table_b255.xvg table_files/table_b256.xvg table_files/table_b257.xvg table_files/table_b258.xvg table_files/table_b259.xvg table_files/table_b26.xvg table_files/table_b260.xvg table_files/table_b261.xvg table_files/table_b262.xvg table_files/table_b263.xvg table_files/table_b264.xvg table_files/table_b265.xvg table_files/table_b266.xvg table_files/table_b267.xvg table_files/table_b268.xvg table_files/table_b269.xvg table_files/table_b27.xvg table_files/table_b270.xvg table_files/table_b271.xvg table_files/table_b28.xvg table_files/table_b29.xvg table_files/table_b3.xvg table_files/table_b30.xvg table_files/table_b31.xvg table_files/table_b32.xvg table_files/table_b33.xvg table_files/table_b34.xvg table_files/table_b35.xvg table_files/table_b36.xvg table_files/table_b37.xvg table_files/table_b38.xvg table_files/table_b39.xvg table_files/table_b4.xvg table_files/table_b40.xvg table_files/table_b41.xvg table_files/table_b42.xvg table_files/table_b43.xvg table_files/table_b44.xvg table_files/table_b45.xvg table_files/table_b46.xvg table_files/table_b47.xvg table_files/table_b48.xvg table_files/table_b49.xvg table_files/table_b5.xvg table_files/table_b50.xvg table_files/table_b51.xvg table_files/table_b52.xvg table_files/table_b53.xvg table_files/table_b54.xvg table_files/table_b55.xvg table_files/table_b56.xvg table_files/table_b57.xvg table_files/table_b58.xvg table_files/table_b59.xvg table_files/table_b6.xvg table_files/table_b60.xvg table_files/table_b61.xvg table_files/table_b62.xvg table_files/table_b63.xvg table_files/table_b64.xvg table_files/table_b65.xvg table_files/table_b66.xvg table_files/table_b67.xvg table_files/table_b68.xvg table_files/table_b69.xvg table_files/table_b7.xvg table_files/table_b70.xvg table_files/table_b71.xvg table_files/table_b72.xvg table_files/table_b73.xvg table_files/table_b74.xvg table_files/table_b75.xvg table_files/table_b76.xvg table_files/table_b77.xvg table_files/table_b78.xvg table_files/table_b79.xvg table_files/table_b8.xvg table_files/table_b80.xvg table_files/table_b81.xvg table_files/table_b82.xvg table_files/table_b83.xvg table_files/table_b84.xvg table_files/table_b85.xvg table_files/table_b86.xvg table_files/table_b87.xvg table_files/table_b88.xvg table_files/table_b89.xvg table_files/table_b9.xvg table_files/table_b90.xvg table_files/table_b91.xvg table_files/table_b92.xvg table_files/table_b93.xvg table_files/table_b94.xvg table_files/table_b95.xvg table_files/table_b96.xvg table_files/table_b97.xvg table_files/table_b98.xvg table_files/table_b99.xvg
 
 GROMACS version:    2018.3
 Precision:          single
@@ -130,8 +130,8 @@ Comp. Phys. Comm. 91 (1995) pp. 43-56
 Input Parameters:
    integrator                     = sd
    tinit                          = 0
-   dt                             = 0.0001
-   nsteps                         = 400
+   dt                             = 0.0002
+   nsteps                         = 100
    init-step                      = 0
    simulation-part                = 1
    comm-mode                      = Angular
@@ -288,7 +288,7 @@ qm-opts:
          sigma                    = 0
 grpopts:
    nrdf:         261
-   ref-t:         100
+   ref-t:         200
    tau-t:           1
 annealing:          No
 annealing-npoints:           0
@@ -308,31 +308,1476 @@ Table routines are used for vdw:     true
 Cut-off's:   NS: 3   Coulomb: 3   LJ: 3
 Read user tables from table_file.xvg with 13000 data points.
 Tabscale = 200 points/nm
-Read user tables from table_b1.xvg with 17500 data points.
+Read user tables from table_files/table_b1.xvg with 17500 data points.
 Tabscale = 500 points/nm
 
-WARNING: For the 17495 non-zero entries for table 0 in table_b1.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b1.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
 
-Read user tables from table_b2.xvg with 17500 data points.
+Read user tables from table_files/table_b2.xvg with 17500 data points.
 Tabscale = 500 points/nm
 
-WARNING: For the 17495 non-zero entries for table 0 in table_b2.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b2.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
 
-Read user tables from table_b3.xvg with 17500 data points.
+Read user tables from table_files/table_b3.xvg with 17500 data points.
 Tabscale = 500 points/nm
 
-WARNING: For the 17495 non-zero entries for table 0 in table_b3.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b3.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b4.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b4.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b5.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b5.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b6.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b6.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b7.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b7.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b8.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b8.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b9.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b9.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b10.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b10.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b11.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b11.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b12.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b12.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b13.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b13.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b14.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b14.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b15.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b15.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b16.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b16.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b17.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b17.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b18.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b18.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b19.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b19.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b20.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b20.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b21.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b21.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b22.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b22.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b23.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b23.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b24.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b24.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b25.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b25.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b26.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b26.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b27.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b27.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b28.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b28.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b29.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b29.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b30.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b30.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b31.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b31.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b32.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b32.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b33.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b33.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b34.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b34.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b35.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b35.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b36.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b36.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b37.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b37.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b38.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b38.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b39.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b39.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b40.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b40.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b41.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b41.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b42.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b42.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b43.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b43.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b44.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b44.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b45.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b45.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b46.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b46.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b47.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b47.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b48.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b48.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b49.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b49.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b50.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b50.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b51.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b51.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b52.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b52.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b53.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b53.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b54.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b54.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b55.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b55.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b56.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b56.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b57.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b57.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b58.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b58.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b59.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b59.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b60.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b60.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b61.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b61.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b62.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b62.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b63.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b63.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b64.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b64.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b65.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b65.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b66.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b66.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b67.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b67.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b68.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b68.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b69.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b69.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b70.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b70.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b71.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b71.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b72.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b72.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b73.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b73.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b74.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b74.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b75.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b75.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b76.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b76.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b77.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b77.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b78.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b78.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b79.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b79.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b80.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b80.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b81.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b81.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b82.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b82.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b83.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b83.xvg the forces deviate on average 164% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b84.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b84.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b85.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b85.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b86.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b86.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b87.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b87.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b88.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b88.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b89.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b89.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b90.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b90.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b91.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b91.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b92.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b92.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b93.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b93.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b94.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b94.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b95.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b95.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b96.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b96.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b97.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b97.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b98.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b98.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b99.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b99.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b100.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b100.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b101.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b101.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b102.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b102.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b103.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b103.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b104.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b104.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b105.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b105.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b106.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b106.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b107.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b107.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b108.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b108.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b109.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b109.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b110.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b110.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b111.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b111.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b112.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b112.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b113.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b113.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b114.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b114.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b115.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b115.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b116.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b116.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b117.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b117.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b118.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b118.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b119.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b119.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b120.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b120.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b121.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b121.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b122.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b122.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b123.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b123.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b124.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b124.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b125.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b125.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b126.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b126.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b127.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b127.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b128.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b128.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b129.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b129.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b130.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b130.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b131.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b131.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b132.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b132.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b133.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b133.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b134.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b134.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b135.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b135.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b136.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b136.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b137.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b137.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b138.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b138.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b139.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b139.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b140.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b140.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b141.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b141.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b142.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b142.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b143.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b143.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b144.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b144.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b145.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b145.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b146.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b146.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b147.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b147.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b148.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b148.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b149.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b149.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b150.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b150.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b151.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b151.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b152.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b152.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b153.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b153.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b154.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b154.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b155.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b155.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b156.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b156.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b157.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b157.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b158.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b158.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b159.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b159.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b160.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b160.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b161.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b161.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b162.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b162.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b163.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b163.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b164.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b164.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b165.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b165.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b166.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b166.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b167.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b167.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b168.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b168.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b169.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b169.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b170.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b170.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b171.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b171.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b172.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b172.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b173.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b173.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b174.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b174.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b175.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b175.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b176.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b176.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b177.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b177.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b178.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b178.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b179.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b179.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b180.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b180.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b181.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b181.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b182.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b182.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b183.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b183.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b184.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b184.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b185.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b185.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b186.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b186.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b187.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b187.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b188.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b188.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b189.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b189.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b190.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b190.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b191.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b191.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b192.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b192.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b193.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b193.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b194.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b194.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b195.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b195.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b196.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b196.xvg the forces deviate on average 160% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b197.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b197.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b198.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b198.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b199.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b199.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b200.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b200.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b201.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b201.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b202.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b202.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b203.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b203.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b204.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b204.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b205.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b205.xvg the forces deviate on average 160% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b206.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b206.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b207.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b207.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b208.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b208.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b209.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b209.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b210.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b210.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b211.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b211.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b212.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b212.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b213.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b213.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b214.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b214.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b215.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b215.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b216.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b216.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b217.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b217.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b218.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b218.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b219.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b219.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b220.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b220.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b221.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b221.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b222.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b222.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b223.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b223.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b224.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b224.xvg the forces deviate on average 160% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b225.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b225.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b226.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b226.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b227.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b227.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b228.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b228.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b229.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b229.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b230.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b230.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b231.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b231.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b232.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b232.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b233.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b233.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b234.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b234.xvg the forces deviate on average 161% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b235.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b235.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b236.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b236.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b237.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b237.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b238.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b238.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b239.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b239.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b240.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b240.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b241.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b241.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b242.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b242.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b243.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b243.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b244.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b244.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b245.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b245.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b246.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b246.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b247.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b247.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b248.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b248.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b249.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b249.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b250.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b250.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b251.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b251.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b252.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b252.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b253.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b253.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b254.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b254.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b255.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b255.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b256.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b256.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b257.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b257.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b258.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b258.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b259.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b259.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b260.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b260.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b261.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b261.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b262.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b262.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b263.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b263.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b264.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b264.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b265.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b265.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b266.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b266.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b267.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b267.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b268.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b268.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b269.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b269.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b270.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b270.xvg the forces deviate on average 162% from minus the numerical derivative of the potential
+
+Read user tables from table_files/table_b271.xvg with 17500 data points.
+Tabscale = 500 points/nm
+
+WARNING: For the 17495 non-zero entries for table 0 in table_files/table_b271.xvg the forces deviate on average 163% from minus the numerical derivative of the potential
 
 
--------------------------------------------------------
-Program:     gmx mdrun, version 2018.3
-Source file: src/gromacs/mdlib/forcerec.cpp (line 1484)
+Removing pbc first time
+Intra-simulation communication will occur every 20 steps.
+Center of mass motion removal mode is Angular
+We have the following groups for center of mass motion removal:
+  0:  rest
 
-Fatal error:
-Tabulated interaction of type 'Tab. Bonds' or 'Tab. Bonds NC' with index 4
-cannot be used because no table file whose name matched '_b4.xvg' was passed
-via the gmx mdrun -tableb command-line option.
+++++ PLEASE READ AND CITE THE FOLLOWING REFERENCE ++++
+N. Goga and A. J. Rzepiela and A. H. de Vries and S. J. Marrink and H. J. C.
+Berendsen
+Efficient Algorithms for Langevin and DPD Dynamics
+J. Chem. Theory Comput. 8 (2012) pp. 3637--3649
+-------- -------- --- Thank You --- -------- --------
 
-For more information and tips for troubleshooting, please check the GROMACS
-website at http://www.gromacs.org/Documentation/Errors
--------------------------------------------------------
+There are: 89 Atoms
+Initial temperature: 195.245 K
+
+Started mdrun on rank 0 Sat Mar  9 18:13:22 2019
+           Step           Time
+              0        0.00000
+
+
+Grid: 17 x 17 x 17 cells
+   Energies (kJ/mol)
+           Bond  Tab. Bonds NC          Angle    Proper Dih.        LJ (SR)
+    1.10523e-01   -2.70921e+02    5.78697e-03    1.31530e-03    4.36278e-02
+   Coulomb (SR)      Potential    Kinetic En.   Total Energy    Temperature
+    0.00000e+00   -2.70759e+02    2.11919e+02   -5.88405e+01    1.95310e+02
+ Pressure (bar)
+    1.53399e-02
+
+           Step           Time
+            100        0.02000
+
+Writing checkpoint, step 100 at Sat Mar  9 18:13:22 2019
+
+
+   Energies (kJ/mol)
+           Bond  Tab. Bonds NC          Angle    Proper Dih.        LJ (SR)
+    3.30828e+01   -2.16638e+02    1.52863e+01    5.48715e+00    4.78398e-02
+   Coulomb (SR)      Potential    Kinetic En.   Total Energy    Temperature
+    0.00000e+00   -1.62734e+02    1.05782e+02   -5.69526e+01    9.74912e+01
+ Pressure (bar)
+   -1.85440e-02
+
+	<======  ###############  ==>
+	<====  A V E R A G E S  ====>
+	<==  ###############  ======>
+
+	Statistics over 101 steps using 2 frames
+
+   Energies (kJ/mol)
+           Bond  Tab. Bonds NC          Angle    Proper Dih.        LJ (SR)
+    1.65967e+01   -2.43780e+02    7.64604e+00    2.74423e+00    4.57338e-02
+   Coulomb (SR)      Potential    Kinetic En.   Total Energy    Temperature
+    0.00000e+00   -2.16747e+02    1.58850e+02   -5.78965e+01    1.46401e+02
+ Pressure (bar)
+   -1.60204e-03
+
+   Total Virial (kJ/mol)
+    1.35385e+02   -1.61112e+01    5.45493e+01
+   -1.61086e+01    2.21874e+01   -2.03735e+01
+    5.45496e+01   -2.03725e+01    1.93676e+01
+
+   Pressure (bar)
+   -2.32334e-02    5.97279e-03   -1.71197e-02
+    5.97210e-03    9.08745e-03    6.56427e-03
+   -1.71198e-02    6.56399e-03    9.33986e-03
+
+
+	M E G A - F L O P S   A C C O U N T I N G
+
+ NB=Group-cutoff nonbonded kernels    NxN=N-by-N cluster Verlet kernels
+ RF=Reaction-Field  VdW=Van der Waals  QSTab=quadratic-spline table
+ W3=SPC/TIP3p  W4=TIP4p (single or pairs)
+ V&F=Potential and force  V=Potential only  F=Force only
+
+ Computing:                               M-Number         M-Flops  % Flops
+-----------------------------------------------------------------------------
+ NB VdW [V&F]                             0.637576           0.638     1.8
+ NB VdW [F]                              27.329338          27.329    75.3
+ NS-Pairs                                 0.024030           0.505     1.4
+ Reset In Box                             0.000534           0.002     0.0
+ Shift-X                                  0.017978           0.108     0.3
+ CG-CoM                                   0.000534           0.002     0.0
+ Bonds                                    0.008888           0.524     1.4
+ Tab. Bonds                               0.027371           1.697     4.7
+ Angles                                   0.008787           1.476     4.1
+ Propers                                  0.017372           3.978    11.0
+ Virial                                   0.000268           0.005     0.0
+ Stop-CM                                  0.000267           0.003     0.0
+ Calc-Ekin                                0.001068           0.029     0.1
+-----------------------------------------------------------------------------
+ Total                                                      36.295   100.0
+-----------------------------------------------------------------------------
+
+
+     R E A L   C Y C L E   A N D   T I M E   A C C O U N T I N G
+
+On 1 MPI rank
+
+ Computing:          Num   Num      Call    Wall time         Giga-Cycles
+                     Ranks Threads  Count      (s)         total sum    %
+-----------------------------------------------------------------------------
+ Neighbor search        1    1          6       0.001          0.003   8.3
+ Force                  1    1        101       0.007          0.021  57.0
+ Write traj.            1    1          2       0.003          0.009  23.9
+ Update                 1    1        101       0.000          0.001   3.2
+ Rest                                           0.001          0.003   7.7
+-----------------------------------------------------------------------------
+ Total                                          0.013          0.038 100.0
+-----------------------------------------------------------------------------
+
+               Core t (s)   Wall t (s)        (%)
+       Time:        0.013        0.013      100.0
+                 (ns/day)    (hour/ns)
+Performance:      136.064        0.176
+Finished mdrun on rank 0 Sat Mar  9 18:13:22 2019

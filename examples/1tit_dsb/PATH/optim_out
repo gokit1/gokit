@@ -1,5 +1,5 @@
 
- OPTIM version 35020, Copyright (C) David J. Wales
+ OPTIM version 35096, Copyright (C) David J. Wales
  OPTIM comes with ABSOLUTELY NO WARRANTY; for details supply WARRANTY as an input keyword.
  This is free software, and you are welcome to redistribute it
  under certain conditions; provide keyword COPYRIGHT to see the details.
@@ -256,5 +256,5 @@
 
  Elapsed time=                                 0.04
  OPTIM> # of energy calls=                          0 time=           0.00 %=  0.0
- OPTIM> # of energy+gradient calls=               192 time=           0.03 %= 83.7
+ OPTIM> # of energy+gradient calls=               192 time=           0.03 %= 82.1
  OPTIM> # of energy+gradient+Hessian calls=         0 time=           0.00 %=  0.0
