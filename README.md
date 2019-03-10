@@ -73,24 +73,24 @@ $ python gokit.py --attype 2 --aa_pdb 1ris.pdb --skip_glycine
 Two-bead model: Betancourt-Thirumalai
 
 ```
-$ python gokit.py --attype 2 --aa pdb 1ris.pdb -btmap -skip_glycine
+$ python gokit.py --attype 2 --aa_pdb 1ris.pdb -btmap -skip_glycine
 ```
 Two-bead model: Miyazawa-Jernighan 
 
 ```
-$ python gokit.py --attype 2 --aa pdb 1ris.pdb -mjmap -skip_glycine
+$ python gokit.py --attype 2 --aa_pdb 1ris.pdb -mjmap -skip_glycine
 ```
 
 Two-bead model: Customised side-chain interactions (Beta)
 
 ```
-$ python gokit.py --attype 2 --aa pdb 1ris.pdb -skip_glycine -CA_rad 3.8 -interactions 
+$ python gokit.py --attype 2 --aa_pdb 1ris.pdb -skip_glycine -CA_rad 3.8 -interactions 
 ```
 
 Two-bead model: Customised
 
 ```
-python gokit.py --attype 2 --aa_pdb 1ris.pdb --pl_map --CAcom --Ka 200 --Kb 1 --Kd 40 --skip_glycine --interaction --CA_rad 4.0 --CA_sep 4 --CB_sep 3 --CAB_sep 3 
+python gokit.py --attype 2 --aa_pdb 1ris.pdb --pl_map --CAcom --Ka 200 --Kb 1 --Kd 40 --skip_glycine --interactions --CA_rad 4.0 --CA_sep 4 --CB_sep 3 --CAB_sep 3 
 ```
 
 
