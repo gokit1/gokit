@@ -1565,8 +1565,8 @@ def main():
     if not args.ext_conmap and args.aa_pdb:
         pdbfile=args.aa_pdb
         Y.all_atom_contacts(pdbfile,cutoff,scaling)
-    if int(args.attype)==2 and args.dsb:
-        U.fatal_errors(13)
+    #if int(args.attype)==2 and args.dsb:
+     #   U.fatal_errors(13)
 
     if args.w_native:
         pdbfile=args.w_native
