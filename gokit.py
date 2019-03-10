@@ -607,7 +607,7 @@ class esbm(object):
                 all.append([a1,a2,a3,a4,a5,a6,a7])
                 if w_sbm:
                   f.write('%d\t%d\t%d\t%s\t%s\t%f\t%f\n' % (a1,a2,a3,a4,a5,a6,a7))
-            print (all)
+            #print (all)
             return all
 
         def write_atoms_section(self,pdbfile,atomtype,skip_glycine):
