@@ -3,4 +3,6 @@ biopython==1.73
 matplotlib==2.1.2
 cython==0.27.3
 numpy==1.16.1
+pandas==0.21.0
+scipy==0.13.0b1
 mdtraj==1.9.1
