@@ -21,6 +21,7 @@ Make sure pip is installed and running.
 ```
 $ git clone https://github.com/gokit1/gokit.git
 $ cd gokit
+$ chmod 755 INSTALL
 $ ./INSTALL
 ```
 
@@ -80,7 +81,13 @@ Two-bead model: Customised side-chain interactions (Beta)
 ```
 $ python gokit.py --attype 2 --aa pdb 1ris.pdb -skip_glycine -CA_rad 3.8 -interactions 
 ```
+Two-bead model: Customised
+```
+python gokit.py --attype 2 --aa\_pdb 1ris.pdb --pl\_map --CAcom --Ka 200 --Kb 1 --Kd 40 --skip\_glycine --interaction --CA\_rad 4.0 --CA\_sep 4 --CB\_sep 3 --CAB\_sep 3 
+```
 include file called interactions.dat in the format of mjmap.dat or btmap.dat.
+
+See examples/line_by_line for test output of each command and flag mentioned above.
 
 Two folders called MD and PATH are generated. MD contains gromacs.top and gromacs.gro file that can be used directly for MD runs. 
 PATH contains an SBM.INP file that is required for OPTIM runs.
