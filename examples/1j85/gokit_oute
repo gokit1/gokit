@@ -1,0 +1,158 @@
+>> in all_atom_contacts 1j85.pdb
+Atoms in pdb    1260
+Residues in pdb 156
+Found 339 contacts in all-atom file 1j85.pdb with cut-off 0.45 nm
+See file: contacts.txt for reading into other codes like SMOG. 
+ See file: pdb_contacts for details.
+>> in get_side_chain_COM: 1j85.pdb False
+<Chain id=A>
+Excluding glycine, res =  16
+Excluding glycine, res =  26
+Excluding glycine, res =  36
+Excluding glycine, res =  48
+Excluding glycine, res =  82
+Excluding glycine, res =  94
+Excluding glycine, res =  100
+Excluding glycine, res =  105
+Excluding glycine, res =  149
+Excluding glycine, res =  152
+>> in get_back_bone_COM 1j85.pdb
+>>in write_CB_to_native: 1j85.pdb False
+See file: native_cb.pdb with  302 atoms
+CB= 146 CA= 156
+True
+>> in write_atomtypes_section 1j85.pdb 1 False 4.0
+>> in get_atom_types: 1 False
+147
+147 147
+>> in write_atoms_section1	 1 1j85.pdb True
+[[1, 1, 1, 'MET', 'CA', 0, 1.0], [2, 1, 2, 'LEU', 'CA', 0, 1.0], [3, 1, 3, 'ASP', 'CA', 0, 1.0], [4, 1, 4, 'ILE', 'CA', 0, 1.0], [5, 1, 5, 'VAL', 'CA', 0, 1.0], [6, 1, 6, 'LEU', 'CA', 0, 1.0], [7, 1, 7, 'TYR', 'CA', 0, 1.0], [8, 1, 8, 'GLU', 'CA', 0, 1.0], [9, 1, 9, 'PRO', 'CA', 0, 1.0], [10, 1, 10, 'GLU', 'CA', 0, 1.0], [11, 1, 11, 'ILE', 'CA', 0, 1.0], [12, 1, 12, 'PRO', 'CA', 0, 1.0], [13, 1, 13, 'GLN', 'CA', 0, 1.0], [14, 1, 14, 'ASN', 'CA', 0, 1.0], [15, 1, 15, 'THR', 'CA', 0, 1.0], [16, 1, 16, 'GLY', 'CA', 0, 1.0], [17, 1, 17, 'ASN', 'CA', 0, 1.0], [18, 1, 18, 'ILE', 'CA', 0, 1.0], [19, 1, 19, 'ILE', 'CA', 0, 1.0], [20, 1, 20, 'ARG', 'CA', 0, 1.0], [21, 1, 21, 'LEU', 'CA', 0, 1.0], [22, 1, 22, 'CYS', 'CA', 0, 1.0], [23, 1, 23, 'ALA', 'CA', 0, 1.0], [24, 1, 24, 'ASN', 'CA', 0, 1.0], [25, 1, 25, 'THR', 'CA', 0, 1.0], [26, 1, 26, 'GLY', 'CA', 0, 1.0], [27, 1, 27, 'PHE', 'CA', 0, 1.0], [28, 1, 28, 'ARG', 'CA', 0, 1.0], [29, 1, 29, 'LEU', 'CA', 0, 1.0], [30, 1, 30, 'HIS', 'CA', 0, 1.0], [31, 1, 31, 'LEU', 'CA', 0, 1.0], [32, 1, 32, 'ILE', 'CA', 0, 1.0], [33, 1, 33, 'GLU', 'CA', 0, 1.0], [34, 1, 34, 'PRO', 'CA', 0, 1.0], [35, 1, 35, 'LEU', 'CA', 0, 1.0], [36, 1, 36, 'GLY', 'CA', 0, 1.0], [37, 1, 37, 'PHE', 'CA', 0, 1.0], [38, 1, 38, 'THR', 'CA', 0, 1.0], [39, 1, 39, 'TRP', 'CA', 0, 1.0], [40, 1, 40, 'ASP', 'CA', 0, 1.0], [41, 1, 41, 'ASP', 'CA', 0, 1.0], [42, 1, 42, 'LYS', 'CA', 0, 1.0], [43, 1, 43, 'ARG', 'CA', 0, 1.0], [44, 1, 44, 'LEU', 'CA', 0, 1.0], [45, 1, 45, 'ARG', 'CA', 0, 1.0], [46, 1, 46, 'ARG', 'CA', 0, 1.0], [47, 1, 47, 'SER', 'CA', 0, 1.0], [48, 1, 48, 'GLY', 'CA', 0, 1.0], [49, 1, 49, 'LEU', 'CA', 0, 1.0], [50, 1, 50, 'ASP', 'CA', 0, 1.0], [51, 1, 51, 'TYR', 'CA', 0, 1.0], [52, 1, 52, 'HIS', 'CA', 0, 1.0], [53, 1, 53, 'GLU', 'CA', 0, 1.0], [54, 1, 54, 'PHE', 'CA', 0, 1.0], [55, 1, 55, 'ALA', 'CA', 0, 1.0], [56, 1, 56, 'GLU', 'CA', 0, 1.0], [57, 1, 57, 'ILE', 'CA', 0, 1.0], [58, 1, 58, 'LYS', 'CA', 0, 1.0], [59, 1, 59, 'ARG', 'CA', 0, 1.0], [60, 1, 60, 'HIS', 'CA', 0, 1.0], [61, 1, 61, 'LYS', 'CA', 0, 1.0], [62, 1, 62, 'THR', 'CA', 0, 1.0], [63, 1, 63, 'PHE', 'CA', 0, 1.0], [64, 1, 64, 'GLU', 'CA', 0, 1.0], [65, 1, 65, 'ALA', 'CA', 0, 1.0], [66, 1, 66, 'PHE', 'CA', 0, 1.0], [67, 1, 67, 'LEU', 'CA', 0, 1.0], [68, 1, 68, 'GLU', 'CA', 0, 1.0], [69, 1, 69, 'SER', 'CA', 0, 1.0], [70, 1, 70, 'GLU', 'CA', 0, 1.0], [71, 1, 71, 'LYS', 'CA', 0, 1.0], [72, 1, 72, 'PRO', 'CA', 0, 1.0], [73, 1, 73, 'LYS', 'CA', 0, 1.0], [74, 1, 74, 'ARG', 'CA', 0, 1.0], [75, 1, 75, 'LEU', 'CA', 0, 1.0], [76, 1, 76, 'PHE', 'CA', 0, 1.0], [77, 1, 77, 'ALA', 'CA', 0, 1.0], [78, 1, 78, 'LEU', 'CA', 0, 1.0], [79, 1, 79, 'THR', 'CA', 0, 1.0], [80, 1, 80, 'THR', 'CA', 0, 1.0], [81, 1, 81, 'LYS', 'CA', 0, 1.0], [82, 1, 82, 'GLY', 'CA', 0, 1.0], [83, 1, 83, 'CYS', 'CA', 0, 1.0], [84, 1, 84, 'PRO', 'CA', 0, 1.0], [85, 1, 85, 'ALA', 'CA', 0, 1.0], [86, 1, 86, 'HIS', 'CA', 0, 1.0], [87, 1, 87, 'SER', 'CA', 0, 1.0], [88, 1, 88, 'GLN', 'CA', 0, 1.0], [89, 1, 89, 'VAL', 'CA', 0, 1.0], [90, 1, 90, 'LYS', 'CA', 0, 1.0], [91, 1, 91, 'PHE', 'CA', 0, 1.0], [92, 1, 92, 'LYS', 'CA', 0, 1.0], [93, 1, 93, 'LEU', 'CA', 0, 1.0], [94, 1, 94, 'GLY', 'CA', 0, 1.0], [95, 1, 95, 'ASP', 'CA', 0, 1.0], [96, 1, 96, 'TYR', 'CA', 0, 1.0], [97, 1, 97, 'LEU', 'CA', 0, 1.0], [98, 1, 98, 'MET', 'CA', 0, 1.0], [99, 1, 99, 'PHE', 'CA', 0, 1.0], [100, 1, 100, 'GLY', 'CA', 0, 1.0], [101, 1, 101, 'PRO', 'CA', 0, 1.0], [102, 1, 102, 'GLU', 'CA', 0, 1.0], [103, 1, 103, 'THR', 'CA', 0, 1.0], [104, 1, 104, 'ARG', 'CA', 0, 1.0], [105, 1, 105, 'GLY', 'CA', 0, 1.0], [106, 1, 106, 'ILE', 'CA', 0, 1.0], [107, 1, 107, 'PRO', 'CA', 0, 1.0], [108, 1, 108, 'MET', 'CA', 0, 1.0], [109, 1, 109, 'SER', 'CA', 0, 1.0], [110, 1, 110, 'ILE', 'CA', 0, 1.0], [111, 1, 111, 'LEU', 'CA', 0, 1.0], [112, 1, 112, 'ASN', 'CA', 0, 1.0], [113, 1, 113, 'GLU', 'CA', 0, 1.0], [114, 1, 114, 'MET', 'CA', 0, 1.0], [115, 1, 115, 'PRO', 'CA', 0, 1.0], [116, 1, 116, 'MET', 'CA', 0, 1.0], [117, 1, 117, 'GLU', 'CA', 0, 1.0], [118, 1, 118, 'GLN', 'CA', 0, 1.0], [119, 1, 119, 'LYS', 'CA', 0, 1.0], [120, 1, 120, 'ILE', 'CA', 0, 1.0], [121, 1, 121, 'ARG', 'CA', 0, 1.0], [122, 1, 122, 'ILE', 'CA', 0, 1.0], [123, 1, 123, 'PRO', 'CA', 0, 1.0], [124, 1, 124, 'MET', 'CA', 0, 1.0], [125, 1, 125, 'THR', 'CA', 0, 1.0], [126, 1, 126, 'ALA', 'CA', 0, 1.0], [127, 1, 127, 'ASN', 'CA', 0, 1.0], [128, 1, 128, 'SER', 'CA', 0, 1.0], [129, 1, 129, 'ARG', 'CA', 0, 1.0], [130, 1, 130, 'SER', 'CA', 0, 1.0], [131, 1, 131, 'MET', 'CA', 0, 1.0], [132, 1, 132, 'ASN', 'CA', 0, 1.0], [133, 1, 133, 'LEU', 'CA', 0, 1.0], [134, 1, 134, 'SER', 'CA', 0, 1.0], [135, 1, 135, 'ASN', 'CA', 0, 1.0], [136, 1, 136, 'SER', 'CA', 0, 1.0], [137, 1, 137, 'VAL', 'CA', 0, 1.0], [138, 1, 138, 'ALA', 'CA', 0, 1.0], [139, 1, 139, 'VAL', 'CA', 0, 1.0], [140, 1, 140, 'THR', 'CA', 0, 1.0], [141, 1, 141, 'VAL', 'CA', 0, 1.0], [142, 1, 142, 'TYR', 'CA', 0, 1.0], [143, 1, 143, 'GLU', 'CA', 0, 1.0], [144, 1, 144, 'ALA', 'CA', 0, 1.0], [145, 1, 145, 'TRP', 'CA', 0, 1.0], [146, 1, 146, 'ARG', 'CA', 0, 1.0], [147, 1, 147, 'GLN', 'CA', 0, 1.0], [148, 1, 148, 'LEU', 'CA', 0, 1.0], [149, 1, 149, 'GLY', 'CA', 0, 1.0], [150, 1, 150, 'TYR', 'CA', 0, 1.0], [151, 1, 151, 'LYS', 'CA', 0, 1.0], [152, 1, 152, 'GLY', 'CA', 0, 1.0], [153, 1, 153, 'ALA', 'CA', 0, 1.0], [154, 1, 154, 'VAL', 'CA', 0, 1.0], [155, 1, 155, 'ASN', 'CA', 0, 1.0], [156, 1, 156, 'LEU', 'CA', 0, 1.0]]
+>>writing contacts section,atomtype= 1 SOPC= False
+>> in get_side_chain_COM: 1j85.pdb False
+<Chain id=A>
+Excluding glycine, res =  16
+Excluding glycine, res =  26
+Excluding glycine, res =  36
+Excluding glycine, res =  48
+Excluding glycine, res =  82
+Excluding glycine, res =  94
+Excluding glycine, res =  100
+Excluding glycine, res =  105
+Excluding glycine, res =  149
+Excluding glycine, res =  152
+>> in get_back_bone_COM 1j85.pdb
+>>in write_CB_to_native: 1j85.pdb False
+See file: native_cb.pdb with  302 atoms
+CB= 146 CA= 156
+>> in all_atom_contacts 1j85.pdb
+Atoms in pdb    1260
+Residues in pdb 156
+Found 339 contacts in all-atom file 1j85.pdb with cut-off 0.45 nm
+See file: contacts.txt for reading into other codes like SMOG. 
+ See file: pdb_contacts for details.
+
+-------------------
+>>in write_hydrophobic contacts contacts.txt 1j85.pdb
+hp residues are A,V,L,I,M,F,W,Y
+Found 64 hydrophobic residues
+[  0   1   3   4   5   6  10  17  18  20  22  26  28  30  31  34  36  38
+  43  48  50  53  54  56  62  64  65  66  74  75  76  77  84  88  90  92
+  95  96  97  98 105 107 109 110 113 115 119 121 123 125 130 132 136 137
+ 138 140 141 143 144 147 149 152 153 155]
+>>in get_pairs_ext contacts.txt
+No. of contacts read from file contacts.txt = 339
+Found 1943 i<j-3 hydrophobic non-native contacts
+Found 117 overlapping hydrophobic native and non-native contacts in file contacts.txt from pdbfile: 1j85.pdb
+After deleting overlapping contacts, 1826
+See file: HYDROPHOBIC for hydrophobic contacts added.
+hydrophobic contacts
+
+Adding hydrophobic contacts: Distance = 5.5 Angstroms
+>>writing bonds_section: Native=  native_ca.pdb
+>>writing angles_section native_ca.pdb 40
+>>writing dihedrals section native_ca.pdb 1
+>>Writing exclusions section.
+>>writing GROMACS header section gromacs.top
+>> writing GROMACS atomtypes section gromacs.top 1 1j85.pdb False 4.0
+>> in write_atomtypes_section 1j85.pdb 1 False 4.0
+>> in get_atom_types: 1 False
+147
+147 147
+>>writing GROMACS moleculetypesection gromacs.top
+>> writing GROMACS atom section gromacs.top 1 1j85.pdb native_ca.pdb False
+>> in write_atoms_section1	 1 1j85.pdb False
+[[1, 1, 1, 'MET', 'CA', 0, 1.0], [2, 1, 2, 'LEU', 'CA', 0, 1.0], [3, 1, 3, 'ASP', 'CA', 0, 1.0], [4, 1, 4, 'ILE', 'CA', 0, 1.0], [5, 1, 5, 'VAL', 'CA', 0, 1.0], [6, 1, 6, 'LEU', 'CA', 0, 1.0], [7, 1, 7, 'TYR', 'CA', 0, 1.0], [8, 1, 8, 'GLU', 'CA', 0, 1.0], [9, 1, 9, 'PRO', 'CA', 0, 1.0], [10, 1, 10, 'GLU', 'CA', 0, 1.0], [11, 1, 11, 'ILE', 'CA', 0, 1.0], [12, 1, 12, 'PRO', 'CA', 0, 1.0], [13, 1, 13, 'GLN', 'CA', 0, 1.0], [14, 1, 14, 'ASN', 'CA', 0, 1.0], [15, 1, 15, 'THR', 'CA', 0, 1.0], [16, 1, 16, 'GLY', 'CA', 0, 1.0], [17, 1, 17, 'ASN', 'CA', 0, 1.0], [18, 1, 18, 'ILE', 'CA', 0, 1.0], [19, 1, 19, 'ILE', 'CA', 0, 1.0], [20, 1, 20, 'ARG', 'CA', 0, 1.0], [21, 1, 21, 'LEU', 'CA', 0, 1.0], [22, 1, 22, 'CYS', 'CA', 0, 1.0], [23, 1, 23, 'ALA', 'CA', 0, 1.0], [24, 1, 24, 'ASN', 'CA', 0, 1.0], [25, 1, 25, 'THR', 'CA', 0, 1.0], [26, 1, 26, 'GLY', 'CA', 0, 1.0], [27, 1, 27, 'PHE', 'CA', 0, 1.0], [28, 1, 28, 'ARG', 'CA', 0, 1.0], [29, 1, 29, 'LEU', 'CA', 0, 1.0], [30, 1, 30, 'HIS', 'CA', 0, 1.0], [31, 1, 31, 'LEU', 'CA', 0, 1.0], [32, 1, 32, 'ILE', 'CA', 0, 1.0], [33, 1, 33, 'GLU', 'CA', 0, 1.0], [34, 1, 34, 'PRO', 'CA', 0, 1.0], [35, 1, 35, 'LEU', 'CA', 0, 1.0], [36, 1, 36, 'GLY', 'CA', 0, 1.0], [37, 1, 37, 'PHE', 'CA', 0, 1.0], [38, 1, 38, 'THR', 'CA', 0, 1.0], [39, 1, 39, 'TRP', 'CA', 0, 1.0], [40, 1, 40, 'ASP', 'CA', 0, 1.0], [41, 1, 41, 'ASP', 'CA', 0, 1.0], [42, 1, 42, 'LYS', 'CA', 0, 1.0], [43, 1, 43, 'ARG', 'CA', 0, 1.0], [44, 1, 44, 'LEU', 'CA', 0, 1.0], [45, 1, 45, 'ARG', 'CA', 0, 1.0], [46, 1, 46, 'ARG', 'CA', 0, 1.0], [47, 1, 47, 'SER', 'CA', 0, 1.0], [48, 1, 48, 'GLY', 'CA', 0, 1.0], [49, 1, 49, 'LEU', 'CA', 0, 1.0], [50, 1, 50, 'ASP', 'CA', 0, 1.0], [51, 1, 51, 'TYR', 'CA', 0, 1.0], [52, 1, 52, 'HIS', 'CA', 0, 1.0], [53, 1, 53, 'GLU', 'CA', 0, 1.0], [54, 1, 54, 'PHE', 'CA', 0, 1.0], [55, 1, 55, 'ALA', 'CA', 0, 1.0], [56, 1, 56, 'GLU', 'CA', 0, 1.0], [57, 1, 57, 'ILE', 'CA', 0, 1.0], [58, 1, 58, 'LYS', 'CA', 0, 1.0], [59, 1, 59, 'ARG', 'CA', 0, 1.0], [60, 1, 60, 'HIS', 'CA', 0, 1.0], [61, 1, 61, 'LYS', 'CA', 0, 1.0], [62, 1, 62, 'THR', 'CA', 0, 1.0], [63, 1, 63, 'PHE', 'CA', 0, 1.0], [64, 1, 64, 'GLU', 'CA', 0, 1.0], [65, 1, 65, 'ALA', 'CA', 0, 1.0], [66, 1, 66, 'PHE', 'CA', 0, 1.0], [67, 1, 67, 'LEU', 'CA', 0, 1.0], [68, 1, 68, 'GLU', 'CA', 0, 1.0], [69, 1, 69, 'SER', 'CA', 0, 1.0], [70, 1, 70, 'GLU', 'CA', 0, 1.0], [71, 1, 71, 'LYS', 'CA', 0, 1.0], [72, 1, 72, 'PRO', 'CA', 0, 1.0], [73, 1, 73, 'LYS', 'CA', 0, 1.0], [74, 1, 74, 'ARG', 'CA', 0, 1.0], [75, 1, 75, 'LEU', 'CA', 0, 1.0], [76, 1, 76, 'PHE', 'CA', 0, 1.0], [77, 1, 77, 'ALA', 'CA', 0, 1.0], [78, 1, 78, 'LEU', 'CA', 0, 1.0], [79, 1, 79, 'THR', 'CA', 0, 1.0], [80, 1, 80, 'THR', 'CA', 0, 1.0], [81, 1, 81, 'LYS', 'CA', 0, 1.0], [82, 1, 82, 'GLY', 'CA', 0, 1.0], [83, 1, 83, 'CYS', 'CA', 0, 1.0], [84, 1, 84, 'PRO', 'CA', 0, 1.0], [85, 1, 85, 'ALA', 'CA', 0, 1.0], [86, 1, 86, 'HIS', 'CA', 0, 1.0], [87, 1, 87, 'SER', 'CA', 0, 1.0], [88, 1, 88, 'GLN', 'CA', 0, 1.0], [89, 1, 89, 'VAL', 'CA', 0, 1.0], [90, 1, 90, 'LYS', 'CA', 0, 1.0], [91, 1, 91, 'PHE', 'CA', 0, 1.0], [92, 1, 92, 'LYS', 'CA', 0, 1.0], [93, 1, 93, 'LEU', 'CA', 0, 1.0], [94, 1, 94, 'GLY', 'CA', 0, 1.0], [95, 1, 95, 'ASP', 'CA', 0, 1.0], [96, 1, 96, 'TYR', 'CA', 0, 1.0], [97, 1, 97, 'LEU', 'CA', 0, 1.0], [98, 1, 98, 'MET', 'CA', 0, 1.0], [99, 1, 99, 'PHE', 'CA', 0, 1.0], [100, 1, 100, 'GLY', 'CA', 0, 1.0], [101, 1, 101, 'PRO', 'CA', 0, 1.0], [102, 1, 102, 'GLU', 'CA', 0, 1.0], [103, 1, 103, 'THR', 'CA', 0, 1.0], [104, 1, 104, 'ARG', 'CA', 0, 1.0], [105, 1, 105, 'GLY', 'CA', 0, 1.0], [106, 1, 106, 'ILE', 'CA', 0, 1.0], [107, 1, 107, 'PRO', 'CA', 0, 1.0], [108, 1, 108, 'MET', 'CA', 0, 1.0], [109, 1, 109, 'SER', 'CA', 0, 1.0], [110, 1, 110, 'ILE', 'CA', 0, 1.0], [111, 1, 111, 'LEU', 'CA', 0, 1.0], [112, 1, 112, 'ASN', 'CA', 0, 1.0], [113, 1, 113, 'GLU', 'CA', 0, 1.0], [114, 1, 114, 'MET', 'CA', 0, 1.0], [115, 1, 115, 'PRO', 'CA', 0, 1.0], [116, 1, 116, 'MET', 'CA', 0, 1.0], [117, 1, 117, 'GLU', 'CA', 0, 1.0], [118, 1, 118, 'GLN', 'CA', 0, 1.0], [119, 1, 119, 'LYS', 'CA', 0, 1.0], [120, 1, 120, 'ILE', 'CA', 0, 1.0], [121, 1, 121, 'ARG', 'CA', 0, 1.0], [122, 1, 122, 'ILE', 'CA', 0, 1.0], [123, 1, 123, 'PRO', 'CA', 0, 1.0], [124, 1, 124, 'MET', 'CA', 0, 1.0], [125, 1, 125, 'THR', 'CA', 0, 1.0], [126, 1, 126, 'ALA', 'CA', 0, 1.0], [127, 1, 127, 'ASN', 'CA', 0, 1.0], [128, 1, 128, 'SER', 'CA', 0, 1.0], [129, 1, 129, 'ARG', 'CA', 0, 1.0], [130, 1, 130, 'SER', 'CA', 0, 1.0], [131, 1, 131, 'MET', 'CA', 0, 1.0], [132, 1, 132, 'ASN', 'CA', 0, 1.0], [133, 1, 133, 'LEU', 'CA', 0, 1.0], [134, 1, 134, 'SER', 'CA', 0, 1.0], [135, 1, 135, 'ASN', 'CA', 0, 1.0], [136, 1, 136, 'SER', 'CA', 0, 1.0], [137, 1, 137, 'VAL', 'CA', 0, 1.0], [138, 1, 138, 'ALA', 'CA', 0, 1.0], [139, 1, 139, 'VAL', 'CA', 0, 1.0], [140, 1, 140, 'THR', 'CA', 0, 1.0], [141, 1, 141, 'VAL', 'CA', 0, 1.0], [142, 1, 142, 'TYR', 'CA', 0, 1.0], [143, 1, 143, 'GLU', 'CA', 0, 1.0], [144, 1, 144, 'ALA', 'CA', 0, 1.0], [145, 1, 145, 'TRP', 'CA', 0, 1.0], [146, 1, 146, 'ARG', 'CA', 0, 1.0], [147, 1, 147, 'GLN', 'CA', 0, 1.0], [148, 1, 148, 'LEU', 'CA', 0, 1.0], [149, 1, 149, 'GLY', 'CA', 0, 1.0], [150, 1, 150, 'TYR', 'CA', 0, 1.0], [151, 1, 151, 'LYS', 'CA', 0, 1.0], [152, 1, 152, 'GLY', 'CA', 0, 1.0], [153, 1, 153, 'ALA', 'CA', 0, 1.0], [154, 1, 154, 'VAL', 'CA', 0, 1.0], [155, 1, 155, 'ASN', 'CA', 0, 1.0], [156, 1, 156, 'LEU', 'CA', 0, 1.0]]
+>> in get_atom_types: 1 False
+147
+147 147
+>> writing GROMACS bonds section gromacs.top 1 native_ca.pdb 200
+>>writing bonds_section: Native=  native_ca.pdb
+>> writing GROMACS angle section gromacs.top 1 native_ca.pdb 40
+>>writing angles_section native_ca.pdb 40.0
+>> writing GROMACS dihedrals section gromacs.top 1 native_ca.pdb 1
+>>writing dihedrals section native_ca.pdb 1.0
+>> writing GROMACS pairs sections gromacs.top 1 native_ca.pdb 1j85.pdb 2 4.5 False False
+>>writing contacts section,atomtype= 1 SOPC= False
+>> in get_side_chain_COM: 1j85.pdb False
+<Chain id=A>
+Excluding glycine, res =  16
+Excluding glycine, res =  26
+Excluding glycine, res =  36
+Excluding glycine, res =  48
+Excluding glycine, res =  82
+Excluding glycine, res =  94
+Excluding glycine, res =  100
+Excluding glycine, res =  105
+Excluding glycine, res =  149
+Excluding glycine, res =  152
+>> in get_back_bone_COM 1j85.pdb
+>>in write_CB_to_native: 1j85.pdb False
+See file: native_cb.pdb with  302 atoms
+CB= 146 CA= 156
+>> in all_atom_contacts 1j85.pdb
+Atoms in pdb    1260
+Residues in pdb 156
+Found 339 contacts in all-atom file 1j85.pdb with cut-off 0.45 nm
+See file: contacts.txt for reading into other codes like SMOG. 
+ See file: pdb_contacts for details.
+
+-------------------
+>>in write_hydrophobic contacts contacts.txt 1j85.pdb
+hp residues are A,V,L,I,M,F,W,Y
+Found 64 hydrophobic residues
+[  0   1   3   4   5   6  10  17  18  20  22  26  28  30  31  34  36  38
+  43  48  50  53  54  56  62  64  65  66  74  75  76  77  84  88  90  92
+  95  96  97  98 105 107 109 110 113 115 119 121 123 125 130 132 136 137
+ 138 140 141 143 144 147 149 152 153 155]
+>>in get_pairs_ext contacts.txt
+No. of contacts read from file contacts.txt = 339
+Found 1943 i<j-3 hydrophobic non-native contacts
+Found 117 overlapping hydrophobic native and non-native contacts in file contacts.txt from pdbfile: 1j85.pdb
+After deleting overlapping contacts, 1826
+See file: HYDROPHOBIC for hydrophobic contacts added.
+hydrophobic contacts
+
+Adding hydrophobic contacts: Distance = 5.5 Angstroms
+>> writing GROMACS tail section gromacs.top
+>> in get_side_chain_COM: 1j85.pdb False
+<Chain id=A>
+Excluding glycine, res =  16
+Excluding glycine, res =  26
+Excluding glycine, res =  36
+Excluding glycine, res =  48
+Excluding glycine, res =  82
+Excluding glycine, res =  94
+Excluding glycine, res =  100
+Excluding glycine, res =  105
+Excluding glycine, res =  149
+Excluding glycine, res =  152
+>> in get_back_bone_COM 1j85.pdb
+>>in write_CB_to_native: 1j85.pdb False
+See file: native_cb.pdb with  302 atoms
+CB= 146 CA= 156
+>> write_gro_gro gromacs.gro 1j85.pdb 1 False
+>> in write_atoms_section1	 1 1j85.pdb False
+[[1, 1, 1, 'MET', 'CA', 0, 1.0], [2, 1, 2, 'LEU', 'CA', 0, 1.0], [3, 1, 3, 'ASP', 'CA', 0, 1.0], [4, 1, 4, 'ILE', 'CA', 0, 1.0], [5, 1, 5, 'VAL', 'CA', 0, 1.0], [6, 1, 6, 'LEU', 'CA', 0, 1.0], [7, 1, 7, 'TYR', 'CA', 0, 1.0], [8, 1, 8, 'GLU', 'CA', 0, 1.0], [9, 1, 9, 'PRO', 'CA', 0, 1.0], [10, 1, 10, 'GLU', 'CA', 0, 1.0], [11, 1, 11, 'ILE', 'CA', 0, 1.0], [12, 1, 12, 'PRO', 'CA', 0, 1.0], [13, 1, 13, 'GLN', 'CA', 0, 1.0], [14, 1, 14, 'ASN', 'CA', 0, 1.0], [15, 1, 15, 'THR', 'CA', 0, 1.0], [16, 1, 16, 'GLY', 'CA', 0, 1.0], [17, 1, 17, 'ASN', 'CA', 0, 1.0], [18, 1, 18, 'ILE', 'CA', 0, 1.0], [19, 1, 19, 'ILE', 'CA', 0, 1.0], [20, 1, 20, 'ARG', 'CA', 0, 1.0], [21, 1, 21, 'LEU', 'CA', 0, 1.0], [22, 1, 22, 'CYS', 'CA', 0, 1.0], [23, 1, 23, 'ALA', 'CA', 0, 1.0], [24, 1, 24, 'ASN', 'CA', 0, 1.0], [25, 1, 25, 'THR', 'CA', 0, 1.0], [26, 1, 26, 'GLY', 'CA', 0, 1.0], [27, 1, 27, 'PHE', 'CA', 0, 1.0], [28, 1, 28, 'ARG', 'CA', 0, 1.0], [29, 1, 29, 'LEU', 'CA', 0, 1.0], [30, 1, 30, 'HIS', 'CA', 0, 1.0], [31, 1, 31, 'LEU', 'CA', 0, 1.0], [32, 1, 32, 'ILE', 'CA', 0, 1.0], [33, 1, 33, 'GLU', 'CA', 0, 1.0], [34, 1, 34, 'PRO', 'CA', 0, 1.0], [35, 1, 35, 'LEU', 'CA', 0, 1.0], [36, 1, 36, 'GLY', 'CA', 0, 1.0], [37, 1, 37, 'PHE', 'CA', 0, 1.0], [38, 1, 38, 'THR', 'CA', 0, 1.0], [39, 1, 39, 'TRP', 'CA', 0, 1.0], [40, 1, 40, 'ASP', 'CA', 0, 1.0], [41, 1, 41, 'ASP', 'CA', 0, 1.0], [42, 1, 42, 'LYS', 'CA', 0, 1.0], [43, 1, 43, 'ARG', 'CA', 0, 1.0], [44, 1, 44, 'LEU', 'CA', 0, 1.0], [45, 1, 45, 'ARG', 'CA', 0, 1.0], [46, 1, 46, 'ARG', 'CA', 0, 1.0], [47, 1, 47, 'SER', 'CA', 0, 1.0], [48, 1, 48, 'GLY', 'CA', 0, 1.0], [49, 1, 49, 'LEU', 'CA', 0, 1.0], [50, 1, 50, 'ASP', 'CA', 0, 1.0], [51, 1, 51, 'TYR', 'CA', 0, 1.0], [52, 1, 52, 'HIS', 'CA', 0, 1.0], [53, 1, 53, 'GLU', 'CA', 0, 1.0], [54, 1, 54, 'PHE', 'CA', 0, 1.0], [55, 1, 55, 'ALA', 'CA', 0, 1.0], [56, 1, 56, 'GLU', 'CA', 0, 1.0], [57, 1, 57, 'ILE', 'CA', 0, 1.0], [58, 1, 58, 'LYS', 'CA', 0, 1.0], [59, 1, 59, 'ARG', 'CA', 0, 1.0], [60, 1, 60, 'HIS', 'CA', 0, 1.0], [61, 1, 61, 'LYS', 'CA', 0, 1.0], [62, 1, 62, 'THR', 'CA', 0, 1.0], [63, 1, 63, 'PHE', 'CA', 0, 1.0], [64, 1, 64, 'GLU', 'CA', 0, 1.0], [65, 1, 65, 'ALA', 'CA', 0, 1.0], [66, 1, 66, 'PHE', 'CA', 0, 1.0], [67, 1, 67, 'LEU', 'CA', 0, 1.0], [68, 1, 68, 'GLU', 'CA', 0, 1.0], [69, 1, 69, 'SER', 'CA', 0, 1.0], [70, 1, 70, 'GLU', 'CA', 0, 1.0], [71, 1, 71, 'LYS', 'CA', 0, 1.0], [72, 1, 72, 'PRO', 'CA', 0, 1.0], [73, 1, 73, 'LYS', 'CA', 0, 1.0], [74, 1, 74, 'ARG', 'CA', 0, 1.0], [75, 1, 75, 'LEU', 'CA', 0, 1.0], [76, 1, 76, 'PHE', 'CA', 0, 1.0], [77, 1, 77, 'ALA', 'CA', 0, 1.0], [78, 1, 78, 'LEU', 'CA', 0, 1.0], [79, 1, 79, 'THR', 'CA', 0, 1.0], [80, 1, 80, 'THR', 'CA', 0, 1.0], [81, 1, 81, 'LYS', 'CA', 0, 1.0], [82, 1, 82, 'GLY', 'CA', 0, 1.0], [83, 1, 83, 'CYS', 'CA', 0, 1.0], [84, 1, 84, 'PRO', 'CA', 0, 1.0], [85, 1, 85, 'ALA', 'CA', 0, 1.0], [86, 1, 86, 'HIS', 'CA', 0, 1.0], [87, 1, 87, 'SER', 'CA', 0, 1.0], [88, 1, 88, 'GLN', 'CA', 0, 1.0], [89, 1, 89, 'VAL', 'CA', 0, 1.0], [90, 1, 90, 'LYS', 'CA', 0, 1.0], [91, 1, 91, 'PHE', 'CA', 0, 1.0], [92, 1, 92, 'LYS', 'CA', 0, 1.0], [93, 1, 93, 'LEU', 'CA', 0, 1.0], [94, 1, 94, 'GLY', 'CA', 0, 1.0], [95, 1, 95, 'ASP', 'CA', 0, 1.0], [96, 1, 96, 'TYR', 'CA', 0, 1.0], [97, 1, 97, 'LEU', 'CA', 0, 1.0], [98, 1, 98, 'MET', 'CA', 0, 1.0], [99, 1, 99, 'PHE', 'CA', 0, 1.0], [100, 1, 100, 'GLY', 'CA', 0, 1.0], [101, 1, 101, 'PRO', 'CA', 0, 1.0], [102, 1, 102, 'GLU', 'CA', 0, 1.0], [103, 1, 103, 'THR', 'CA', 0, 1.0], [104, 1, 104, 'ARG', 'CA', 0, 1.0], [105, 1, 105, 'GLY', 'CA', 0, 1.0], [106, 1, 106, 'ILE', 'CA', 0, 1.0], [107, 1, 107, 'PRO', 'CA', 0, 1.0], [108, 1, 108, 'MET', 'CA', 0, 1.0], [109, 1, 109, 'SER', 'CA', 0, 1.0], [110, 1, 110, 'ILE', 'CA', 0, 1.0], [111, 1, 111, 'LEU', 'CA', 0, 1.0], [112, 1, 112, 'ASN', 'CA', 0, 1.0], [113, 1, 113, 'GLU', 'CA', 0, 1.0], [114, 1, 114, 'MET', 'CA', 0, 1.0], [115, 1, 115, 'PRO', 'CA', 0, 1.0], [116, 1, 116, 'MET', 'CA', 0, 1.0], [117, 1, 117, 'GLU', 'CA', 0, 1.0], [118, 1, 118, 'GLN', 'CA', 0, 1.0], [119, 1, 119, 'LYS', 'CA', 0, 1.0], [120, 1, 120, 'ILE', 'CA', 0, 1.0], [121, 1, 121, 'ARG', 'CA', 0, 1.0], [122, 1, 122, 'ILE', 'CA', 0, 1.0], [123, 1, 123, 'PRO', 'CA', 0, 1.0], [124, 1, 124, 'MET', 'CA', 0, 1.0], [125, 1, 125, 'THR', 'CA', 0, 1.0], [126, 1, 126, 'ALA', 'CA', 0, 1.0], [127, 1, 127, 'ASN', 'CA', 0, 1.0], [128, 1, 128, 'SER', 'CA', 0, 1.0], [129, 1, 129, 'ARG', 'CA', 0, 1.0], [130, 1, 130, 'SER', 'CA', 0, 1.0], [131, 1, 131, 'MET', 'CA', 0, 1.0], [132, 1, 132, 'ASN', 'CA', 0, 1.0], [133, 1, 133, 'LEU', 'CA', 0, 1.0], [134, 1, 134, 'SER', 'CA', 0, 1.0], [135, 1, 135, 'ASN', 'CA', 0, 1.0], [136, 1, 136, 'SER', 'CA', 0, 1.0], [137, 1, 137, 'VAL', 'CA', 0, 1.0], [138, 1, 138, 'ALA', 'CA', 0, 1.0], [139, 1, 139, 'VAL', 'CA', 0, 1.0], [140, 1, 140, 'THR', 'CA', 0, 1.0], [141, 1, 141, 'VAL', 'CA', 0, 1.0], [142, 1, 142, 'TYR', 'CA', 0, 1.0], [143, 1, 143, 'GLU', 'CA', 0, 1.0], [144, 1, 144, 'ALA', 'CA', 0, 1.0], [145, 1, 145, 'TRP', 'CA', 0, 1.0], [146, 1, 146, 'ARG', 'CA', 0, 1.0], [147, 1, 147, 'GLN', 'CA', 0, 1.0], [148, 1, 148, 'LEU', 'CA', 0, 1.0], [149, 1, 149, 'GLY', 'CA', 0, 1.0], [150, 1, 150, 'TYR', 'CA', 0, 1.0], [151, 1, 151, 'LYS', 'CA', 0, 1.0], [152, 1, 152, 'GLY', 'CA', 0, 1.0], [153, 1, 153, 'ALA', 'CA', 0, 1.0], [154, 1, 154, 'VAL', 'CA', 0, 1.0], [155, 1, 155, 'ASN', 'CA', 0, 1.0], [156, 1, 156, 'LEU', 'CA', 0, 1.0]]
+See file: gromacs.top for GROMACS topology.
+('>>in make_dir:', 'PATH')
+('>>in make_dir:', 'MD')
