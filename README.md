@@ -76,7 +76,7 @@ Two-bead model: Miyazawa-Jernighan
 ```
 $ python gokit.py --attype 2 --aa pdb 1ris.pdb -mjmap -skip_glycine
 ```
-Two-bead model: Customised side-chain interactions
+Two-bead model: Customised side-chain interactions (Beta)
 ```
 $ python gokit.py --attype 2 --aa pdb 1ris.pdb -skip_glycine -CA_rad 3.8 -interactions 
 ```
