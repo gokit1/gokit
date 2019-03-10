@@ -87,10 +87,9 @@ python gokit.py --attype 2 --aa\_pdb 1ris.pdb --pl\_map --CAcom --Ka 200 --Kb 1 
 ```
 include file called interactions.dat in the format of mjmap.dat or btmap.dat.
 
-See examples/line_by_line for test output of each command and flag mentioned above.
+###See examples/line_by_line for test output of each command and flag mentioned in the manuscript
 
 Two folders called MD and PATH are generated. MD contains gromacs.top and gromacs.gro file that can be used directly for MD runs. 
-PATH contains an SBM.INP file that is required for OPTIM runs.
 
 See [OPTIM](http://www-wales.ch.cam.ac.uk/OPTIM.doc/node1.html) and [PATHSAMPLE](https://wikis.ch.cam.ac.uk/ro-walesdocs/wiki/index.php/PATHSAMPLE) documentation for generating disconnectivity graphs.
 
