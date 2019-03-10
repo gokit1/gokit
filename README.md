@@ -65,32 +65,40 @@ $ python gokit.py -attype 1 -aa_pdb 1ris.pdb -dsb -hphobic -skip_glycine
 ```
 Note: The dsb+hp potential is not implemented in OPTIM. Use only for gromacs4 runs. dsb works in OPTIM though. 
 
-Two-bead model: Cheung-Thirumalai. 
+Two-bead model: Cheung-Thirumalai
+
 ```
 $ python gokit.py --attype 2 --aa_pdb 1ris.pdb --skip_glycine
 ```
 Two-bead model: Betancourt-Thirumalai
+
 ```
 $ python gokit.py --attype 2 --aa pdb 1ris.pdb -btmap -skip_glycine
 ```
 Two-bead model: Miyazawa-Jernighan 
+
 ```
 $ python gokit.py --attype 2 --aa pdb 1ris.pdb -mjmap -skip_glycine
 ```
+
 Two-bead model: Customised side-chain interactions (Beta)
+
 ```
 $ python gokit.py --attype 2 --aa pdb 1ris.pdb -skip_glycine -CA_rad 3.8 -interactions 
 ```
+
 Two-bead model: Customised
+
 ```
-python gokit.py --attype 2 --aa\_pdb 1ris.pdb --pl\_map --CAcom --Ka 200 --Kb 1 --Kd 40 --skip\_glycine --interaction --CA\_rad 4.0 --CA\_sep 4 --CB\_sep 3 --CAB\_sep 3 
+python gokit.py --attype 2 --aa_pdb 1ris.pdb --pl_map --CAcom --Ka 200 --Kb 1 --Kd 40 --skip_glycine --interaction --CA_rad 4.0 --CA_sep 4 --CB_sep 3 --CAB_sep 3 
 ```
+
+
 include file called interactions.dat in the format of mjmap.dat or btmap.dat.
 
-See examples/line_by_line for test output of each command and flag mentioned above.
+### See examples/line_by_line for test output of each command and flag mentioned in the manuscript
 
 Two folders called MD and PATH are generated. MD contains gromacs.top and gromacs.gro file that can be used directly for MD runs. 
-PATH contains an SBM.INP file that is required for OPTIM runs.
 
 See [OPTIM](http://www-wales.ch.cam.ac.uk/OPTIM.doc/node1.html) and [PATHSAMPLE](https://wikis.ch.cam.ac.uk/ro-walesdocs/wiki/index.php/PATHSAMPLE) documentation for generating disconnectivity graphs.
 
