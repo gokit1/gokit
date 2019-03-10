@@ -1,0 +1,91 @@
+>> in all_atom_contacts 1ris.pdb
+Atoms in pdb    816
+Residues in pdb 97
+Found 211 contacts in all-atom file 1ris.pdb with cut-off 0.45 nm
+See file: contacts.txt for reading into other codes like SMOG. 
+ See file: pdb_contacts for details.
+>> in get_side_chain_COM: 1ris.pdb False
+<Chain id=A>
+Excluding glycine, res =  34
+Excluding glycine, res =  44
+Excluding glycine, res =  58
+>> in get_back_bone_COM 1ris.pdb
+>>in write_CB_to_native: 1ris.pdb False
+See file: native_cb.pdb with  191 atoms
+CB= 94 CA= 97
+True
+>> in write_atomtypes_section 1ris.pdb 1 False 4.0
+>> in get_atom_types: 1 False
+95
+95 95
+>> in write_atoms_section1	 1 1ris.pdb True
+>>writing contacts section,atomtype= 1 SOPC= False
+>> in get_side_chain_COM: 1ris.pdb False
+<Chain id=A>
+Excluding glycine, res =  34
+Excluding glycine, res =  44
+Excluding glycine, res =  58
+>> in get_back_bone_COM 1ris.pdb
+>>in write_CB_to_native: 1ris.pdb False
+See file: native_cb.pdb with  191 atoms
+CB= 94 CA= 97
+>> in all_atom_contacts 1ris.pdb
+Atoms in pdb    816
+Residues in pdb 97
+Found 211 contacts in all-atom file 1ris.pdb with cut-off 0.45 nm
+See file: contacts.txt for reading into other codes like SMOG. 
+ See file: pdb_contacts for details.
+>>writing bonds_section: Native=  native_ca.pdb
+>>writing angles_section native_ca.pdb 40
+>>writing dihedrals section native_ca.pdb 1
+>>Writing exclusions section.
+>>writing GROMACS header section gromacs.top
+>> writing GROMACS atomtypes section gromacs.top 1 1ris.pdb False 4.0
+>> in write_atomtypes_section 1ris.pdb 1 False 4.0
+>> in get_atom_types: 1 False
+95
+95 95
+>>writing GROMACS moleculetypesection gromacs.top
+>> writing GROMACS atom section gromacs.top 1 1ris.pdb native_ca.pdb False
+>> in write_atoms_section1	 1 1ris.pdb False
+>> in get_atom_types: 1 False
+95
+95 95
+>> writing GROMACS bonds section gromacs.top 1 native_ca.pdb 200
+>>writing bonds_section: Native=  native_ca.pdb
+>> writing GROMACS angle section gromacs.top 1 native_ca.pdb 40
+>>writing angles_section native_ca.pdb 40.0
+>> writing GROMACS dihedrals section gromacs.top 1 native_ca.pdb 1
+>>writing dihedrals section native_ca.pdb 1.0
+>> writing GROMACS pairs sections gromacs.top 1 native_ca.pdb 1ris.pdb 2 4.5 False False
+>>writing contacts section,atomtype= 1 SOPC= False
+>> in get_side_chain_COM: 1ris.pdb False
+<Chain id=A>
+Excluding glycine, res =  34
+Excluding glycine, res =  44
+Excluding glycine, res =  58
+>> in get_back_bone_COM 1ris.pdb
+>>in write_CB_to_native: 1ris.pdb False
+See file: native_cb.pdb with  191 atoms
+CB= 94 CA= 97
+>> in all_atom_contacts 1ris.pdb
+Atoms in pdb    816
+Residues in pdb 97
+Found 211 contacts in all-atom file 1ris.pdb with cut-off 0.45 nm
+See file: contacts.txt for reading into other codes like SMOG. 
+ See file: pdb_contacts for details.
+>> writing GROMACS tail section gromacs.top
+>> in get_side_chain_COM: 1ris.pdb False
+<Chain id=A>
+Excluding glycine, res =  34
+Excluding glycine, res =  44
+Excluding glycine, res =  58
+>> in get_back_bone_COM 1ris.pdb
+>>in write_CB_to_native: 1ris.pdb False
+See file: native_cb.pdb with  191 atoms
+CB= 94 CA= 97
+>> write_gro_gro gromacs.gro 1ris.pdb 1 False
+>> in write_atoms_section1	 1 1ris.pdb False
+See file: gromacs.top for GROMACS topology.
+('>>in make_dir:', 'PATH')
+('>>in make_dir:', 'MD')

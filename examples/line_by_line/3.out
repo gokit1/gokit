@@ -1,0 +1,9 @@
+>> in get_side_chain_COM: 1ris.pdb False
+<Chain id=A>
+Excluding glycine, res =  34
+Excluding glycine, res =  44
+Excluding glycine, res =  58
+>> in get_back_bone_COM 1ris.pdb
+>>in write_CB_to_native: 1ris.pdb False
+See file: native_cb.pdb with  191 atoms
+CB= 94 CA= 97
