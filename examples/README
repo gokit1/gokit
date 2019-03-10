@@ -15,7 +15,7 @@ Table files for the 12-10 LJ potential called table_file.xvg and tablep.xvg are 
 
 gmx grompp -f md.mdp  -c gromacs.gro  -p gromacs.top  -po mdout.mdp -o run.tpr -maxwarn 1 > a 2> b
 
-gmx mdrun -x traj.xtc -e ener.edr -o traj.trr -s run.tpr -g md.log -table table_file.xvg  1>out
+gmx mdrun -x traj.xtc -e ener.edr -o traj.trr -s run.tpr -g md.log -table table_file.xvg  -tablep table_file.xvg 1>out
 
 Tested for GROMACS 2018.3 distribution on a 64-bit Mac OS Mojave. 
  
