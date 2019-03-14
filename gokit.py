@@ -55,13 +55,13 @@ class esbm(object):
         def __init__(self):
             return
 
-        def globals(self,Ka1,Kb1,Kd1,CA_rad1,skip_glycine1,sopc1,dswap1,btparams1,CAcom1,hphobic1,hpstrength1,hpdist1,dsb1,mjmap1,btmap1,CBfar1,casep1,cbsep1,cabsep1,scaling1,gauss1):
+        def globals(self,Ka1,Kb1,Kd1,CA_rad1,skip_glycine1,sopc1,dswap1,btparams1,CAcom1,hphobic1,hpstrength1,hpdist1,dsb1,mjmap1,btmap1,CBfar1,casep1,cbsep1,cabsep1,scaling1,gauss1,reddy1):
             #Give default values to global variables.
             global Ka,Kb,Kd,CA_rad,hpdist,hpstrength,casep,cbsep,cabsep,scaling
             Ka=Ka1;Kb=Kb1;Kd=Kd1;CA_rad=CA_rad1;hpdist=float(hpdist1);hpstrength=float(hpstrength1);casep=casep1;cbsep=cbsep1;cabsep=cabsep1
-            global skip_glycine,sopc,dswap,btparams,CAcom,hphobic,dsb,btmap,mjmap,CBfar,gauss
+            global skip_glycine,sopc,dswap,btparams,CAcom,hphobic,dsb,btmap,mjmap,CBfar,gauss,reddy
             skip_glycine=skip_glycine1;dswap=dswap1;btparams=btparams1;sopc=sopc1;CAcom=CAcom1;hphobic=hphobic1;dsb=dsb1;CBfar=CBfar1;scaling=scaling1
-            mjmap=mjmap1;btmap=btmap1;gauss=gauss1
+            mjmap=mjmap1;btmap=btmap1;gauss=gauss1;reddy=reddy1
             #print ('Global logicals are as follows:\n--------------------------')
             #print (' skip_glycine=',skip_glycine,'\n','dswap=',dswap,'\n','bt=',btparams,'\n','sopc=',sopc,'\n','CAcom=',CAcom,'\n','hphobic=',hphobic)
             global radtodeg,kcaltokj
@@ -234,14 +234,14 @@ class esbm(object):
             return COM1
 
         def write_CB_to_native(self,pdbfile,sopc):
+            print (">> in write_CB_to_native",pdbfile,sopc)
             #Get CB COM         #print ("skip_glycine,sopc",skip_glycine,sopc)
 
             #print ("Writing native files in native_ca.pdb and native_cb.pdb.\n")
             if not skip_glycine:
                  Y=conmaps()
                  Y.check_glycineh(pdbfile, skip_glycine)
-            else:
-                sopc=False
+            print ("sopc",sopc,"skipglycine," , skip_glycine)
              # if not CAcom:
             #     print ("C-alpha at CA atom position. Not COM of backbone.", CAcom)
             Y=conmaps()
@@ -385,24 +385,20 @@ class esbm(object):
             #sopc gets side-chain radii from BT params!
             scaling=float(scaling)
             Y = conmaps();U=Utils()
-            if skip_glycine:
-                sopc=False
             if CBradii:
                 d=self.read_external_radius('radii.dat')
                 assert (len(d)==20),'Must have 20 residues in file!'
             else:
                 d = self.amino_acid_radius_dict()
             ncb = Y.get_sidechain_atoms(nativefile)
-            #set BT parameters
-            #from greddy JPCB Supplementary.(https://pubs.acs.org/doi/suppl/10.1021/acs.jpcb.6b13100/suppl_file/jp6b13100_si_001.pdf)
             assert (atomtypes==2),'Atomtypes not set to two.'
             radius=[]
             for i in ncb:
                 radius.append(d[Y.get_residue_name(nativefile,i)[0].strip()])
             radius=np.asarray(radius).reshape(1,len(ncb))
-            #radius=(0.8*(radius+3.8))/2
-            #print (radius)
+            ## print (radius)
             return radius
+
 
             # pdbfile='native_cb.pdb'
             # Y=conmaps()
@@ -432,7 +428,6 @@ class esbm(object):
             Y=conmaps()
             seq = Y.get_sequence(pdbfile)
             #d = self.amino_acid_dict()
-
             glyname='G111'
             if skip_glycine:
                 glyname='G'
@@ -512,8 +507,6 @@ class esbm(object):
             assert atomtype<=2
             Y=conmaps()
             f = open('SBM.INP', "a")
-            if skip_glycine:
-                sopc=False
             seq = Y.get_sequence(pdbfile);nca=len(seq);d=self.amino_acid_dict();glyname='G'
             if atomtype==2:
                 nativefile='native_cb.pdb'
@@ -612,6 +605,8 @@ class esbm(object):
 
         def write_atoms_section(self,pdbfile,atomtype,skip_glycine):
             print ('>> in write_atoms_section\t',atomtype,pdbfile,atomtype,skip_glycine)
+            # if skip_glycine:
+            #     sopc=False
             assert atomtype<=2
             Y=conmaps()
             seq = Y.get_sequence(pdbfile)
@@ -625,8 +620,8 @@ class esbm(object):
             if skip_glycine:
                 glyname='GLY111'
             str1= 'atoms (atomnum, atomtype, resnum, resname, atomname, charge, mass)'
-            g=self.get_atom_names(pdbfile,atomtype,skip_glycine)
-            h=self.get_atom_types(pdbfile,atomtype,skip_glycine)
+            g=self.get_atom_names(pdbfile,atomtype,sopc)
+            h=self.get_atom_types(pdbfile,atomtype,sopc)
             #print (g)
             atomtype_ca=1
             atomtype_cb=2
@@ -702,7 +697,7 @@ class esbm(object):
             #dict_seq = self.two_lists_to_dict(np.arange(0, len(seq)).tolist(), list(seq))
             #nc=native,sc=side-chain
             if atomtype==1:
-                self.write_CB_to_native(pdbfile,skip_glycine)
+                #self.write_CB_to_native(pdbfile,skip_glycine)
                 nc = Y.all_atom_contacts(pdbfile, cutoff,1.2)
                 dist_ca = nc[:, 3];
                 #print (dist_ca)
@@ -753,12 +748,12 @@ class esbm(object):
             elif atomtype==2:
                 contacts = []
                 #scaling = 1.2;separation=3
-                if skip_glycine:
-                    sopc=False
-                if sopc:
-                   nc = Y.get_bb_contacts_SOPC(pdbfile,nativefile,4,1.0,casep)
-                   sc = Y.get_ss_contacts_SOPC(pdbfile,nativefile,4,1.0,cbsep)
-                   nc_sc=Y.get_bs_contacts_SOPC(pdbfile,nativefile,4,1.0,cabsep)
+                # if skip_glycine:
+                #     sopc=False
+                if reddy:
+                   nc = Y.get_backbone_contacts(pdbfile,cutoff,scaling,casep)
+                   sc = Y.get_side_chain_contacts(pdbfile,cutoff,scaling,cbsep)
+                   nc_sc = Y.get_bb_sc_contacts(pdbfile, cutoff, scaling, cabsep)
                    nn_angles = Y.get_SOPC_non_native_angles(pdbfile, nativefile, CA_rad, 1.0)
                 else:
                     #separation is always >=
@@ -815,6 +810,9 @@ class esbm(object):
                         strength_CB=float(Y.get_btmap_val(res1bt,res2bt,'interaction.dat'))
                         if btparams:
                             strength_CB=0.5*(0.7- float(strength_CB))*300*Kb #kcal/mol
+                        elif mjmap:
+                            strength_CB=strength_CB*Kb
+
                         contacts.append([res1 + 1, res2 + 1, int(contacttype), dist,strength_CB])
                         #print ([res1 + 1, res2 + 1, int(contacttype), dist, strength_CB, 'SCSCbt'])
                     else:
@@ -838,7 +836,7 @@ class esbm(object):
                     #print ([res1 + 1, res2 + 1, int(contacttype), dist, strength_CA, 'bbsc'])
                     #f4.write(' %s\t%d\t%s\t%d\n' % ('1', int(res1) + 1, '1', int(res2) + 1))
                 #write angle-angle repulsion term for sop-sc model only!
-                if sopc:
+                if reddy:
                     epsl=1 #kcal/mol
                     for i in xrange(0,len(nn_angles)):
                         contacttype=1
@@ -1092,7 +1090,8 @@ class esbm(object):
             print (">> writing GROMACS atom section",topfilename,atomtypes,pdbfile,nativefile,sopc)
             f = open(topfilename, "a")
             assert atomtypes<=2
-            atoms = self.write_atoms_section1(pdbfile,atomtypes,sopc)
+
+            atoms = self.write_atoms_section1(pdbfile,atomtypes,skip_glycine)
             num_atoms=len(atoms)
             #print len(atoms)
             f.write('\n%s\n' % ('[ atoms ]'))
@@ -1223,8 +1222,8 @@ class esbm(object):
             print (">> writing GROMACS pairs sections",topfilename,atomtypes,nativefile,pdbfile,contacttype,cutoff,sopc,btparams)
             contacts_allowed=[1,2]
             assert atomtypes <= 2
-            if skip_glycine:
-                sopc=False
+            # if skip_glycine:
+            #     sopc=False
             #OPTIM works in kcal, GROMACS in kJ
             Y=conmaps()
             #num_atoms=Y.get_total_number_of_atoms(nativefile)
@@ -1298,7 +1297,7 @@ class esbm(object):
 
         def write_gro_gro(self,grofilename,pdbfile,atomtypes,skip_glycine):
             global w_sbm;w_sbm=False
-            self.write_CB_to_native(pdbfile,skip_glycine)
+            #self.write_CB_to_native(pdbfile,skip_glycine)
             #if skip_glycine:
             #    sopc=False
             print ('>> write_gro_gro',grofilename,pdbfile,atomtypes,sopc)
@@ -1445,7 +1444,7 @@ def main():
     parser.add_argument('--CB_sep',"-CB_sep", help='Side-chain separation. Default is >=2')
     parser.add_argument('--CAB_sep',"-CAB_sep", help='Backbone-sidechain separation. Default is >=2')
     parser.add_argument('--gauss',"-gauss", help="Gaussian interactions for contacts.")
-
+    parser.add_argument('--reddy',"-reddy", action='store_true',help='SOP-SC potentials of Reddy et al.(JPCB,2017).')
 
     args = parser.parse_args()
     X = esbm()
@@ -1471,6 +1470,7 @@ def main():
 
     #Set default parameters
     sopc=True
+    reddy=False
     btparams=False
     mjmap=False
     btmap=False
@@ -1510,6 +1510,8 @@ def main():
     if args.skip_glycine:
         skip_glycine=True
         sopc=False
+    if not args.skip_glycine:
+        sopc=True
         #assert(args.attype==2)
     if args.CAcom:
         CAcom=True
@@ -1531,7 +1533,12 @@ def main():
         hpstrength = args.hpstrength
     else:
         hpstrength=1
-
+    if args.reddy and args.aa_pdb:
+        pdbfile=str(args.aa_pdb)
+        reddy=True
+        print ('Note: No FENE, BT radii for side-chain, Yes Non-native angles, No dihedrals, CA-CA,CA-CB,CB-CB')
+        raw_input("Press ENTER key to continue.")
+        Y.check_glycineh(pdbfile,False)
     #set global variables
     if args.CBfar:
         CBcom=False
@@ -1541,12 +1548,12 @@ def main():
         import shutil
         shutil.copy2('btmap.dat','interaction.dat')
         btparams=True;btmap=True
-        skip_glycine=True
+       # skip_glycine=True
     if args.mjmap:
         assert (int(args.attype)==2),'Attype set to 1!'
         import shutil
         shutil.copy2('mjmap.dat', 'interaction.dat')
-        skip_glycine=True
+        #skip_glycine=True
         btparams=True;mjmap=True
     if args.CA_sep:
         casep=int(args.CA_sep)
@@ -1560,7 +1567,7 @@ def main():
         gauss=True
     if args.aa_pdb and not args.attype:
         U.fatal_errors(12)
-    X.globals(Ka,Kb,Kd,CA_rad,skip_glycine,sopc,dswap,btparams,CAcom,hphobic,hpstrength,hpdist,dsb,mjmap,btmap,CBfar,casep,cbsep,cabsep,scaling,gauss)
+    X.globals(Ka,Kb,Kd,CA_rad,skip_glycine,sopc,dswap,btparams,CAcom,hphobic,hpstrength,hpdist,dsb,mjmap,btmap,CBfar,casep,cbsep,cabsep,scaling,gauss,reddy)
 
     if not args.ext_conmap and args.aa_pdb:
         pdbfile=args.aa_pdb
@@ -1576,7 +1583,7 @@ def main():
         X.write_CB_to_native(pdbfile,False)
     if args.aa_pdb:
         pdbfile=args.aa_pdb
-        X.write_CB_to_native(pdbfile,sopc)
+        X.write_CB_to_native(pdbfile,skip_glycine)
     if args.attype and args.aa_pdb:
         topfile = 'gromacs.top'
         atomtypes = int(args.attype)
