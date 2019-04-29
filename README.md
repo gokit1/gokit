@@ -107,6 +107,6 @@ See [GROMACS](http://www.gromacs.org/Documentation/Installation_Instructions_4.5
 
 
 
-
+Reference: [Go-Kit: A Tool To Enable Energy Landscape Exploration of Proteins](https://pubs.acs.org/doi/10.1021/acs.jcim.9b00007)
 --------
 GO-kit is mainly developed and tested on a 64-bit MacOS(MOJAVE) machine. GROMACS v4.5.3 and PATHSAMPLE/OPTIM versions on 1.3.2019 were used.
