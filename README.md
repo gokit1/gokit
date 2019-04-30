@@ -7,8 +7,8 @@ A set of python tools that assist setup and post-hoc analysis of simulations of 
 * Standard cut-off based CA + hydrophobic contacts
 * Standard cut-off based CA + hydrophobic contacts + desolvation barrier 
 * A basic Cheung-Thirumalai two-bead (CA-CB) coarse-grained model(with angles and dihedrals).
-* SOP-SC two-bead coarse-grained model with statistical potentials (Betancourt-Thirumalai) and statistical radii.:
-* Miyazawa-Jernighan parameters for two-bead models.
+* SOP-SC two-bead coarse-grained model with statistical potentials (Betancourt-Thirumalai) and statistical radii. [here]((http://biotheory.umd.edu/Supplementary%20Materials/btmap.dat))
+* Miyazawa-Jernighan parameters for two-bead models.(Table 5 [here](https://www.ncbi.nlm.nih.gov/pubmed/10336383))
 * Custom interaction potentials for two-bead models.
 
 
