@@ -40,7 +40,8 @@ class nucprosbm():
 		#Loading aa_pdbfile and reading coordinates
 		fin = open(aafile)
 		coord = list()
-		for i in fin:
+		aalines = fin.readlines()
+		for i in aalines:
 			if i.startswith("ATOM"):
 				coord.append(np.float_([i[30:38],i[38:46],i[46:54]]))
 		fin.close()
@@ -69,7 +70,7 @@ class nucprosbm():
 		for i in nuclines:
 			if i.startswith("ATOM"):
 				coord.append(np.float_([i[30:38],i[38:46],i[46:54]]))
-		
+				total_nuc_residues = int(i[22:26])
 		#nucleotide coordinates
 		coord = np.array(coord)
 		#geometric center of aa structure
@@ -109,6 +110,15 @@ class nucprosbm():
 				count = count + 1
 			else:#TER and END
 				fout.write(i)
+		fout.close()
+		fout = open(aafile,"w+")
+		#appaending residue number in aafile
+		for i in aalines:
+			if not i.startswith("ATOM"):
+				fout.write(i)
+			else:
+				resnum = str(int(i[22:26])+total_nuc_residues).rjust(len(i[22:26]))
+				fout.write(i[:22]+resnum+i[26:])
 		fout.close()
 		return outfile
 		#end of function

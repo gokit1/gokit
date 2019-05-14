@@ -10,8 +10,8 @@ echo "In the case an interface file is used: nucpro_interface.input. Thefile is 
 echo "Command used: $ python ../../nucproSBM.py --aa_pd 1S40.pdb --grotop gromacs.top -pdbgro gromacs.gro  --CA_rad 1.9 --skip_glycine  --CBfar --CBcharge --dielec 70 --iconc 0.01 --CB_rad 1.5 --debye --interface"
 
 echo "Ready to proceed [yes=1/no=0]? (0)"
-#read input
-input=1
+read input
+
 if [ $input -eq 1 ]
 then
 bash ../../generate_NucproInterface_inputfile.sh
@@ -51,8 +51,8 @@ echo "The DNA sequence used is PolyT of lenght 11bases (same as the native bound
 echo "Command used: $ python ../../nucproSBM.py --aa_pd 1S40.pdb --grotop gromacs.top -pdbgro gromacs.gro  --CA_rad 1.9 --skip_glycine  --CBfar --CBcharge --dielec 70 --iconc 0.01 --CB_rad 1.5 --debye --interface --custom_nuc polyT.pdb"
 cp ../polyT.pdb .
 echo "Ready to proceed [yes=1/no=0]? (0)"
-#read input
-input=0
+read input
+
 if [ $input -eq 1 ]
 then
 bash ../../generate_NucproInterface_inputfile.sh
@@ -92,8 +92,8 @@ echo "In the case an interface file is used: nucpro_interface.input. Thefile is 
 echo "Command used: $ python ../../nucproSBM.py --aa_pd 1S40.pdb --grotop gromacs.top -pdbgro gromacs.gro  --CA_rad 1.9 --skip_glycine  --CBfar --CBcharge --dielec 70 --iconc 0.01 --CB_rad 1.5 --debye --interface --custom_nuc 1S40_DNA.pdb"
 cp ../1S40_DNA.pdb .
 echo "Ready to proceed [yes=1/no=0]? (0)"
-#read input
-input=0
+read input
+
 if [ $input -eq 1 ]
 then
 bash ../../generate_NucproInterface_inputfile.sh
@@ -133,8 +133,8 @@ echo "In the case an interface file is used: nucpro_interface.input. Thefile is 
 echo "Command used: $ python ../../nucproSBM.py --aa_pd 1S40.pdb --grotop gromacs.top -pdbgro gromacs.gro  --CA_rad 1.9 --skip_glycine  --CBfar --CBcharge --dielec 70 --iconc 0.01 --CB_rad 1.5 --debye --interface"
 
 echo "Ready to proceed [yes=1/no=0]? (0)"
-#read input
-input=0
+read input
+
 if [ $input -eq 1 ]
 then
 bash ../../generate_NucproInterface_inputfile.sh
@@ -174,8 +174,8 @@ echo "The DNA sequence used is PolyT of lenght 11bases (same as the native bound
 echo "Command used: $ python ../../nucproSBM.py --aa_pd 1S40.pdb --grotop gromacs.top -pdbgro gromacs.gro  --CA_rad 1.9 --skip_glycine  --CBfar --CBcharge --dielec 70 --iconc 0.01 --CB_rad 1.5 --debye --interface --custom_nuc polyT.pdb"
 cp ../polyT.pdb .
 echo "Ready to proceed [yes=1/no=0]? (0)"
-#read input
-input=0
+read input
+
 if [ $input -eq 1 ]
 then
 bash ../../generate_NucproInterface_inputfile.sh
@@ -215,8 +215,8 @@ echo "In the case an interface file is used: nucpro_interface.input. Thefile is 
 echo "Command used: $ python ../../nucproSBM.py --aa_pd 1S40.pdb --grotop gromacs.top -pdbgro gromacs.gro  --CA_rad 1.9 --skip_glycine  --CBfar --CBcharge --dielec 70 --iconc 0.01 --CB_rad 1.5 --debye --interface --custom_nuc 1S40_DNA.pdb"
 cp ../1S40_DNA.pdb .
 echo "Ready to proceed [yes=1/no=0]? (0)"
-#read input
-input=0
+read input
+
 if [ $input -eq 1 ]
 then
 bash ../../generate_NucproInterface_inputfile.sh
@@ -256,8 +256,8 @@ echo "In the case an interface file is used: nucpro_interface.input. Thefile is 
 echo "Command used: $ python ../../nucproSBM.py --aa_pd 1S40.pdb --grotop gromacs.top -pdbgro gromacs.gro  --CA_rad 1.9 --skip_glycine  --CBfar --no_Pcharge --dielec 70 --iconc 0.01 --CB_rad 1.5 --debye --interface"
 
 echo "Ready to proceed [yes=1/no=0]? (0)"
-#read input
-input=0
+read input
+
 if [ $input -eq 1 ]
 then
 bash ../../generate_NucproInterface_inputfile.sh
@@ -297,8 +297,8 @@ echo "The DNA sequence used is PolyT of lenght 11bases (same as the native bound
 echo "Command used: $ python ../../nucproSBM.py --aa_pd 1S40.pdb --grotop gromacs.top -pdbgro gromacs.gro  --CA_rad 1.9 --skip_glycine  --CBfar --no_Pcharge  --dielec 70 --iconc 0.01 --CB_rad 1.5 --debye --interface --custom_nuc polyT.pdb"
 cp ../polyT.pdb .
 echo "Ready to proceed [yes=1/no=0]? (0)"
-#read input
-input=0
+read input
+
 if [ $input -eq 1 ]
 then
 bash ../../generate_NucproInterface_inputfile.sh
@@ -338,8 +338,8 @@ echo "In the case an interface file is used: nucpro_interface.input. Thefile is 
 echo "Command used: $ python ../../nucproSBM.py --aa_pd 1S40.pdb --grotop gromacs.top -pdbgro gromacs.gro  --CA_rad 1.9 --skip_glycine  --CBfar --no_Pcharge  --dielec 70 --iconc 0.01 --CB_rad 1.5 --debye --interface --custom_nuc 1S40_DNA.pdb"
 cp ../1S40_DNA.pdb .
 echo "Ready to proceed [yes=1/no=0]? (0)"
-#read input
-input=0
+read input
+
 if [ $input -eq 1 ]
 then
 bash ../../generate_NucproInterface_inputfile.sh
@@ -380,9 +380,9 @@ echo "In the case an interface file is used: nucpro_interface.input. Thefile is 
 echo "Command used: $ python ../../nucproSBM.py --aa_pd 1S40.pdb --grotop gromacs.top -pdbgro gromacs.gro  --CA_rad 1.9 --skip_glycine  --CBfar --no_Pcharge  --dielec 70 --iconc 0.01 --CB_rad 1.5 --debye --interface"
 
 echo "Ready to proceed [yes=1/no=0]? (0)"
-##read input
-input=0
-input=0
+#read input
+
+
 if [ $input -eq 1 ]
 then
 bash ../../generate_NucproInterface_inputfile.sh
@@ -422,9 +422,9 @@ echo "The DNA sequence used is PolyT of lenght 11bases (same as the native bound
 echo "Command used: $ python ../../nucproSBM.py --aa_pd 1S40.pdb --grotop gromacs.top -pdbgro gromacs.gro  --CA_rad 1.9 --skip_glycine  --CBfar --no_Pcharge  --dielec 70 --iconc 0.01 --CB_rad 1.5 --debye --interface --custom_nuc polyT.pdb"
 cp ../polyT.pdb .
 echo "Ready to proceed [yes=1/no=0]? (0)"
-##read input
-input=0
-input=0
+#read input
+
+
 if [ $input -eq 1 ]
 then
 bash ../../generate_NucproInterface_inputfile.sh
@@ -464,9 +464,9 @@ echo "In the case an interface file is used: nucpro_interface.input. Thefile is 
 echo "Command used: $ python ../../nucproSBM.py --aa_pd 1S40.pdb --grotop gromacs.top -pdbgro gromacs.gro  --CA_rad 1.9 --skip_glycine  --CBfar --no_Pcharge  --dielec 70 --iconc 0.01 --CB_rad 1.5 --debye --interface --custom_nuc 1S40_DNA.pdb"
 cp ../1S40_DNA.pdb .
 echo "Ready to proceed [yes=1/no=0]? (0)"
-##read input
-input=0
-input=0
+#read input
+
+
 if [ $input -eq 1 ]
 then
 bash ../../generate_NucproInterface_inputfile.sh

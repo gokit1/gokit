@@ -20,18 +20,32 @@ class PrePDB(Select):
 	def __init__(self):
 		return
 	def accept_chain(self, chain):
+		#select DNA/RNA chain
 		if chain in chain_list:
 			return 1
 		else:
 			return 0
 	def readPDB(self,file):
+		#read pdb as list of lines
 		fin = open(file)
 		all = fin.read()
 		pdblines = all.split("\n")
 		pdblines = [x.rstrip().lstrip() for x in pdblines if x.startswith("ATOM")]
-		return pdblines	
+		return pdblines
+	def terminalResidues(self,file):
+		#return terminal residue number
+		fin = open(file); all=fin.readlines(); fin.close()
+		resnum = 0; terminal_residues = list()
+		for i in all:
+			if i.startswith("ATOM"):
+				resnum = int(i[22:26])
+			elif i.startswith("TER"):
+				terminal_residues.append(resnum)
+		return terminal_residues
 	def homoNmer2Monomer(self,file):
+		#Convert a homo-multimer to a monomer
 		print (">>converting homo-N-mer(if the pdb is) to a monomer.")
+		#reading pdb
 		P = PDBParser(PERMISSIVE=0)
 		structure = P.get_structure('test', file)
 		model = structure.get_chains()
@@ -42,17 +56,22 @@ class PrePDB(Select):
 			l = list()
 			c = chain.get_id()
 			for residue in chain:
+				#adding residue name to list l
 				if [residue.get_resname(),residue.get_id()[1]] not in l:
 					l.append([residue.get_resname(),residue.get_id()[1]])
 			if l not in residues_in_chain:
+				#adding the list of residues in the chain list
+				#storing only unique lists
 				residues_in_chain.append(l)
 				in_chain[c] = l		
 				chain_list.append(chain)
+		#writing back to file
 		io = PDBIO()
 		io.set_structure(structure)
 		io.save("mono_"+file,PrePDB())
 		return "mono_"+file
 	def appendChain(self,file):
+		#returns chain with renumbered residues
 		print (">>>Appending the residues of the chains.\n>>>The chain_id remains same,", file)
 		chain_terminal = list()
 		fin = open(file)
@@ -88,6 +107,7 @@ class PrePDB(Select):
 				fout.write(l)    
 		return [outfile,chain_terminal]
 	def sepNucPro(self,file):
+		#Function separates nucleotide and protein components of a pdbfile
 		P = PDBParser(PERMISSIVE=0)
 		structure = P.get_structure('test', file)
 		print (">>writing nucleotide only file: ","nuc_"+file)
@@ -99,6 +119,7 @@ class PrePDB(Select):
 		io.save("aa_"+file,esbm())
 		return ("nuc_"+file,"aa_"+file)
 	def atomIn(self):
+		#dictionary of atoms in coarse grain beads
 		atoms_in = dict()
 		atoms_in["CA"] = ("N","C","CA","O")
 		#atoms_in["CB"]  = ['CB', 'CD', 'CD1', 'CD2', 'CD3', 'CE', 'CE1', 'CE2', 'CE3', 'CG', 'CG1', 'CG2', 'CG3', 'CH', 'CH1','CH2', 'CH', 'CZ', 'CZ1OG', 'CZ2', 'CZ3', 'ND1', 'ND2', 'NE', 'NE1NE2', 'NH1', 'NH2', 'NZ', 'OD1', 'OD2', 'OE1', 'OE2', 'OG1', 'OH', 'SD', 'SG']
@@ -107,6 +128,8 @@ class PrePDB(Select):
 		atoms_in["XP"] = ("P","OP1","OP2","O1P","O2P")
 		return atoms_in
 	def stackEps(self):
+		#Value of epsilon for stacking potential (represented as a LJ term)
+
 		#fin = open("stackEpsilon.dat")
 		#file = [x.split() for x in fin.readlines() if not x.startswith("#") and len(x.rstrip().lstrip())!=0]
 		#d=dict()
@@ -137,6 +160,7 @@ class nucsbm(esbm,Select):
 	def __init__(self):
 		return
 	def accept_residue(self,residue):
+		#accept only nucleotide residues
 		global nuc_res 
 		nuc_res = ("A","G","T","U","C","DA","DG","DT","DC")
 		if residue.get_resname().lstrip().rstrip() in nuc_res:
@@ -144,6 +168,7 @@ class nucsbm(esbm,Select):
 		else:
 			return 0
 	def getIndices(self,pdbfile):
+		#get atomindices
 		structure = PrePDB().readPDB(pdbfile)
 		CG_indices = dict()
 		for l in structure:
@@ -153,8 +178,10 @@ class nucsbm(esbm,Select):
 			X = float(l[30:38].rstrip().lstrip());Y = float(l[38:46].rstrip().lstrip());Z =	float(l[46:54].rstrip().lstrip())	
 			xyz = np.array([X,Y,Z])
 			CG_indices[(atom_num)] =[res_id,atom_name,xyz]
-		return CG_indices
+		terminal_residues = PrePDB().terminalResidues(pdbfile)
+		return CG_indices,terminal_residues
 	def getCoordinates(self,pdbfile,CG_pos):
+		#get co-rdinates for the CG beads by atom in the bead or COM
 		print ("Getting Coarse-Grain Co-ordinates.")
 		P = PDBParser(PERMISSIVE=0)
         
@@ -173,7 +200,6 @@ class nucsbm(esbm,Select):
 		count = 0
 		CG_coord = dict()
 		res_in_chain = list()
-		
 		for group,pos in CG_pos.items():
 			CG_coord[group] = []
 			count=0
@@ -189,8 +215,8 @@ class nucsbm(esbm,Select):
 					if r in nuc_res:
 						if group[0]=="B" and r not in bases[group]:
 							res_count = res_count + 1
+							#Loop over the next base
 							continue	#skipping this loop as group not in residue
-						#print (r)
 						if pos=="COM":
 							#print(pos)
 							for atom in residue:
@@ -270,8 +296,8 @@ class nucsbm(esbm,Select):
 			coord = dict(); others = dict()			
 			for (x,y,z) in xyz:
 				#separating co-rdinates from other parameters and storing at same index
-				coord[int(y)] = x.tolist()     #[X,Y,Z] co-ordinates
-				others[int(y)] = z				#[chain_id,res_number,res_name]			
+				coord[int(y)] = x.tolist()      #x = [X,Y,Z] co-ordinates
+				others[int(y)] = z				#z = [chain_id,res_number,res_name]			
 				if int(y) not in res_num:
 					res_num.append(int(y))
 				#print (y); #print (coord[y])
@@ -296,7 +322,9 @@ class nucsbm(esbm,Select):
 		
 		for i in res_num:
 			print ("Writing residue ",100*i/len(CG_coord["S"]),"%")
-			for group,coord in CG_coord.items():
+			#for group,coord in CG_coord.items():
+			for group in ["P","S","Bpu","Bpy"]:
+				coord = CG_coord[group]
 				#print (group)
 				try:
 					#print(CG_others[group][i][2])
@@ -380,11 +408,13 @@ class nucsbm(esbm,Select):
 		#identifying N-bases (x[1]) that are unique to oxy_count
 		not_in_oxy = [x for x in deoxy_count if x[1] not in oxy_count]
 		assert(len(r)-len(deoxy_count)==len(oxy_count))
+		print (len(r),len(deoxy_count),len(oxy_count))
 		#types of coarsed grain atoms
-		na_type=len(deoxy_count)+len(deoxy_count)-len(not_in_oxy) + 1 #1 for phosphate
+		na_type=len(deoxy_count)+len(oxy_count)+len(deoxy_count)-len(not_in_oxy) + 1 #1 for phosphate
 		#(A union B)=A+B-(A intercept B)
 		a_type = ["B"+x[1] for x in deoxy_count]		#B as base represntator
 		a_type = a_type + ["B"+x for x in oxy_count if "B"+x not in a_type] + ["XP"]
+		print (a_type,na_type)
 		assert(len(a_type)==na_type)
 		#Adding sugar bead
 		if len(deoxy_count)!=0:
@@ -709,27 +739,33 @@ class nucsbm(esbm,Select):
 			f1.write('  %d\t%d\n'%(i[0],i[1]))
 		f1.close()
 		return
-	def writeGroBonds(self,topfilename, nativefile, nKb, bond_ptype, CG_indices):
+	def writeGroBonds(self,topfilename, nativefile, nKb, bond_ptype, CG_indices,terminal_residues):
 		print (">> writing GROMACS bonds section", topfilename, nativefile, nKb)
 		#GROMACS 4.5.2 : FENE=7 AND HARMONIC=1
-		allowed_pots = [1,7]
+
 		bonds = list()
-		for ai in range(1,len(CG_indices)+1):
+		for ai in range(1,len(CG_indices)):
 			res1 = CG_indices[ai][0]
 			atm1 = CG_indices[ai][1]
 			xyz1 = CG_indices[ai][2]
 			for aj in range(ai+1,len(CG_indices)+1):
-				#aj>ai+1 avoids aj,ai as ai,aj allready exists
 				res2 = CG_indices[aj][0]
-				if res2-res1 in (0,1):
-					atm2 = CG_indices[aj][1]
-					xyz2 = CG_indices[aj][2]
+				atm2 = CG_indices[aj][1]
+				xyz2 = CG_indices[aj][2]
+				if res1 in terminal_residues and 0 > res1:
+					#skip loop if res1 is terminal residue and
+					#res2 is from the next chain
+					continue
+				if res2-res1 == 0:
+					#Bonding term for same residue
 					if (atm1[1]=="P" and atm2[1]=="S") or (atm1[1]=="S" and atm2[1]=="P"):
 						bonds.append((ai,aj,(np.sum((xyz2-xyz1)**2))**0.5))
-					elif (atm1[0]=="B" and atm2[1]=="S") or (atm1[1]=="S" and atm2[0]=="B"):
+					elif (atm1[1]=="S" and atm2[0]=="B") or (atm1[0]=="B" and atm2[1]=="S"):
 						bonds.append((ai,aj,(np.sum((xyz2-xyz1)**2))**0.5))
-					else:
-						continue
+				elif res2-res1 == 1:
+					#Bonding term for adj resi
+					if (atm1[1]=="S" and atm2[1]=="P"):
+						bonds.append((ai,aj,(np.sum((xyz2-xyz1)**2))**0.5))
 		f1 = open(topfilename, "a")
 		f1.write('\n%s\n' % ('[ bonds ]'))
 		f1.write('%s\t%s\t%s\t%s\t%s\n' % ('; ai', 'aj', 'func', 'r0(nm)', 'Kb'))
@@ -739,7 +775,7 @@ class nucsbm(esbm,Select):
 			f1.write('  %d\t%d\t%d\t%e\t%e\n' % (i[0], i[1], bond_ptype, i[2]/10, nKb))
 		f1.close()
 		return bonds
-	def writeGroAngles(self,topfilename, nativefile, nKa, CG_indices):
+	def writeGroAngles(self,topfilename, nativefile, nKa, CG_indices,terminal_residues):
 		print (">> writing GROMACS angle section", topfilename, nativefile, nKa)
 		triplets = list()
 		nKa = float(nKa)*4.184	#KCal/mol to KJ/mol
@@ -758,22 +794,25 @@ class nucsbm(esbm,Select):
 
 		triplets = list()
 		for r in range(1,len(resi_dict)):
+			#r here is the residue number
 			try:#Set I P(i)S(i)B(i)
 				triplets.append((resi_dict[r]["P"][0]-1,resi_dict[r]["S"][0]-1,resi_dict[r]["B"][0]-1))	#making indices start from 0
 			except:
 				buf = 0
-			try:#Set II B(i)S(i)P(i+1)
-				triplets.append((resi_dict[r]["B"][0]-1,resi_dict[r]["S"][0]-1,resi_dict[r+1]["P"][0]-1))	#making indices start from 0
-			except:
-				buf = 0
-			try:#Set III P(i)S(i)P(i+1)
-				triplets.append((resi_dict[r]["P"][0]-1,resi_dict[r]["S"][0]-1,resi_dict[r+1]["P"][0]-1))	#making indices start from 0
-			except:
-				buf = 0
-			try:#Set IV S(i)P(i+1)S(i+1)
-				triplets.append((resi_dict[r]["S"][0]-1,resi_dict[r+1]["P"][0]-1,resi_dict[r+1]["S"][0]-1))	#making indices start from 0
-			except:
-				buf=0
+			if r not in terminal_residues:
+				#if i is terminal residue, don't include the triplet
+				try:#Set II B(i)S(i)P(i+1)
+						triplets.append((resi_dict[r]["B"][0]-1,resi_dict[r]["S"][0]-1,resi_dict[r+1]["P"][0]-1))	#making indices start from 0
+				except:
+					buf = 0
+				try:#Set III P(i)S(i)P(i+1)
+					triplets.append((resi_dict[r]["P"][0]-1,resi_dict[r]["S"][0]-1,resi_dict[r+1]["P"][0]-1))	#making indices start from 0
+				except:
+					buf = 0
+				try:#Set IV S(i)P(i+1)S(i+1)
+					triplets.append((resi_dict[r]["S"][0]-1,resi_dict[r+1]["P"][0]-1,resi_dict[r+1]["S"][0]-1))	#making indices start from 0
+				except:
+					buf=0
 
 		Y = conmaps()
 		CG_angles = Y.get_angles(nativefile,triplets)
@@ -789,7 +828,7 @@ class nucsbm(esbm,Select):
 			f1.write('  %d\t%d\t%d\t%s\t%e\t%e\n' % (i[0][0],i[0][1],i[0][2],'1',i[1]*180/np.pi, nKa))
 		f1.close()
 		return angles
-	def writeGroDihedrals(self,topfilename, nativefile, base_Kd, backbone_Kd, CG_indices):
+	def writeGroDihedrals(self,topfilename, nativefile, base_Kd, backbone_Kd, CG_indices,terminal_residues):
 		print (">> writing GROMACS dihedrals section", topfilename,nativefile,"Base Kd",base_Kd,"backbone Kd",backbone_Kd)
 		#converting Kcal/mol to KJ/mol
 		base_Kd = float(base_Kd)*4.184
@@ -808,14 +847,17 @@ class nucsbm(esbm,Select):
 			elif atom[0] == "B":
 				resi_dict[resi][atom[0]] = (key,xyz)
 		for r in range(1,len(resi_dict)):
-			try: #Set I B(i)S(i)S(i+1)B(i+1)
-				quadruplets_base.append((resi_dict[r]["B"][0]-1,resi_dict[r]["S"][0]-1,resi_dict[r+1]["S"][0]-1,resi_dict[r+1]["B"][0]-1))
-			except:
-				buf = 0
-			try: #Set II P(i)P(i+1)P(i+2)P(i+3)				
-				quadruplets_backbone.append((resi_dict[r]["P"][0]-1,resi_dict[r+1]["P"][0]-1,resi_dict[r+2]["P"][0]-1,resi_dict[r+3]["P"][0]-1))
-			except:
-				buf = 0
+			if r not in terminal_residues:
+				try: #Set I B(i)S(i)S(i+1)B(i+1)
+					quadruplets_base.append((resi_dict[r]["B"][0]-1,resi_dict[r]["S"][0]-1,resi_dict[r+1]["S"][0]-1,resi_dict[r+1]["B"][0]-1))
+				except:
+					buf = 0
+			if r not  in terminal_residues and r+1 not in terminal_residues and r+2 not in terminal_residues:
+				#print (r,r+1,r+2,r+3)
+				try: #Set II P(i)P(i+1)P(i+2)P(i+3)				
+					quadruplets_backbone.append((resi_dict[r]["P"][0]-1,resi_dict[r+1]["P"][0]-1,resi_dict[r+2]["P"][0]-1,resi_dict[r+3]["P"][0]-1))
+				except:
+					buf = 0
 		
 		Y = conmaps()
 		CG_base_dihedrals = Y.get_dihedrals(nativefile,quadruplets_base)[0]
@@ -851,16 +893,18 @@ class nucsbm(esbm,Select):
 		#write gromacs format files.
 		atomtypes = 3	#S,P,B
 		contacttype = 2
-		CG_indices = self.getIndices(nativefile)
+		CG_indices,terminal_residues = self.getIndices(nativefile)
+		
+
 		bond_ptype = 1
 		self.write_gro_header(topfilename,atomtypes)  		#inheriting from eSBM
 		self.write_header_SBM()						  		#inheriting from eSBM	
 		atomname = self.writeGroAtomTypes(topfilename,atomtypes,pdbfile,rad)
 		self.write_gro_moleculetype(topfilename)
 		self.writeGroAtoms(topfilename, pdbfile, nativefile, atomname,no_Pcharge)
-		self.writeGroBonds(topfilename, nativefile, fconst["nKb"], bond_ptype, CG_indices)
-		self.writeGroAngles(topfilename, nativefile, fconst["nKa"], CG_indices)
-		self.writeGroDihedrals(topfilename, nativefile, fconst["nKd"], fconst["P_nKd"], CG_indices)
+		self.writeGroBonds(topfilename, nativefile, fconst["nKb"], bond_ptype, CG_indices,terminal_residues)
+		self.writeGroAngles(topfilename, nativefile, fconst["nKa"], CG_indices,terminal_residues)
+		self.writeGroDihedrals(topfilename, nativefile, fconst["nKd"], fconst["P_nKd"], CG_indices,terminal_residues)
 		self.writeGroPairs(topfilename, nativefile, pdbfile, contacttype, cutoff, atomname, btparams)
 		self.write_gro_tail(topfilename)
 		print ('See file:',topfilename,'for GROMACS topology.')
@@ -1056,7 +1100,7 @@ def main():
 	sol_params = {"conc":iconc,"rad":irad,"D":D}
 	if args.debye:
 		debye = True
-	if arg.T:
+	if args.T:
 		T = float(args.T)
 	if args.cutoff:
 	    cutoff=float(args.cutoff)
