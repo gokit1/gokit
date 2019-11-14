@@ -1,16 +1,16 @@
 # Go-kit: Enabling energy landscape explorations of proteins
 
-A set of python tools that assist setup and post-hoc analysis of simulations of proteins with various flavours of Structure-Based Models (SBMs) for GROMACS and OPTIM runs. 
+A set of python tools that assist setup and post-hoc analysis of simulations of proteins with various flavours of Structure-Based Models (SBMs) for molecular dynamics and discrete path sampling schemes. 
 
 ### What flavours are included:
 * Standard cut-off based CA 
+* Standarg cut-off based CA (with desolvation barrier approximation for coarse-grained water molecules)
 * Standard cut-off based CA + hydrophobic contacts
 * Standard cut-off based CA + hydrophobic contacts + desolvation barrier 
 * A basic Cheung-Thirumalai two-bead (CA-CB) coarse-grained model(with angles and dihedrals).
-* SOP-SC two-bead coarse-grained model with statistical potentials (Betancourt-Thirumalai) and statistical radii. [here]((http://biotheory.umd.edu/Supplementary%20Materials/btmap.dat))
+* SOP-SC two-bead coarse-grained model with statistical potentials (Betancourt-Thirumalai) and statistical radii. [here](http://biotheory.umd.edu/Supplementary%20Materials/btmap.dat)
 * Miyazawa-Jernighan parameters for two-bead models.(Table 5 [here](https://www.ncbi.nlm.nih.gov/pubmed/10336383))
-* Custom interaction potentials for two-bead models.
-
+* Custom interaction potentials for two-bead models. (Define your own residue-residue interactions for two-beaad models) and place CB either at COM or at CB or at farthest atom in side-chain.
 
 ### What does Go-kit do?
 Starting from a PDBID, it generates input files for both GROMACS and OPTIM/PATHSAMPLE potential files with the SBM of choice. After the runs are complete, it can be used to analyse results as well. 
@@ -32,7 +32,7 @@ Flags work with both - and --
 ```
 $ python conmaps.py --get_pdb 1ris
 ```
-Remove HETATM records and ensure residue numbering starts from 1. 
+Remove HETATM records and ensure residue numbering starts from 1. Ensure all fields in file have space separators.
 ```
 $ python conmaps.py --gconmap 1ris.pdb
 ```
