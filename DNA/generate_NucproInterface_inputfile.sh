@@ -21,5 +21,4 @@ echo "[  S radius (Same as bulk) ]" >> nucpro_interface.input
 echo "[ XP radius (Same as bulk) ]" >> nucpro_interface.input
 echo "[ CA radius (Same as bulk) ]" >> nucpro_interface.input
 echo "[ CB radius (Same as bulk) ]" >> nucpro_interface.input
-echo ";Use Native (True) or non-specific electostatic interaction. Only applicable for native DNA" >> nucpro_interface.input
-echo "[Native Charge (False) ]" >> nucpro_interface.input
+

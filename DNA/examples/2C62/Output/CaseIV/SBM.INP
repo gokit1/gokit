@@ -1,5 +1,0 @@
-SBM topology file for use with OPTIM/PATHSAMPLE generated from Go-kit repo.
-Debye-Huckel Parameters: PREFACTOR, Dielectric Constant, Monovalent Ion Concentration, DH switching distance, DH cutoff distance
- 332.000   80.000    0.100   12.000   15.000
-nonbonded switching distance, truncate distance
-7.999999 8.999999

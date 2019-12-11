@@ -204,7 +204,7 @@ class conmaps():
                         #print (x1,y1,distance*10)
                         contacts.append([i[0], i[1],distance*10, distance* 10])
                         count=count+1
-            print ("Found",count,"bb-bb contacts")
+            print ("Found",count,"bb-bb contacts")  
             #np.savetxt ('bb_sopsc.dat',contacts,fmt='%-4d  %-4d  %10.6f  %10.6f')
             return contacts
 
@@ -244,11 +244,16 @@ class conmaps():
                 if x1 and y1:
                     if np.absolute(i[1]-i[0])>=separation:
                        # CB-CA
-                        pair = ([i[0], i[1]]);
+                        ##___TESTING___#
+                        #pair = ([i[0], i[1]]);
+                        pair = (x1,y1)
+                        ##___TESTING___#
                         pair = np.reshape(pair, (1, 2))
                         distance = md.compute_distances(traj, pair)[0][0]
                         #cutoff and scaling criterion.
                         if (distance * 10 <= 8.0):
+                            #print (i[0],i[1],x1,y1)
+                            #exit()
                             #print(pair, distance, x1, y1)
                             contacts.append([i[0], i[1], distance * 10, distance * 10])
                             count = count + 1

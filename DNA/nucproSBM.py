@@ -10,11 +10,9 @@ from Bio.PDB.PDBParser import PDBParser
 from Bio.PDB.PDBIO import PDBIO,Select
 import collections
 import numpy as np
-import math
-import mdtraj as md
+import random as rnd
 from eSBM import esbm
 from nucSBM import nucsbm,PrePDB
-from gr import conmaps
 from util import Utils
 
 class Utility(Utils):
@@ -30,10 +28,10 @@ class nucprosbm():
 	def coordinateTransform(self,aafile,nucfile):
 		#when a custom nucleic acid structure is added to the pdb,
 		#the co-ordintaes of the RNA/DNA may overlap with those of protein.
-		#This function moves the geometric center if the the DNA/RNA at a distance
+		#This function moves the geometric center of the the DNA/RNA at a distance
 		#equal to sum of radius of protein and DNA/RNA macromolecule
 		#Radius is defined here as the distance of the farthest atom from the geometric center
-
+		#Although the distance is same, the position is randomly determined
 		#this function is called if custom_nuc input is true
 		#and returns name of the new aligned nuc pdb file
 		
@@ -63,8 +61,13 @@ class nucprosbm():
 
 		
 		#Loading nuc_pdbfile and reading coordinates
+		nucfile,nuc_terminal = PrePDB().appendChain(nucfile)
+		if nucfile == 0:
+			print ("Your input only contains protein!!!!!")
+			return 0
+		print ("Input has ",len(nuc_terminal)," nucleic acid chains")
 		fin = open(nucfile)
-		nuclines = fin.readlines()
+		nuclines = [x for x in fin.readlines() if x.startswith(("ATOM","TER")) and len(x.strip())!=0]
 		fin.close()
 		coord = list()
 		for i in nuclines:
@@ -86,9 +89,43 @@ class nucprosbm():
 		#minimum distance to be kept between protein and DNA/RNA
 		dist = aa_rad+nuc_rad
 		#for diagonal distances a*(3)^0.5 = dist, hence a = dist/3**0.5
-		a = dist/3**0.5
+		#a = dist/3**0.5	#equal tranformation in all three co-ordinates
+		#let alpha be the angle of trans_vec (transformation verctor) with Z.axis
+		#let beta be the angle of the XY projection of trans_vec with X aixis
+
+		#Randomly genrating tranformation vector with minimu dist as determined above
+		trans_vec = dist*rnd.uniform(1,1.5) #The actual value of dist will be randomly increased by 1-> 1.5 times
+		alpha = rnd.uniform(0,2*np.pi)
+		beta = rnd.uniform(0,2*np.pi)
+		X_trans = trans_vec*np.sin(alpha)*np.cos(beta)
+		Y_trans = trans_vec*np.sin(alpha)*np.sin(beta)
+		Z_trans = trans_vec*np.cos(alpha)
+
+
+		#__TESTING__#
+		X_trans = 0; Y_trans = 0; Z_trans = 0
+		#overriding the above random trasvec for testing.
+		#a random number 1->6 will be generated corrosponding to 3*2 directions on x,y,z axis
+		#the DNA/RNA will be moved in that direction by trans_vec
+		roll_a_die = rnd.choice([1,2,3,4,5,6])
+		if roll_a_die == 1:
+			X_trans = trans_vec
+		elif roll_a_die == 4:
+			X_trans = -1*trans_vec
+		elif roll_a_die == 2:
+			Y_trans = trans_vec
+		elif roll_a_die == 5:
+			Y_trans = -1*trans_vec
+		elif roll_a_die == 3:
+			Z_trans = trans_vec
+		elif roll_a_die == 6:
+			Z_trans = -1*trans_vec
+		print (np.float_([X_trans,Y_trans,Z_trans]))
+		#proceed = raw_input("Can we Proceed(1)? [Y=1/N=0]: ")
+		#if int(proceed) == 0:
+		#	exit()
 		#definfing new coordinates for nucleic acid structure
-		new_nuc_geocent = aa_geocent + np.array([a,a,a])
+		new_nuc_geocent = aa_geocent + np.float_([X_trans,Y_trans,Z_trans])
 		print ("DNA/RNA new Geometric center = ",new_nuc_geocent)
 		
 		#defining linear transition matrix for moving FNA/RNA
@@ -113,12 +150,16 @@ class nucprosbm():
 		fout.close()
 		fout = open(aafile,"w+")
 		#appaending residue number in aafile
+		prev_res = 0
 		for i in aalines:
 			if not i.startswith("ATOM"):
 				fout.write(i)
 			else:
-				resnum = str(int(i[22:26])+total_nuc_residues).rjust(len(i[22:26]))
-				fout.write(i[:22]+resnum+i[26:])
+				if int(i[22:26]) != prev_res:
+					total_nuc_residues += 1
+				resnum = str(total_nuc_residues).rjust(len(i[22:26]))
+				fout.write(i[:22]+str(resnum)+i[26:])
+				prev_res = int(i[22:26])
 		fout.close()
 		return outfile
 		#end of function
@@ -127,27 +168,25 @@ class nucprosbm():
 		#the function returns name of the merged native file
 
 		#loading the two pdbfiles
-		#fin1 = PrePDB().readPDB(nucfile)
-		#fin2 = PrePDB().readPDB(aafile)
-		file = open(nucfile); fin1 = file.readlines(); file.close()
-		file = open(aafile); fin2 = file.readlines(); file.close()
-		
+		fin1 = open(nucfile)
+		fin2 = open(aafile)
+
 		#output native file
 		nativefile = "native_CB_P-S-B.pdb"
 		fout = open(nativefile,"w+")
 		#writing from file 1
+		atnum = 0
 		for l in fin1:
 			if l.startswith("ATOM"):
 				fout.write(l.strip()+"\n")
+				atnum  = int(l[6:11])
 			elif l.startswith("TER"):
 				#terminal
 				ter = "TER".ljust(6)+l[6:11]+" ".center(5)+l[16:27]+"\n"
 				fout.write(ter.strip()+"\n")
-		l = fin1[len(fin1)-1]
-
 		#atnum will be used to get the new atom numbers for the second file
-		atnum = int(l[6:11].lstrip().rstrip())
-		
+		fin1.close()
+
 		#writing second file
 		for l in fin2:
 			if l.startswith("ATOM"):
@@ -158,8 +197,8 @@ class nucprosbm():
 				fout.write(ter)
 		fout.write("END")
 		fout.close()
+		fin2.close()
 		return nativefile
-		#end of function
 	def nucproContacts(self,pdbfile,nativefile,cutoff,	strength):
 		#calculating native cross contacts (if the DNA/RNA structure if native)
 		print (">>Writing Nuc-amino_acid contacts<<")
@@ -254,7 +293,7 @@ class nucprosbm():
 		for k,v in aromatic_contacts.items():
 			print (k,v)
 		#Storing a list of contacts for pair section
- 		CG_contacts = list()
+		CG_contacts = list()
 		for key,value in nucpro_cg.items():
 			distance = value[0]; atom1_id = value[1]; atom2_id = value[2]
 			a1 = key[2][0]; a2 = key[2][1]
@@ -276,65 +315,131 @@ class nucprosbm():
 				fout.write('%s\t%s\t%s\t%s\t%s\t%s\t%s\n'%(pair_atom[0],pair_atom[1],str(pair_id[0]),str(pair_id[1]),pair_resname[0],pair_resname[1],str(pair_distance)))
 			fout.close()
 		return CG_contacts
-	def nucproInterfaceQ(self,pdbfile,nativefile,cutoff):
-		print (">>Writing Nuc-amino_acid charged contacts<<")
-		#loading all atom pdb file
-		load_residues = PDBParser().get_structure("test",pdbfile).get_residues()
-		#storing atom objects in a list
-		resi = [a for a in load_residues]
-		nuc_res = ["DA","DG","DC","DT","DU","A","G","C","T","U"]
-		charged_AA = ["LYS","ARG","HIS","ASP","GLU"]
-		Q_AA = [r for r in resi if r.get_resname() in charged_AA ]
-		Q_nuc = [r for r in resi if r.get_resname().strip() in nuc_res]
+	def nucproInterface_AroElec(self,pdbfile,nativefile,cutoff):
+		print (">>> Generating native Aromatic and Electrostatic contacts")
+		#reading pdbfile
+		all = open(pdbfile)
+		#loaded file in all
 
-		Q_pairs = list()
-		count = 0
-		for aa_residue in Q_AA:
-			for aa_atom in aa_residue :
-				for nuc_residue in Q_nuc: 
-					for nuc_atom in nuc_residue:
-						raa  = aa_atom.get_parent().id[1]
-						rnuc = nuc_atom.get_parent().id[1]
-						if [rnuc,raa] not in Q_pairs: 
-							Q_pairs.append([rnuc,raa])
+		#reading native 2 bead file
+		fin2 = open(nativefile)
+		atoms_in_native = dict()	#residue+atomname-> atom number	
+		coord_in_native = dict()	#atom number -> co-ordinate
 
-		fnat = open(nativefile)
-		#native atom number fo residues in pair
-		native_XP_or_CB = dict()
-		for i in fnat:
-			if i[12:16].strip() in ["CA","XP"]:
-				native_XP_or_CB[int(i[22:26])] = int(i[6:11])
-		fnat.close()
+		for i in fin2:
+			if i.startswith("ATOM"):
+				r = int(i[22:26])
+				if r not in atoms_in_native:
+					atoms_in_native[r] = dict()
+				atomname = i[12:16].strip();atnum = int(i[6:11])
+				#storing atomnumber hashed to residue number and atomname
+				atoms_in_native[r][atomname]=atnum
+				coord_in_native[atnum]=np.float_([i[30:38],i[38:46],i[46:54]])
+		fin2.close()#loaded coordinates in coord_in_native and atomnumber in atoms_in_native
 
-		temp = list()
-		for i in Q_pairs:
-			try:
-				temp.append([native_XP_or_CB[i[0]],native_XP_or_CB[i[1]]])
-			except:
-				print ("Seems like Residue",i[0],"or",i[1],"lack CB or XP")
-		Q_pairs = temp
-		return Q_pairs
+		#separating AA and nuc sections
+		nuclines=list(); aalines=list()
+		for i in all:
+			if not i.startswith("TER"):
+				if len(i[17:20].strip()) < 3:	#nucleotides residues are represented in 1 or 2 leters
+					nuclines.append(i)
+				elif len(i[17:20].strip()) == 3: #aminoacid residues are represented in 3 letters
+					aalines.append(i)
+		print ("_TESTING_","exiting now!!!!....Dont all needed files are allready generated")
+		exit()
+		scaling = 1.2
+		#all_pairs, Charged pairs and Aromatic pairs
+		pairs = dict(); Qpairs = dict(); aropairs = dict()
+		for p in nuclines:
+			#loading variables for nucleotides
+			a1 = int(p[6:11])	#atom 1
+			r1 = int(p[22:26])	#residue 1
+			c1 = np.float_([p[30:38],p[38:46],p[46:54]]) #xyz 1
+			nucatom = p[12:16].strip()	#all atom atom name
+			nuc_residue_name = p[17:20].strip()
+			if nucatom.endswith("'"):
+				#all sugar atoms atomname end with "'" 
+				if nuc_residue_name.startswith("D"):
+					atomname1 = "DS"
+				else:
+					atomname1 = "DS"
+
+			elif "P" in nucatom:
+				#all atoms in phosphate group have "P" in their atomname 
+				atomname1 = "XP"
+
+			else :#if not S or P, atom belongs to N-Base
+				atomname1 = "B"+nuc_residue_name[len(nuc_residue_name)-1]
+			for q in aalines:
+				aa_atom = q[12:16].strip()
+				if aa_atom in ["CA","C","O","N"]:
+					atomname2 = "CA"
+				else:#if atom not belongs to backbone
+					atomname2 = "CB"
+				a2 = int(q[6:11])	#atom number
+				r2 = int(q[22:26])	#residue number
+				c2 = np.float_([q[30:38],q[38:46],q[46:54]])	#xyz
+				d = np.sum((c2-c1)**2)**0.5
+				aa_residue = q[17:20].strip()	#residue name
+				if d<= 9.0:	#forming contacts
+					#for LJ contacts
+					atnum1 = atoms_in_native[r1][atomname1]
+					atnum2 = atoms_in_native[r2][atomname2]
+					xyz1 = coord_in_native[atnum1]
+					xyz2 = coord_in_native[atnum2]
+					cg_dist = np.sum((xyz2-xyz1)**2)**0.5
+					if d <= 4.5 and d<scaling*cg_dist:
+						pairs[(atnum1,atnum2)] = cg_dist
+					if d<scaling*cg_dist and atomname1 == "XP" and atomname2 == "CB" and aa_residue in ["HIS","LYS","ARG"]:#,"GLU","ASP"]:
+						Qpairs[(atnum1,atnum2)] = cg_dist
+					elif d<scaling*cg_dist and atomname1.startswith("B") and atomname2 == "CB" and aa_residue in ["HIS","PHE","TRP","TYR"]:
+						print ("_TESTING_")
+						aropairs[(atnum1,atnum2)] = cg_dist
+		fout = open("native_LJ_contacts.txt","w+")
+		pairs = pairs.items(); pairs.sort()
+		for i,j in pairs:
+			d = j*0.1
+			fout.write('%d\t%d\t%e\t%e\n' % (i[0],i[1],6*(d**10),5*(d**12)))
+		fout.close()
+
+		fout = open("native_Elec_contacts.txt","w+")
+		Qpairs = Qpairs.items(); Qpairs.sort()
+		for i,j in Qpairs:
+			d = j*0.1
+			fout.write('%d\t%d\t%e\t%e\n' % (i[0],i[1],6*(d**10),5*(d**12)))
+		fout.close()
+
+
+		fout = open("native_Aromatic_contacts.txt","w+")
+		aropairs = aropairs.items(); aropairs.sort()
+		for i,j in aropairs:
+			d = j*0.1
+			fout.write('%d\t%d\t%e\t%e\n' % (i[0],i[1],6*(d**10),5*(d**12)))
+		fout.close()
+		return 1
 	def interfaceParams(self,defaults,CBradii,aalist,nuc_atoms):
 		#opening user defined input file for interface
 		#this is used to input user defined parametes for protein-DNA/RNA interfacce
 
+		# list of parameters in file
+		#the list defined is in specific order and so is file
+		#changing the order in file or in this list can lead to termination of code or wrong output
+		params_list = [ "LJ_atr", "Aro_cont",  "A" , "G", "T" , "C" , "U" , "S" , "P" , "CA_rad" , "CB_rad" ] 
+
 		#loading input file
 		#bash generate_NucproInterface_inputfile.sh
 		#for generating the input file before simulations
-		fin = open("nucpro_interface.input")
-		all = [x for x in fin.readlines() if len(x.strip())>0 and not x.startswith(";")]
-		fin.close()
-
+		try:
+			fin = open("nucpro_interface.input")
+			all = [x for x in fin.readlines() if len(x.strip())>0 and not x.startswith(";")]
+			fin.close()
+		except:
+			all = params_list
 		print ("Number of paramters: ",len(all))
 
 		#defining default parameters
 		defaults["CB_rad"] = 0 #buffer value
-		defaults["LJ_atr"] = False; defaults["natCharge"] = False; defaults["Aro_cont"] = True
-
-		# list of parameters in file
-		#the list defined is in specific order and so is file
-		#changing the order in file or in this list can lead to termination of code or wrong output
-		params_list = [ "LJ_atr", "Aro_cont",  "A" , "G", "T" , "C" , "U" , "S" , "P" , "CA_rad" , "CB_rad" , "natCharge"] 
+		defaults["LJ_atr"] = False; defaults["Aro_cont"] = True
 
 		#checking for input
 		params = dict()
@@ -355,15 +460,17 @@ class nucprosbm():
 				#using default paramters if exception is raised
 				params[params_list[i]] = defaults[params_list[i]]
 				print ("Using default condition for",params_list[i])
-	
+		print ("All distances above used in Angstom")
 
 		#aquiring CB radius
 		if params["CB_rad"] == 0:
-			#i.e if user have not been defined any CB redii, use default
+			#i.e if user have not defined any CB redii, use default
 			if not CBradii:
 				#use from the prodefined dict
 				aa_rad = esbm().amino_acid_radius_dict()
 			elif CBradii:
+				#if for CB-rad was used earlier, the values were written to the file
+				#and CBradii was turned on
 				#read from file defined earlier in the program
 				aa_rad = dict()
 				fin = open("radii.dat")
@@ -374,6 +481,7 @@ class nucprosbm():
 	
 		#Getting CB atom types as mentioned in Amino acid top file
 		all_CBrads = dict()		
+		def_CBrads = dict()
 		#this will include aromatic static contacts if they allready exists in nonbond_params
 		if params["Aro_cont"]:
 			stacking_term_exists = True
@@ -381,57 +489,79 @@ class nucprosbm():
 			#hence will exclude them
 			residues_to_exclude = ["HIS","PHE","TRP","TYR"]
 		else:
+			#include aromatic CB as they are not allready included
 			stacking_term_exists = False 
 			residues_to_exclude = ["NILL"] #buffer term
 		CB_atoms_to_exclude = list()
 
 		for i in aalist:
 			a = i.split()
+			#a[4] is atom name
 			if a[4].strip() == "CB": #atom type in atoms section of topfile
+				
+				def_CBrads[a[1].strip()] = aa_rad[a[3].strip()]
 				if params["CB_rad"] == 0:
 					#no user input for CB_rad, using default values
 					all_CBrads[a[1].strip()] = aa_rad[a[3].strip()]
+					#a[1] is atom type and a[3] is residue name
+				
 				elif params["CB_rad"] != 0:
-					#using user defined values
+					#using user new defined values
 					all_CBrads[a[1].strip()] = params["CB_rad"]
-			if a[3].strip() in residues_to_exclude:
-				#defining list of atom_types that to be excluded
+			
+			if a[3].strip() in residues_to_exclude and a[1].strip()!="CA":
+				#defining list of atom_types that are to be excluded
 				CB_atoms_to_exclude.append(a[1].strip())
+		
+		#loading CA default radii
+		def_CBrads["CA"] = defaults["CA_rad"]
+
 		#generating interface nonbonded parms list
 		epsilonij = 1; function = 1
 		nonbond_params = list()
-		all_CBrads["CA"] = params["CA_rad"] #adding CA_rad for easy computation
+		all_CBrads["CA"] = params["CA_rad"] 
+		#adding CA_rad for to the list for ease in looping 
 
 		#loading all non_bond paramters for interface	
 		for y in all_CBrads:
 			try:
+				#Will be used for CB (if CB all atom type is used)
 				sorter = int(y[2:])	#flag to sort the nonbond_params list
 			except:
+				#will be used if Nucleic acids or CB+aminoacid_1-letter code is used
 				sorter = 0
 			
-			Cj12 = ((all_CBrads[y]*0.1)**12)*5*epsilonij
+			#Cj12 = ((all_CBrads[y]*0.1)**12)*5*epsilonij
+			sigma_j = (all_CBrads[y])*0.1	
+			
 			for x in params:
-				Ci12 =  ((params[x]*0.1)**12)*5*epsilonij
+				#Ci12 =  ((params[x]*0.1)**12)*5*epsilonij
+				sigma_i = params[x]*0.1
+			
 				if "B"+x in nuc_atoms and y not in CB_atoms_to_exclude:	#for all present N bases
-									#Combination rule C12 = (C12i*C12j)^(1/2)
-					A = 0; B = (Ci12*Cj12)**(0.5)
+					#Combination sigma = (sigma_i+sigma_j)
+					A = 0; B = (((sigma_i+sigma_j))**12)*epsilonij
 					nonbond_params.append([sorter,y,"B"+x,function,A,B])
-				elif "D"+x in nuc_atoms:	#for all presnt deoxy sugars represented by DS
-					#Combination rule C12 = (C12i*C12j)^(1/2)
-					A = 0; B = (Ci12*Cj12)**(0.5)
-					nonbond_params.append([sorter,y,"D"+x,function,A,B])
+
 				elif "X"+x in nuc_atoms:	#for phosphate represented by XP
-					#Combination rule C12 = (C12i*C12j)^(1/2)
-					A = 0; B = (Ci12*Cj12)**(0.5)
-					nonbond_params.append([sorter,y,"X"+x,function,A,B])
-				elif "R"+x in nuc_atoms:		#for ribose sugar represented by RS
-					#Combination rule C12 = (C12i*C12j)^(1/2)
-					A = 0; B = (Ci12*Cj12)**(0.5)
-					nonbond_params.append([sorter,y,"R"+x,function,A,B])
+					#Combination sigma = (sigma_i+sigma_j)
+					A = 0; B = (((sigma_i+sigma_j))**12)*epsilonij
+					nonbond_params.append([sorter,y,"X"+x,function,A,B])				
+
+				else:
+					for nucleotide in ["A","T","G","C","U"]:
+						if "D"+x+nucleotide in nuc_atoms:	#for all presnt deoxy sugars represented by DS
+							#Combination sigma = (sigma_i+sigma_j)
+							A = 0; B = (((sigma_i+sigma_j))**12)*epsilonij
+							nonbond_params.append([sorter,y,"D"+x+nucleotide,function,A,B])
+						if "R"+x+nucleotide in nuc_atoms:		#for ribose sugar represented by RS
+							#Combination sigma = (sigma_i+sigma_j)
+							A = 0; B = (((sigma_i+sigma_j))**12)*epsilonij
+							nonbond_params.append([sorter,y,"R"+x+nucleotide,function,A,B])
+
 		nonbond_params.sort()
-		print ("Inter Protein-NucleicAcid nonbonded parameters")
-		for i in nonbond_params:
-			print (i)
+
+		print ("Inter Protein-NucleicAcid parameters included in non_bond params section of combined topology file")
 		return params,nonbond_params
 		#end of function
 	def mergeTopfile(self,aa_topfile,nuc_topfile,cutoff,pdbfile,nativefile,rad,CBradii,interface,custom_nuc):
@@ -460,7 +590,7 @@ class nucprosbm():
 		#splitting topfile based on headers
 		# headers ] data_in_the_section, hence spliting using delim = "]"
 		for i in top1:
-			i=i.rstrip().lstrip()
+			i=i.strip()
 			a = i.split("]")
 			if len(a)==2:#if the section exists
 				nuclist.append([a[0].strip(),a[1].strip()])
@@ -473,27 +603,31 @@ class nucprosbm():
 		#writing topdile
 		topfile = aa_topfile.split("_")[1]
 		fout = open(topfile,"w+")
+		
 		#header
 		fout.write(top2[0])
-		order = [""]
-		print ("Native CG Nucleotide atoms:",len(nuclist))
-		print ("Native CG Amino Acid atoms:",len(aalist))
+		print (">>> Native CG Nucleotide atoms:",len(nuclist))
+		print (">>> Native CG Amino Acid atoms:",len(aalist))
 		
+		#nonbond_section = []
 		#getting nucleotide atoms
 		for n in nuclist:
 			header = n[0]
 			if header == "atomtypes":
-				nuc_atoms_section = [x for x in n[1].split("\n") if not x.startswith(";")]
-		nuc_atoms = list()
-		for i in nuc_atoms_section:
-			nuc_atoms.append(i.split()[0].strip())
+				nuc_atoms = [x.split()[0].strip() for x in n[1].split("\n") if not x.startswith(";")]
+			#if header == "nonbond_params":
+				#loading base-pairing terms from nonbond_params section
+			#	nonbond_section = nonbond_section + [x for x in n[1].split("\n") if not x.startswith(";")]
 
-		#getting Aromactic CBs
+		#loading CB atoms list from topology atoms section
 		for a in aalist:
 			header = a[0]
 			if header == "atoms":
 				CB_list  = [x for x in a[1].split("\n") if not x.startswith(";")]	#loading only atom section in aalist
 				#clearing sections that are not needed
+			#if header == "nonbond_params":
+			#	nonbond_section = nonbond_section + [x for x in a[1].split("\n") if not x.startswith(";")]
+
 		#by default aromatic_contacts = True
 		aromatic_contacts = True
 		
@@ -503,176 +637,204 @@ class nucprosbm():
 
 		aromatic_CB_Base = list()
 		if aromatic_contacts:
+			aro_cont_pair = list()
 			#defining AA-nucleotide stacking poteintiial in form of a LJ C10-C12 term
 			function = 1
 			aa_res  = esbm().amino_acid_dict2()
 			for i in CB_list:
+				#looping over amino-acid topology atomss section
 				a = i.split()
-				y = a[1].strip() #atomname
+				y = a[1].strip() #atom type
+				#a[4] is atom name and a[3] is residue name
 				if a[4] == "CB" and a[3].strip() in ["TRP","TYR","PHE","HIS"]:
 					for x in nuc_atoms:
 						if x.startswith("B"):
 							epsilonij = float(stackeps[x][aa_res[a[3].strip()]])
-							#print (rad["stack"],epsilonij)
+							#print (rad["stack"],epsilonij) rad[stack] default is 3.6A
 							B = ((rad["stack"]*0.1)**12)*5*epsilonij
 							A = ((rad["stack"]*0.1)**10)*6*epsilonij
-							aromatic_CB_Base.append([int(y[2:]),x,y,function,A,B])
+							#print (A/epsilonij,B/epsilonij)
+							if (x,y) not in aro_cont_pair:
+								aro_cont_pair.append((x,y))
+								aromatic_CB_Base.append([y[2:],x,y,function,A,B])
 
-		if custom_nuc:
-			#if custom nucleotide is used, no native contacts will be used
-			#defining non-native stacking poteintial for the base stacking 
-			function = 1
-			for yi in range(0,len(nuc_atoms)):
-				y = nuc_atoms[yi]
-				if y.startswith("B"):
-					for xi in range(yi,len(nuc_atoms)):
-						x = nuc_atoms[xi]
-						if x.startswith("B"):
-							epsilonij = float(stackeps[x][y])
-							#print (rad["stack"],epsilonij)
-							B = ((rad["stack"]*0.1)**12)*5*epsilonij
-							A = ((rad["stack"]*0.1)**10)*6*epsilonij
-							aromatic_CB_Base.append([int(0),x,y,function,A,B])
+		
+		#this section is not requires as the base-base stacking terns are included as the contcats between adj. bases
+		#if custom_nuc:
+		#	#if custom nucleotide is used, no native contacts will be used
+		#	#defining non-native stacking poteintial for the base stacking 
+		#	function = 1
+		#	for yi in range(0,len(nuc_atoms)):
+		#		y = nuc_atoms[yi]
+		#		if y.startswith("B"):
+		#			for xi in range(yi,len(nuc_atoms)):
+		#				x = nuc_atoms[xi]
+		#				if x.startswith("B"):
+		#					epsilonij = float(stackeps[x][y])
+		#					#print (rad["stack"],epsilonij)
+		#					B = ((rad["stack"]*0.1)**12)*5*epsilonij
+		#					A = ((rad["stack"]*0.1)**10)*6*epsilonij
+		#					aromatic_CB_Base.append([int(0),x,y,function,A,B])
 
-		print ("Aromatic stacking terms")
-		for i in aromatic_CB_Base:
-			print (i)
-
-		for i in range(0,len(aalist)):
-			header1 = nuclist[i][0]
-			header2 =  aalist[i][0]
-			data1 = nuclist[i][1]
-			data2 =  aalist[i][1]
-			if header1==header2:
-				fout.write('\n%s%s%s\n' % ("[ ",header2," ]"))
-				if header2 == "defaults":
-					fout.write(data1+"\n")
-				elif header2 == "atomtypes":
-					data = data1.split("\n")
-					for d in data:
-						fout.write('  %s\n' % (d.strip()))
-					data = data2.split("\n")
-					for d in data:
-						if not d.lstrip().startswith(";"):
+		for i1 in range(0,len(nuclist)):
+			for i2 in range(0,len(aalist)):
+				header1 = nuclist[i1][0]
+				header2 =  aalist[i2][0]
+				data1 = nuclist[i1][1]
+				data2 =  aalist[i2][1]
+				if header1==header2:
+					fout.write('\n%s%s%s\n' % ("[ ",header2," ]")),
+					if header2 == "defaults":
+						fout.write(data1+"\n")
+					elif header2 == "atomtypes":
+						data = data1.split("\n")
+						for d in data:
 							fout.write('  %s\n' % (d.strip()))
-					#for non-bonded params:
-					header2 = "nonbond_params"
-					fout.write('\n%s%s%s\n' % ("[ ",header2," ]"))
-					fout.write('; i\tj\tfunc\tA(C10)\tB(C12)\n')
-					#use interface if parameters are different for A-A, N-N are not same as A-N
-					if interface:
-						for i in nonbond_params:
+						data = data2.split("\n")
+						for d in data:
+							if not d.lstrip().startswith(";"):
+								fout.write('  %s\n' % (d.strip()))
+
+					elif header2 == "nonbond_params":
+						fout.write('; i\tj\tfunc\tA(C10)\tB(C12)\n')
+						#if it nonbond_params section allreadyu exist
+						for h in data1.split("\n")+data2.split("\n"):
+							if h.strip().startswith(";"):
+								continue
+							fout.write(h+"\n") 
+						fout.write("\n")
+						#use interface if parameters are different for A-A, N-N are not same as A-N
+						if interface:
+							fout.write("; amino acids + nucleic acis cross terms terms\n")	
+							for i in nonbond_params:
+									fout.write('  %s\t%s\t%d\t%e\t%e\n' % (i[1],i[2],i[3],i[4],i[5]))
+						fout.write("; amino acids + nucleic acis aromatic pi-pi stacking terms\n")
+						for i in aromatic_CB_Base:
 							fout.write('  %s\t%s\t%d\t%e\t%e\n' % (i[1],i[2],i[3],i[4],i[5]))
-					fout.write("; amino acids + nucleic acis aromatic pi-pi stacking terms\n")
-					for i in aromatic_CB_Base:
-						fout.write('  %s\t%s\t%d\t%e\t%e\n' % (i[1],i[2],i[3],i[4],i[5]))
-				elif header2 in ["moleculetype","system","molecules"]:
-					fout.write(data1+"\n")
-				elif header2 == "atoms":
-					data = data1.split("\n")
-					for d in data:
-						atnum = d.strip().split()[0]
-						fout.write('  %s\n' % (d.strip()))
-					atnum = int(atnum.strip()) #store the last atom number as atnum
-					data = data2.split("\n")
-					for d in data:
-						if not d.lstrip().startswith(";"):
-							d = d.strip().split()
-							atnum2 = int(d[0].lstrip().rstrip())
-							fout.write('  %s\t%s\t%s\t%s\t%s\t%s\t%6.2f\t%6.2f\n' % (str(atnum+atnum2),d[1],d[2],d[3],d[4],str(atnum+atnum2),float(d[6]),float(d[7])))
-				#since atoms section comes before bond/angle/dihedral and pairs, the atnum value stored above can be used in other section
-				elif header2 in ["bonds","pairs"]:
-					data = data1.split("\n")
-					if header2=="bonds" or (header2=="pairs" and not custom_nuc):
-						#write nucleotide part if its atom section or 
-						#its pair section but cutom_nuc is not true, It doesn't make sense 
-						# to include native contacts in a custom made structure, 
-						for d in data:   
+
+					elif header2 in ["moleculetype","system","molecules"]:
+						fout.write(data1+"\n")
+					elif header2 == "atoms":
+						data = data1.split("\n")
+						for d in data:
+							atnum = d.strip().split()[0]
 							fout.write('  %s\n' % (d.strip()))
-					data = data2.split("\n")
-					for d in data:
-						if not d.lstrip().startswith(";"):
-							d = d.strip().split()
-							atnum2 = [int(d[0])+atnum,int(d[1])+atnum]
-							fout.write('  %s\t%s\t%s\t%s\t%s\n' % (str(atnum2[0]),str(atnum2[1]),d[2],d[3],d[4]))
-							function = d[2]
-					#if header is [ pairs ], determine cross contact terms
-					if header2=="pairs" and interface and params["LJ_atr"]:
-						#if interface input parameters are given and params["LJ_atr"] are true
-						print (">>Writing Nuc-amino_acid contacts<<")
-						CG_contacts = self.nucproContacts(pdbfile,nativefile,cutoff,stackeps)
-						for i in CG_contacts:
-							epsilonij=float(i[4])
-							B=((i[3]*0.1)**12)*5*epsilonij
-							A=((i[3]*0.1)**10)*6*epsilonij
-							fout.write('  %d\t%d\t%s\t%e\t%e\n' % (i[0],i[1],function,A,B))
-					if header2=="pairs" and interface and params["natCharge"]:
-						#if interface input parameters are given and params["natCharge"] are true
-						Q_contacts = self.nucproInterfaceQ(pdbfile,nativefile,cutoff)		
-						for i in Q_contacts:
-							B=0.0
-							A=0.0
-							fout.write('  %d\t%d\t%s\t%e\t%e\n' % (i[0],i[1],function,A,B))
-				elif header2 == "angles":
-					data = data1.split("\n")
-					for d in data:   
-						fout.write('  %s\n' % (d.strip()))
-					data = data2.split("\n")
-					for d in data:
-						if not d.lstrip().startswith(";"):
-							d = d.strip().split()
-							atnum2 = [int(d[0])+atnum,int(d[1])+atnum,int(d[2])+atnum]
-							fout.write('  %s\t%s\t%s\t%s\t%s\t%s\n' % (str(atnum2[0]),str(atnum2[1]),str(atnum2[2]),d[3],d[4],d[5]))
-				elif header2 == "dihedrals":
-					data = data1.split("\n")
-					for d in data:   
-						fout.write('  %s\n' % (d.strip()))
-					data = data2.split("\n")
-					for d in data:
-						if not d.lstrip().startswith(";"):
-							d = d.strip().split()
-							atnum2 = [int(d[0])+atnum,int(d[1])+atnum,int(d[2])+atnum,int(d[3])+atnum]
-							fout.write('  %s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' % (str(atnum2[0]),str(atnum2[1]),str(atnum2[2]),str(atnum2[3]),d[4],d[5],d[6],d[7]))	
-				elif header2 == "exclusions":
-					if not custom_nuc:	#if not using custom nucleotide structure
+						atnum = int(atnum.strip()) #store the last atom number as atnum
+						data = data2.split("\n")
+						for d in data:
+							if not d.lstrip().startswith(";"):
+								d = d.strip().split()
+								atnum2 = int(d[0].lstrip().rstrip())
+								fout.write('  %s\t%s\t%s\t%s\t%s\t%s\t%6.2f\t%6.2f\n' % (str(atnum+atnum2),d[1],d[2],d[3],d[4],str(atnum+atnum2),float(d[6]),float(d[7])))
+					#since atoms section comes before bond/angle/dihedral and pairs, the atnum value stored above can be used in other section
+
+					elif header2 in ["bonds","pairs"]:
 						data = data1.split("\n")
 						for d in data:   
 							fout.write('  %s\n' % (d.strip()))
-					data = data2.split("\n")
-					for d in data:
-						if not d.lstrip().startswith(";"):
-							d = d.strip().split()
-							atnum2 = [int(d[0])+atnum,int(d[1])+atnum]
-							fout.write('  %s\t%s\n' % (str(atnum2[0]),str(atnum2[1])))
-					if interface  and params["LJ_atr"]:
-						for d in CG_contacts:
-							fout.write('  %s\t%s\n' % (str(d[0]),str(d[1])))
+						data = data2.split("\n")
+						for d in data:
+							if not d.lstrip().startswith(";"):
+								d = d.strip().split()
+								atnum2 = [int(d[0])+atnum,int(d[1])+atnum]
+								fout.write('  %s\t%s\t%s\t%s\t%s\n' % (str(atnum2[0]),str(atnum2[1]),d[2],d[3],d[4]))
+								function = d[2]
+
+						#if header is [ pairs ], determine cross contact terms
+						if header2=="pairs" and interface and params["LJ_atr"]:
+							#if interface input parameters are given and params["LJ_atr"] are true
+							print (">>Writing Nuc-amino_acid contacts<<")
+							#____TESTING____#
+							CG_contacts = self.nucproContacts(pdbfile,nativefile,cutoff,stackeps)
+							for i in CG_contacts:
+								epsilonij=float(i[4])
+								B=((i[3]*0.1)**12)*5*epsilonij
+								A=((i[3]*0.1)**10)*6*epsilonij
+								fout.write('  %d\t%d\t%s\t%e\t%e\n' % (i[0],i[1],function,A,B))
+							
+					elif header2 == "angles":
+						data = data1.split("\n")
+						for d in data:   
+							fout.write('  %s\n' % (d.strip()))
+						data = data2.split("\n")
+						for d in data:
+							if not d.lstrip().startswith(";"):
+								d = d.strip().split()
+								atnum2 = [int(d[0])+atnum,int(d[1])+atnum,int(d[2])+atnum]
+								fout.write('  %s\t%s\t%s\t%s\t%s\t%s\n' % (str(atnum2[0]),str(atnum2[1]),str(atnum2[2]),d[3],d[4],d[5]))
+					
+					elif header2 == "dihedrals":
+						data = data1.split("\n")
+						for d in data:   
+							fout.write('  %s\n' % (d.strip()))
+						data = data2.split("\n")
+						for d in data:
+							if not d.lstrip().startswith(";"):
+								d = d.strip().split()
+								atnum2 = [int(d[0])+atnum,int(d[1])+atnum,int(d[2])+atnum,int(d[3])+atnum]
+								fout.write('  %s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' % (str(atnum2[0]),str(atnum2[1]),str(atnum2[2]),str(atnum2[3]),d[4],d[5],d[6],d[7]))	
+					
+					elif header2 == "exclusions":
+						#if not custom_nuc:	#if not using custom nucleotide structure
+						data = data1.split("\n")
+						for d in data:   
+							fout.write('  %s\n' % (d.strip()))
+						data = data2.split("\n")
+						for d in data:
+							if not d.lstrip().startswith(";"):
+								d = d.strip().split()
+								atnum2 = [int(d[0])+atnum,int(d[1])+atnum]
+								fout.write('  %s\t%s\n' % (str(atnum2[0]),str(atnum2[1])))
+					
+						if interface  and params["LJ_atr"]:
+							#____TESTING_____#
+							for d in CG_contacts:
+								fout.write('  %s\t%s\n' % (str(d[0]),str(d[1])))
+
 		##########Loop end######
 		fout.close()
-		return topfile		
-	def mergeGrofile(self,aa_grofile,nuc_grofile):
+		nuc_num = atnum; aa_num=len(CB_list); total_num = nuc_num + aa_num
+		print(nuc_num,aa_num,total_num)
+		return topfile,total_num
+	def mergeGrofile(self,aa_grofile,nuc_grofile,atnum):
 		#this function merges nuc and AA .gro files
 		aa_grofile = "aa_gromacs.gro"
 		nuc_grofile = "nuc_gromacs.gro"
 		#reading grofile
 		fin1 = open(nuc_grofile)
 		fin2 = open(aa_grofile)
-		file1 = fin1.read().split("\n")
-		file2 = fin2.read().split("\n")
-		fin1.close(); fin2.close()
+		
 		#writing combined file
 		grofile = aa_grofile.split("_")[1]
 		fout = open(grofile,"w+")
-		fout.write('%s\n' % file1[0])
-		fout.write('%s\n' % str(int(file1[1].lstrip().rstrip())+int(file2[1].lstrip().rstrip())).rjust(5))
-		for i in range(2,len(file1)-1):
-			fout.write('%s\n' % file1[i])
-		count = 0
-		for i in range(2,len(file2)-1):
-			count = count + 1
-			fout.write('%s%s%s\n' % (file2[i][:15],str(count+int(file1[1].lstrip().rstrip())).rjust(5),file2[i][20:]))
-		fout.write('%s\n' % file2[len(file2)-1])
+		line_count = 0
+		nuc_count = 0
+		for line in fin1:
+			if line_count == 0:
+				fout.write('%s' % line)	#"\n" present at the end of string line
+			elif line_count == 1:
+				fout.write('%s\n' % str(atnum))
+				nuc_count = int(line)	
+			elif line_count-2 < nuc_count: #for all other co-ordinate lines
+				#line_count - header line - atom num line 
+				fout.write('%s' % line)
+			line_count = line_count + 1
+
+		#reinitializing line_count
+		line_count = 0
+		pro_count = 0
+		for line2 in fin2:
+			#print (line_count,pro_count)
+			if line_count == 1:
+				pro_count = int(line2)	
+			elif line_count > 1 and  line_count-2 < pro_count:
+				fout.write('%s%s%s' % (line2[:15],str(nuc_count+int(line2[15:20])).rjust(5),line2[20:]))
+			elif line_count == pro_count + 2:
+				fout.write('%s' % line2)
+			line_count = line_count + 1
 		fout.close()
+		fin1.close()
+		fin2.close()
 		return grofile
 	def genContactfile(self,topfile,nativefile):
 		print (">>Generating SMOG-like contact file")
@@ -710,51 +872,72 @@ class nucprosbm():
 def main():
 	import argparse
 	parser = argparse.ArgumentParser(description="Generate GROMACS and OPTIM potential files for enhanced SBM models.")
+	#_______For Proteins
+	#CA rad float
 	parser.add_argument("--CA_rad","-CA_rad", help="Radius for C-alpha atom. Default=4.0")
+	#CA @ COM (T/F)
 	parser.add_argument("--CAcom","-CAcom",action='store_true',help="Place C-alpha at COM of backbone")
-	parser.add_argument("--CB_rad","-CB_rad", help="Statistically derived values by default for attype 2.")
+	#CB rad float (same for all beads) default uses statistically derived values
+	parser.add_argument("--CB_rad","-CB_rad", help="User defined for attype 2.")
+	parser.add_argument('--CB_radii',"-CB_radii",action='store_true', help='External contact map in format chain res chain res')
+	#force constants
 	parser.add_argument("--Kb","-Kb", help="Kbond")
 	parser.add_argument("--Ka","-Ka", help="Kangle")
 	parser.add_argument("--Kd","-Kd", help="Kdihedral")
+	#native  determining contacts parameters
 	parser.add_argument("--cutoff","-cutoff", help="Cut-off for contact-map generation")
 	parser.add_argument("--scaling","-scaling", help="Scaling for mapping to all-atom contact-map.")
+	#atom type 1: CA only. 2: Ca+Cb
 	parser.add_argument("--attype", "-attype",help="Number of atom types. E.g. 1 for CA, 2 for CA and CB")
+	#CB position
 	parser.add_argument("--CBcom","-CBcom", action='store_true', default=False,help='Put CB at center of mass of side-chain (no hydrogens)')
 	parser.add_argument("--CBfar", "-CBfar", action='store_true', help="Place C-beta on farthest non-hydrogen atom.")
+	#
 	parser.add_argument("--dsb", "-dsb",action='store_true', help="Use desolvation barrier potential for contacts.")
 	parser.add_argument("--native_ca","-native_ca", help='Native file with only C-alphas. Just grep pdb. ')
+	#files
+	#output
 	parser.add_argument("--grotop","-grotop",help='Gromacs topology file output name.')
-	parser.add_argument("--aa_pdb","-aa_pdb", help='all-atom pdbfile e.g. 1qys.pdb')
 	parser.add_argument("--pdbgro","-pdbgro", help='Name for .gro file.')
+	
+	#input
+	parser.add_argument("--aa_pdb","-aa_pdb", help='all-atom pdbfile e.g. 1qys.pdb')
+
+	#file parameters
 	parser.add_argument("--w_native","-w_native", help='Write native files, CA-CB_P-S-B from all atom PDB file.')
 	parser.add_argument("--pl_map","-pl_map", action='store_true', default=False, help='Plot contact map for two bead model')
 	parser.add_argument("--skip_glycine","-skip_glycine", action='store_true', default=False, help='Skip putting Cbeta on glycine')
 	parser.add_argument('--btmap',"-btmap", action='store_true', help='Use Betancourt-Thirumalai interaction matrix.')
 	parser.add_argument('--mjmap',"-mjmap", action='store_true', help='Use Miyazawa-Jernighan interaction matrix.')
-	parser.add_argument('--CB_radii',"-CB_radii",action='store_true', help='External contact map in format chain res chain res')
 
+	#_____For Nucleotide
+	#radius for P,B,S
 	parser.add_argument("--P_rad", help="Radius for Backbone Phosphate group bead. Default=3.7A")
 	parser.add_argument("--S_rad", help="Radius for Backbone Sugar group bead. Default=3.7A")
 	parser.add_argument("--Bpu_rad", help="Radius for N-Base Purine bead. Default=1.5A")
 	parser.add_argument("--Bpy_rad", help="Radius for N-Base Pyrimidine bead. Default=1.5A")
+	
+	#force constants
 	parser.add_argument("--nKb", help="Kbond for RNA/DNA")
 	parser.add_argument("--nKa", help="Kangle for RNA/DNA. Default=20")
 	parser.add_argument("--nKd", help="Kdihedral for Bi-Si-Si+1-Bi+1. Default=0.5")
 	parser.add_argument("--P_nKd", help="Kdihedral for Backbone Pi-Pi+1-Pi+2-Pi+3. Default=0.7")
-	
+	parser.add_argument("--P_stretch",help="Stretch the backbone dihedral to 180 degrees. Default = Use native  backbone dihedral")
+	#positions
 	parser.add_argument("--Bpu_pos", help="Put input atom of Purine [N1,C2,H2-N2,N3,C4,C5,C6,O6-N6,N7,C8,N9,COM] as position of B. Default=COM(Center_of_Mass)")
 	parser.add_argument("--Bpy_pos", help="Put input atom of Pyrimidine [N1,C2,O2,N3,C4,O4-N4,C5,C6,COM] as position of B. Default=COM(Center_of_Mass)")
 	parser.add_argument("--S_pos", help="Put input atom of Sugar [C1',C2',C3',C4',C5',H2'-O2',O3',O4',O5',COM] as position of S   . Default=COM(Center_of_Mass)")
 	parser.add_argument("--P_pos", help="Put input atom of Phosphate [P,OP1,OP2,O5',COM] group as position of P. Default=COM(Center_of_Mass)")
 	
+	#common
 	parser.add_argument("--all_chains", action='store_true', default=False, help='Will Not remove identical chains.')	
 	parser.add_argument("--pistacklen", help="pi-pi stacking length. Default=3.6A")
 
+	#electrostatic
 	parser.add_argument("--debye",action='store_true', help="Use debye electrostatic term")
 	parser.add_argument("--T", help="System temperature. Default = 100K")
 	parser.add_argument("--CBcharge","-CBcharge", action='store_true', default=False, help='Put charges on CB for K,L,H,D,E')
 	parser.add_argument("--no_Pcharge","-no_Pcharge", action='store_true', default=False, help='No negative charge on Phosphate bead')
-	parser.add_argument("--Kr", help="Krepulsion. Default=5.7A")
 	parser.add_argument("--iconc", help="Solvant ion conc. Default=0.1M")  
 	parser.add_argument("--irad", help="Solvant ion rad. Default=1.4A")  
 	parser.add_argument("--dielec", help="Dielectric constant of solvant. Default=70")
@@ -767,26 +950,29 @@ def main():
 	parser.add_argument('--hphobic',"-hphobic",action='store_true',help='Generate hydrophobic contacts.')
 	parser.add_argument('--hpdist', "-hpdist", help='Equilibrium distance for hydrophobic contacts.')
 
+	#extras
 	parser.add_argument("--interface","-interface", action='store_true', default=False, help='Takes input for Nucleiotide_Protein interface from file nucpro_interface.input.')
 	parser.add_argument("--custom_nuc", help='Use custom non native DNA/RNA structure1.')
-
+	parser.add_argument("--control", action='store_true', help='Use the native system as control. custom_nuc will bet set to Fasle.')
+	#exclusion volume
+	parser.add_argument("--excl_rule",help="Use 1: Geometric mean. 2: Arithmatic mean")
+	parser.add_argument("--Kr", help="Krepulsion. Default=5.7A")
 
 	args = parser.parse_args()
 
-
 	X = esbm()
-	Y = conmaps()
 	U = Utils()
 	N = nucsbm()
 	Z = nucprosbm()
-	import json
-	d=X.amino_acid_radius_dict()
-	with open('file.txt', 'w') as file:
-		file.write(json.dumps(d))
-	#Set default parameters for proteins
-	atomtypes = 2
+
+	#defualt potoein-NA parameters
 	interface = False
-	custom_nuc = False
+	custom_nuc = True
+	control_run = False
+
+	#Set default parameters for proteins
+	#For preteins
+	atomtypes = 2
 	sopc=True
 	btparams=False
 	mjmap=False
@@ -804,12 +990,11 @@ def main():
 	CBfar=False
 	CBcom=True
 	CBcharge = False
-	no_Pcharge = False
 	#Set default parameters for nucleotides
 	fconst = dict()					#force_csontant
 	rad = dict()					#CG bead radii
 	fconst["nKb"]= 200				#KCal/mol
-	fconst["nKa"] = 20				#KCal/mol
+	fconst["nKa"] = 40				#KCal/mol
 	fconst["nKd"] = 0.5				#KCal/mol
 	fconst["P_nKd"] = 0.7			#KCal/mol
 	fconst["Kr"] = 5.7				#KCal/mol
@@ -818,25 +1003,50 @@ def main():
 	rad["Bpy"] = 1.5				#A
 	rad["Bpu"] = 1.5				#A
 	rad["stack"] = 3.6					#A
+	P_Stretch = False
 	cutoff = 4.5					#A
 	irad = 1.4						#A (Na+ = 1.1A	Cl- = 1.7A)
 	iconc = 0.1						#M
 	D =	70							#dilectric constant (dimensionlsess)
+	no_Pcharge = False
 	debye = False
-	T = 120
+	T = 120	#for electrostatic
+	
 	pur_atom = ("N1","C2","H2-N2","N3","C4","C5","C6","O6-N6","N7","C8","N9","COM")
 	pyr_atom = ("N1","C2","O2","N3","C4","O4-N4","C5","C6","H7-C7","COM")
 	sug_atom = ("C1'","C2'","C3'","C4'","C5'","H2'-O2'","O3'","O4'","O5'","COM")
 	phos_atom = ("P","OP1","OP2","O5'","COM")
+	#default position
 	Bpu_pos = "COM"		#Center of Mass for purine
 	Bpy_pos = "COM"		#Center of Mass for pyrimidine
 	P_pos = "COM"			#Center of Mass for phosphate group
 	S_pos = "COM"			#Center of Mass for sugar
+
+
+	if args.control:
+		control_run = True
+	if args.excl_rule:
+		excl_rule = int(args.excl_rule)
+		if excl_rule not in (1,2):
+			print ("Choose correct exclusion rule. Use 1: Geometric mean or 2: Arithmatic mean")
+	else:
+		excl_rule = 1
 	#setting common parameters
 	#replacing default parameters with input parameters for proteins
-	if args.custom_nuc:
-		custom_nuc = True
-		custom_nuc_file = args.custom_nuc
+	if not control_run:
+		#check for custom nuc if no control run
+		custom_nuc_file = ""
+		if args.custom_nuc:
+			custom_nuc = True
+			custom_nuc_file = args.custom_nuc
+	else:
+		print ("===========>>>>Generating files for control test..")
+		custom_nuc = False
+
+	if args.attype:
+		atomtypes = int(args.attype)
+		if atomtypes == 1:
+			print ("Using only CA model for protein. All other CB parameters will be ingnored.")
 	if args.interface:
 		interface = True
 	if args.Kb:
@@ -860,7 +1070,6 @@ def main():
 	if args.skip_glycine:
 		skip_glycine=True
 		sopc = False
-		#assert(args.attype==2)
 	if args.CBcharge:
 		CBcharge = True
 	if args.no_Pcharge:
@@ -874,6 +1083,9 @@ def main():
 		CA_rad=float(args.CA_rad)
 		print ("Setting CA_rad to ",CA_rad)
 	if args.CB_rad:
+		if atomtypes == 1:
+			print ("You have given CB radius but have set CA only model, check your input again.")
+			exit()
 		CB_rad = float(args.CB_rad)
 		aa_resi = X.amino_acid_dict2()
 		fout = open("radii.dat","w+")
@@ -895,6 +1107,7 @@ def main():
 	else:
 		hpstrength=1
 	#set global variables
+	
 	if args.CBfar:
 		CBcom=False
 		CBfar=True
@@ -933,9 +1146,13 @@ def main():
 			S_pos = argsbuf
 		else:
 			print("Warning!!! Wrong Atom name entered for Sugar. The program will continue with default parameter")
+	if args.P_stretch:
+		P_Stretch = True
+	else:
+		P_Stretch = False
 	
 	CG_pos = {"Bpu":Bpu_pos,"Bpy":Bpy_pos,"S":S_pos,"P":P_pos}	
-	print (CG_pos)
+	print ("{CB: Far: ",CBfar,"; COM: ",CBcom,CG_pos)
 	#Force constants
 	if args.nKb:
 		fconst["nKb"] = float(args.nKb)
@@ -948,7 +1165,6 @@ def main():
 
 	if args.Kr:
 		fconst["Kr"] = float(args.Kr)
-	#CG radii
 	if args.P_rad:
 		rad["P"] = float(args.P_rad)
 	if args.S_rad:
@@ -976,97 +1192,162 @@ def main():
 
 	X.globals(Ka,Kb,Kd,CA_rad,skip_glycine,sopc,dswap,btparams,CAcom,hphobic,hpstrength,hpdist,dsb,mjmap,btmap,CBfar,CBcharge)
 	#########################
-	#if not args.ext_conmap and args.aa_pdb:
-	#	pdbfile=args.aa_pdb
-	#	Y.all_atom_contacts(pdbfile,cutoff,1.2)
-	print (">>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<")
+
 	#defining grofile
 	if args.pdbgro:
 		grofile = str(args.pdbgro)
 	else:
 		grofile = "gromacs.gro"
+
+	#defining individual group
 	nuc_grofile = "nuc_"+grofile
 	aa_grofile = "aa_"+grofile
-	#writing native file
+
+	#writing table file
 	tablefile = N.writeTablefile(debye,D,iconc,irad,T)
 
+	#the parameter is NOT needed.
 	if args.w_native:
-		pdbfile=args.w_native
+		if args.attype:
+			atomtypes = int(args.attype)
+		else:
+			#default atomtypes
+			atomtypes = 2
+		try:
+			#pdb file given to --w_native
+			pdbfile=args.w_native
+		except:
+			#pdb file given to input file
+			pdbfile=args.aa_pdb
+
 		#creating separate nuc and aa pdb file
 		(nuc_pdbfile,aa_pdbfile) = PrePDB().sepNucPro(pdbfile)
-		Y.check_hetatm(pdbfile)
-		if not skip_glycine:
-			Y.check_glycineh(aa_pdbfile,False)
-		#esbm
-		X.write_CB_to_native(aa_pdbfile,False)
-		#nucsbm
+
+		#protein native file
+		X.write_CB_to_native(aa_pdbfile,False,atomtypes)
+		#nucleotide native file
 		N.writeNative(nuc_pdbfile,CG_pos,grofile)
+
 	if args.aa_pdb:
-		pdbfile=args.aa_pdb
-		if not args.all_chains:
-			#converting homodimer to monomer
-			pdbfile = PrePDB().homoNmer2Monomer(pdbfile)
-		#append chains without changing the chain id
-		(pdbfile,terminal_residues) = PrePDB().appendChain(pdbfile)
-		#seprating pdbs
-		(nuc_pdbfile,aa_pdbfile) = PrePDB().sepNucPro(pdbfile)
-		if custom_nuc:
-			#realign input nuc_pdbfile to avoid overlaping coo-rdinates
-			nuc_pdbfile = Z.coordinateTransform(aa_pdbfile,custom_nuc_file)
-		X.write_CB_to_native(aa_pdbfile,sopc)
+		#checking for atom tyoes (repeated)
 		if args.attype:
 			atomtypes = int(args.attype)
 		else:
 			atomtypes = 2
 			print (">>>Protein Atomtypes not defined. Using default atom types = 2 [CA,CB]")		
-			#checking for input top file name
+		pdbfile=args.aa_pdb
+
+		#checking for identical chains. 
+		if not args.all_chains:
+			#converting homodimer to monomer
+			pdbfile = PrePDB().homoNmer2Monomer(pdbfile)
+
+		#append chains without changing the chain id
+		(pdbfile,terminal_residues) = PrePDB().appendChain(pdbfile)
+
+		#seprating pdbs
+		(nuc_pdbfile,aa_pdbfile) = PrePDB().sepNucPro(pdbfile)
+
+		#check for cutsom input nucleotide
+		#if no input file given...take the native DNA/RNA as input
+		if custom_nuc:
+			#if no input file is given then using native nucleotide
+			if len(custom_nuc_file) == 0:
+				custom_nuc_file = nuc_pdbfile
+			#realign input nuc_pdbfile to avoid overlaping coo-rdinates
+			nuc_pdbfile = Z.coordinateTransform(aa_pdbfile,custom_nuc_file)
+		
+		#Writing protein native file
+		X.write_CB_to_native(aa_pdbfile,sopc,atomtypes)
+		
+		#Topology file name
 		if args.grotop:
 			topfile = str(args.grotop)
 		else:
 			topfile = 'gromacs.top'
+		
 		nuc_topfile = "nuc_"+topfile
 		aa_topfile = "aa_"+topfile
+		
 		#cheking for atom types
 		if atomtypes==2:
 			nativefile='native_cb.pdb'
-			X.write_gromacs_top(aa_topfile,int(atomtypes),aa_pdbfile,nativefile,CA_rad,sopc,btparams,Ka,Kb,Kd,cutoff,CBcom,CBradii)
 		if atomtypes==1:
-			U=Utils()
-			if U.file_exists('native_ca.pdb'):
-				nativefile='native_ca.pdb'
-				X.write_gromacs_top(topfile, int(atomtypes), pdbfile, nativefile,CA_rad,sopc,btparams,Ka,Kb,Kd,cutoff,CBcom,CBradii)
-			else:
-				print ('Need native_ca.pdb file. Just grep "CA" pdbfile.')
+			nativefile='native_ca.pdb'
+
+		#writing top file for protein
+		#d and e are atom name and type respectively
+		aa_atoms,d,e = X.write_gromacs_top(aa_topfile,atomtypes,aa_pdbfile,nativefile,CA_rad,sopc,btparams,Ka,Kb,Kd,cutoff,CBcom,CBradii,excl_rule)
 		#writing grofile for protein
-		X.write_gro_gro(aa_grofile,aa_pdbfile,atomtypes,sopc)	
-		if args.pl_map:
-			l=np.loadtxt('contacts.txt')
-			xi=l[:,1]
-			yi=l[:,3]
-			Y.plot_map(xi,yi,'conmap','Res2','Res1')
+		#print (len(aa_atoms))
+		X.write_gro_gro(aa_grofile,atomtypes,len(aa_atoms))	
+
+		#if args.pl_map:
+		#	l=np.loadtxt('contacts.txt')
+		#	xi=l[:,1]
+		#	yi=l[:,3]
+		#	Y.plot_map(xi,yi,'conmap','Res2','Res1')
 		#writing nucleotide gro and native file
-		N.writeNative(nuc_pdbfile,CG_pos,nuc_grofile)
-		nativefile="nuc_native_P-S-B.pdb"
-		Stats = N.writeGromacsTop(nuc_topfile,nuc_pdbfile,nativefile,btparams,rad,fconst,cutoff,no_Pcharge)
-		if Stats == 1:
-			nativefile = Z.mergeNativePDB("native_cb.pdb","nuc_native_P-S-B.pdb")
+
+		#Generating sample DNA-RNA files
+		#Based on the user input parameters the all_atom structure of B-form dsDNA and A-form ds-RNA (generated using NUCGEN-plus:http://nucleix.mbu.iisc.ernet.in/nucgenplus/about.html)
+		
+		# was converted into a 3 bead coarse grain form
+		#RNA sample file
+		sample_outpdb = "sample_b-dna.pdb"
+		sample_outgro = "b.dna.gro"
+		N.writeNative(sample_outpdb,CG_pos,sample_outgro)
+		#DVA sample file
+		sample_outpdb = "sample_a-rna.pdb"
+		sample_outgro = "a.rna.gro"
+		N.writeNative(sample_outpdb,CG_pos,sample_outgro)
+
+		#write native files for DNA/RNA
+		if nuc_pdbfile != 0:
+			N.writeNative(nuc_pdbfile,CG_pos,nuc_grofile)
+			nativefile="nuc_native_P-S-B.pdb"
+		
+		if custom_nuc:
+			native_pairs = False
+		else:
+			native_pairs = True
+		
+		#native file to combine
+		if atomtypes == 1:
+			protein_native = "native_ca.pdb"
+		else:
+			protein_native = "native_cb.pdb"
+		
+		nucleotide_native = "nuc_native_P-S-B.pdb"
+		if nuc_pdbfile != 0:
+			N.writeGromacsTop(nuc_topfile,nuc_pdbfile,nativefile,btparams,rad,fconst,cutoff,no_Pcharge,native_pairs,P_Stretch,excl_rule)	
+			nativefile = Z.mergeNativePDB(protein_native,nucleotide_native)
 			rad["CA_rad"] = CA_rad
-			topfile = Z.mergeTopfile(aa_topfile,nuc_topfile,cutoff,pdbfile,nativefile,rad,CBradii,interface,custom_nuc)
-			grofile = Z.mergeGrofile(aa_grofile,nuc_grofile)
-			contfile= Z.genContactfile(topfile,nativefile)
+			topfile,atnum = Z.mergeTopfile(aa_topfile,nuc_topfile,cutoff,pdbfile,nativefile,rad,CBradii,interface,custom_nuc)
+			grofile = Z.mergeGrofile(aa_grofile,nuc_grofile,atnum)
+			Z.genContactfile(topfile,nativefile)
+			#Z.nucproInterface_AroElec(pdbfile,nativefile,cutoff)
 		else:
 			topfile = aa_topfile; grofile = aa_grofile
+
 		U.make_dir('PATH');U.make_dir('MD')
 		U.make_dir('MD/AA');U.make_dir('MD/Nuc');U.make_dir('MD/Nuc_AA')
 		U.make_dir('Native_PDBs')
 		#U.make_dir_struc('PATH','MD')
 		lU = Utility()	#local inheritance of Utils
 		lU.make_dir_sub_struc('MD/AA',[aa_grofile,aa_topfile,tablefile])
-		if Stats == 1:
+		if nuc_pdbfile != 0:
 			lU.make_dir_sub_struc('MD/Nuc',[nuc_grofile,nuc_topfile,tablefile])
 			lU.make_dir_sub_struc('Native_PDBs',["native_CB_P-S-B.pdb","nuc_native_P-S-B.pdb"])
-		lU.make_dir_sub_struc('Native_PDBs',["native_cb.pdb","native_ca.pdb"])
+		if atomtypes == 2:
+			lU.make_dir_sub_struc('Native_PDBs',["native_cb.pdb","native_ca.pdb"])
+		elif atomtypes == 1:
+			lU.make_dir_sub_struc('Native_PDBs',["native_ca.pdb"])			
 		lU.make_dir_sub_struc('MD/Nuc_AA',[grofile,topfile,tablefile])
-
+		print ("Protein .gro and .top file saveed in ./MD/AA")
+		print ("Nucleic Acids .gro and .top file saveed in ./MD/Nuc")
+		print ("Pritein-Nucleic Acids .gro and .top file saveed in ./MD/Nuc_AA")
+		print ("All native Coarse Grain .pdb files in ./Native_PDBs")
+		print ("All other files generated are in the current working directory")		
 if __name__ == '__main__':
 	main()

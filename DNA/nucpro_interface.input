@@ -1,0 +1,24 @@
+;
+;Input paramters for nucpro_interface.
+;usage $ python nucproSBM.py --interface
+;teh terms in square brackets are not readed by the program. Donot remove any row as the input is based on the line index
+; Add C10/C6 attreaction term between DNA/RNA and Protein
+;Example:
+;[ LJ attraction (False) ] True
+[ LJ attraction (False) ] 
+;Include LJ term for aromatic stacking
+[ Aromacti Stacking (True)]
+; Radius of beads N bases (BA,BT,BG,BC,BU), Sugar (Deoxy=DS,Oxy=S), Phosphate (XP), CA, CB
+;Example:
+;[ BA radius (Same as bulk) ] 2.0 
+[ BA radius (Same as bulk) ]
+[ BG radius (Same as bulk) ]
+[ BT radius (Same as bulk) ]
+[ BC radius (Same as bulk) ]
+[ BU radius (Same as bulk) ]
+[  S radius (Same as bulk) ]
+[ XP radius (Same as bulk) ]
+[ CA radius (Same as bulk) ]
+[ CB radius (Same as bulk) ]
+;Use Native (True) or non-specific electostatic interaction. Only applicable for native DNA
+[Native Charge (False) ]

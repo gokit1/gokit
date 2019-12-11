@@ -12,7 +12,7 @@ echo "Ready to proceed [yes=1/no=0]? (0)"
 read input
 if [ $input -eq 1 ]
 then
-python ../../nucproSBM.py --aa_pd 1QZH.pdb --grotop gromacs.top -pdbgro gromacs.gro  --CA_rad 1.9 --skip_glycine  --CBfar --CBcharge --dielec 70 --iconc 0.01 --CB_rad 1.5 --debye
+python ../../nucproSBM.py --aa_pd 1QZH.pdb --grotop gromacs.top -pdbgro gromacs.gro  --CA_rad 1.9 --skip_glycine  --CBfar --CBcharge --dielec 70 --iconc 0.01 --CB_rad 1.5 --debye --P_pos "P"
 
 mkdir Output/CaseI
 rm -r Output/CaseI/*
