@@ -1344,9 +1344,9 @@ def main():
 		elif atomtypes == 1:
 			lU.make_dir_sub_struc('Native_PDBs',["native_ca.pdb"])			
 		lU.make_dir_sub_struc('MD/Nuc_AA',[grofile,topfile,tablefile])
-		print ("Protein .gro and .top file saveed in ./MD/AA")
-		print ("Nucleic Acids .gro and .top file saveed in ./MD/Nuc")
-		print ("Pritein-Nucleic Acids .gro and .top file saveed in ./MD/Nuc_AA")
+		print ("Protein .gro and .top file saved in ./MD/AA")
+		print ("Nucleic Acids .gro and .top file saved in ./MD/Nuc")
+		print ("Protein-Nucleic Acids .gro and .top file saved in ./MD/Nuc_AA")
 		print ("All native Coarse Grain .pdb files in ./Native_PDBs")
 		print ("All other files generated are in the current working directory")		
 if __name__ == '__main__':
