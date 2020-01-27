@@ -83,7 +83,7 @@ class PrePDB(Select):
 					if residue in nuc_res:
 						nuclines.append(l)
 					else:
-						if not l[16].strip() in ["A","B"]:
+						if l[16] == " ": #not A,B,C....
 							#no multiple occ
 							if len(multi_occ)!=0:
 								#if there are multiple occupancy
