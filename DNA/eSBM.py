@@ -1422,11 +1422,11 @@ class esbm(Select,object):
             
             #loading residue object from the chsin
             residues = [x.get_residues() for x in chains]
-            chain_count = 0
+            prev_chain_length = 0
             for r in residues:
                 #lenth of residues in each chain - 1 gives the index of terminal residue
-                chain_count = chain_count + 1
-                terminal_residue_index.append(chain_count*len([x for x in r])-1)
+                prev_chain_length = prev_chain_length + len([x for x in r])
+                terminal_residue_index.append(prev_chain_length-1)
 
             #if 2 chains have same name, then the pdbparsar will consider as same chain
             return terminal_residue_index
