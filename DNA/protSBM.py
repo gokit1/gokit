@@ -17,7 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 PyeSBM:
-usage: python esbm.py --options
+usage: python protsbm.py --options
 
 Author: Sridhar Neelamraju)
 
@@ -372,7 +372,7 @@ class pdb_kit():
                         #print (x1,y1,distance*10)
                         contacts.append([i, j,distance, distance])
                         count=count+1
-        print ("Found",count,"bb-bb contacts");exit()
+        print ("Found",count,"bb-bb contacts");
         #np.savetxt ('bb_sopsc.dat',contacts,fmt='%-4d  %-4d  %10.6f  %10.6f')
         return contacts
     def get_ss_contacts_SOPC(self,pdbfile, nativefile, cutoff, scaling, separation):
@@ -515,7 +515,7 @@ class pdb_kit():
         #must retturn residue numbers, and not atom numbers!
         return contacts
 
-class esbm(Select,object):
+class protsbm(Select,object):
     #Write GROMACS topology and SBM.INP files for two-bead models.
     ##!Residue numbering starts from 0 within the python code. Always add 1 to be compatible with GROMACS, OPTIM,etc.!
     #Make separate classes for each potential viz. SOPSC and Cheung-Thirumalai.
@@ -526,7 +526,7 @@ class esbm(Select,object):
     #6 as gaussian, w ex-vol
     #7 is dual gaussian
     #Currently implemented potentials are: 1) Cheung-Thirumalai and 2) SOP-SC with BT params. See parser.
-    # For help type python eSBM.py --help
+    # For help type python protSBM.py --help
         def __init__(self):
             return
         def globals(self,Ka1,Kb1,Kd1,CA_rad1,skip_glycine1,sopc1,dswap1,btparams1,CAcom1,hphobic1,hpstrength1,hpdist1,dsb1,mjmap1,btmap1,CBfar1,CBcharge1,):
@@ -1168,7 +1168,7 @@ class esbm(Select,object):
             assert count==natoms
             return all,g,h
         def write_contacts_section(self,pdbfile,nativefile,btfile,cutoff,atomtype,sopc,btparams,dswap,CG_indices):
-            #Cheung-Thirumalai eSBM. #Parameters from btfile are read.
+            #Cheung-Thirumalai protSBM. #Parameters from btfile are read.
             #should write a file called  CT_SBM.INP that can be used with OPTIM.
             ##################################native###############################
             assert atomtype <= 2
@@ -1312,6 +1312,8 @@ class esbm(Select,object):
                     res2 = atoms_in_residue[res2]
                     
                     #if len of res1 is not 2, this might be a Glycine
+
+                    #print(sc[i],res1,res2,len(res1),len(res2))
                     assert len(res1)==2;assert len(res2)==2
 
                     #second atom is always CB. Put assertion.
@@ -1425,9 +1427,8 @@ class esbm(Select,object):
             prev_chain_length = 0
             for r in residues:
                 #lenth of residues in each chain - 1 gives the index of terminal residue
-                prev_chain_length = prev_chain_length + len([x for x in r])
+                prev_chain_length = prev_chain_length + len([x for x in r]) 
                 terminal_residue_index.append(prev_chain_length-1)
-
             #if 2 chains have same name, then the pdbparsar will consider as same chain
             return terminal_residue_index
         def write_bonds_section(self,nativefile,Kb,atomtype,CG_indices):
@@ -1445,6 +1446,8 @@ class esbm(Select,object):
             for residue_index in range(len(CA_indices)):
                 if residue_index not in terminal_residue:
                     #Not including bonded term for CAs of two different chains
+                    #print (terminal_residue)
+                    print (residue_index,residue_index+1,[CA_indices[residue_index],CA_indices[residue_index+1]])
                     pairs_CA.append([CA_indices[residue_index],CA_indices[residue_index+1]])
                 if CA_indices[residue_index] + 1 in CB_indices:
                     #As CB_indices is empty if atomype == 1
@@ -1612,9 +1615,13 @@ class esbm(Select,object):
                     quadruplets.append([indices[i-2],indices[i-1], indices[i], indices[i+1]])
             if atomtypes == 2:
             #improper dihedrals (updated version using virtual sites with harmonic bond)
-                CB_quad=self.get_CB_chiral_dihedrals(nativefile,terminal_residue)
-                for i in CB_quad:
-                    quadruplets.append(i)
+                #_____TESTING_________#
+                no_chiral = False
+                #_____________________#
+                if not no_chiral:
+                    CB_quad=self.get_CB_chiral_dihedrals(nativefile,terminal_residue)
+                    for i in CB_quad:
+                        quadruplets.append(i)
             if dswap:
                 num_dihedrals=2*len(quadruplets)
             else:
@@ -1647,7 +1654,7 @@ class esbm(Select,object):
             #    count=count+1
             return all
 
-#class esbm(Select,object):
+#class protsbm(Select,object):
         def write_gro_moleculetype(self,topfilename):
             print ('>>writing GROMACS moleculetypesection', topfilename)
             f = open(topfilename, "a")
@@ -2073,7 +2080,7 @@ def main():
     parser.add_argument("--Kr", help="Krepulsion. Default=5.7A")
 
     args = parser.parse_args()
-    X = esbm()
+    X = protsbm()
     Y = conmaps()
     U = Utils()
 

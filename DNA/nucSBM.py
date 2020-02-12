@@ -10,7 +10,7 @@ from Bio.PDB.PDBParser import PDBParser
 from Bio.PDB.PDBIO import PDBIO,Select
 import collections
 import numpy as np
-from eSBM import esbm
+from protSBM import protsbm
 from util import Utils
 
 class PrePDB(Select):
@@ -140,7 +140,7 @@ class PrePDB(Select):
 		io.save("nuc_"+file,nucsbm())
 		print (">>writing protein only file: ","aa_"+file)
 		io.set_structure(structure)
-		io.save("aa_"+file,esbm())
+		io.save("aa_"+file,protsbm())
 		return ("nuc_"+file,"aa_"+file)
 	def atomIn(self):
 		#dictionary of atoms in coarse grain beads
@@ -288,7 +288,7 @@ class Measure():
 			dihedrals.append(i)
 		return dihedrals
 
-class nucsbm(esbm,Select):
+class nucsbm(protsbm,Select):
 	def __init__(self):
 		return
 	def accept_residue(self,residue):
@@ -1382,8 +1382,8 @@ class nucsbm(esbm,Select):
 
 
 		bond_ptype = 1
-		self.write_gro_header(topfilename,3) 	#3 is atom type 		#inheriting from eSBM
-		self.write_header_SBM()						  		#inheriting from eSBM	
+		self.write_gro_header(topfilename,3) 	#3 is atom type 		#inheriting from protSBM
+		self.write_header_SBM()						  		#inheriting from protSBM	
 		atomname = self.writeGroAtomTypes(topfilename,pdbfile,rad,no_Pcharge,excl_rule)
 		self.write_gro_moleculetype(topfilename)
 		self.writeGroAtoms(topfilename, pdbfile, nativefile, no_Pcharge)

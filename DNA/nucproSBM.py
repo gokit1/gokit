@@ -11,7 +11,7 @@ from Bio.PDB.PDBIO import PDBIO,Select
 import collections
 import numpy as np
 import random as rnd
-from eSBM import esbm
+from protSBM import protsbm
 from nucSBM import nucsbm,PrePDB
 from util import Utils
 
@@ -211,7 +211,7 @@ class nucprosbm():
 		#identifying all atom contacts
 		#Note: unlike protein CG models, nucleotide models should incorporate interactions between adj. residues (resi2-resi1>=1)
 		nuc_res = ("A","G","T","U","C","DA","DG","DT","DC")
-		aa_res  = esbm().amino_acid_dict2()
+		aa_res  = protsbm().amino_acid_dict2()
 		nucpro_contacts = dict()
 		natoms = len(atom)
 		print ("Determining contacts")
@@ -467,7 +467,7 @@ class nucprosbm():
 			#i.e if user have not defined any CB redii, use default
 			if not CBradii:
 				#use from the prodefined dict
-				aa_rad = esbm().amino_acid_radius_dict()
+				aa_rad = protsbm().amino_acid_radius_dict()
 			elif CBradii:
 				#if for CB-rad was used earlier, the values were written to the file
 				#and CBradii was turned on
@@ -640,7 +640,7 @@ class nucprosbm():
 			aro_cont_pair = list()
 			#defining AA-nucleotide stacking poteintiial in form of a LJ C10-C12 term
 			function = 1
-			aa_res  = esbm().amino_acid_dict2()
+			aa_res  = protsbm().amino_acid_dict2()
 			for i in CB_list:
 				#looping over amino-acid topology atomss section
 				a = i.split()
@@ -960,7 +960,7 @@ def main():
 
 	args = parser.parse_args()
 
-	X = esbm()
+	X = protsbm()
 	U = Utils()
 	N = nucsbm()
 	Z = nucprosbm()
