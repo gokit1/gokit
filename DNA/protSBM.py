@@ -1194,9 +1194,7 @@ class protsbm(Select,object):
                 Y = conmaps()
                 L = pdb_kit()
                 nc = Y.all_atom_contacts(pdbfile, cutoff,1.2)
-                nc_2 =  L.get_backbone_contacts(pdbfile, cutoff,1.2,4)
-                print (len(nc),len(nc_2))
-                exit()
+                #nc_2 =  L.get_backbone_contacts(pdbfile, cutoff,1.2,4)
                 dist_ca = nc[:, 3]
                 #print (dist_ca)
                 contacts_ca = nc[:, (0, 1)]

@@ -1179,6 +1179,8 @@ def main():
 	#solvant and ionic params
 	if args.dielec:
 		D = float(args.dielec)
+	else: 
+		D = 78.0
 	if args.iconc:
 		iconc = float(args.iconc)
 	if args.irad:

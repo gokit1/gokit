@@ -1452,7 +1452,6 @@ class nucsbm(protsbm,Select):
 			else:
 				fout.write('%e %e %e %e %e %e %e\n' %(r,0,0,0,0,0,0))
 				fout1.write('%e %e %e %e %e %e %e\n' %(r,0,0,0,0,0,0))
-		print ("testing",1/dl,"nm-1",iconc,"M")
 		fout.close()
 		fout1.close()
 		return 	'table_nuc-aa.xvg'
