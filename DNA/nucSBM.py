@@ -176,8 +176,6 @@ class PrePDB(Select):
 		#			a2 = "B" + a2
 		#		d[a1][a2] = float(i.split()[1])
 		#return d
-
-
 	def basepairEps(self):
 		#defining LJ strenfth for base pairs (will be effectively 4 times of the below value)
 		#theese values are  parameterized over multiple runs

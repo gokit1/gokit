@@ -1206,7 +1206,8 @@ def main():
 	aa_grofile = "aa_"+grofile
 
 	#writing table file
-	tablefile = N.writeTablefile(debye,D,iconc,irad,T)
+	if CBcharge or not no_Pcharge:
+		tablefile = N.writeTablefile(debye,D,iconc,irad,T)
 
 	#the parameter is NOT needed.
 	if args.w_native:
@@ -1226,9 +1227,9 @@ def main():
 		(nuc_pdbfile,aa_pdbfile) = PrePDB().sepNucPro(pdbfile)
 
 		#protein native file
-		X.write_CB_to_native(aa_pdbfile,False,atomtypes)
+		aa_status=X.write_CB_to_native(aa_pdbfile,False,atomtypes)
 		#nucleotide native file
-		N.writeNative(nuc_pdbfile,CG_pos,grofile)
+		nuc_status=N.writeNative(nuc_pdbfile,CG_pos,grofile)
 
 	if args.aa_pdb:
 		#checking for atom tyoes (repeated)
@@ -1260,7 +1261,7 @@ def main():
 			nuc_pdbfile = Z.coordinateTransform(aa_pdbfile,custom_nuc_file)
 		
 		#Writing protein native file
-		X.write_CB_to_native(aa_pdbfile,sopc,atomtypes)
+		aa_status=X.write_CB_to_native(aa_pdbfile,sopc,atomtypes)
 		
 		#Topology file name
 		if args.grotop:
@@ -1277,12 +1278,13 @@ def main():
 		if atomtypes==1:
 			nativefile='native_ca.pdb'
 
-		#writing top file for protein
-		#d and e are atom name and type respectively
-		aa_atoms,d,e = X.write_gromacs_top(aa_topfile,atomtypes,aa_pdbfile,nativefile,CA_rad,sopc,btparams,Ka,Kb,Kd,cutoff,CBcom,CBradii,excl_rule)
-		#writing grofile for protein
-		#print (len(aa_atoms))
-		X.write_gro_gro(aa_grofile,atomtypes,len(aa_atoms))	
+		if aa_status == 1:
+			#writing top file for protein
+			#d and e are atom name and type respectively
+			aa_atoms,d,e = X.write_gromacs_top(aa_topfile,atomtypes,aa_pdbfile,nativefile,CA_rad,sopc,btparams,Ka,Kb,Kd,cutoff,CBcom,CBradii,excl_rule)
+			#writing grofile for protein
+			#print (len(aa_atoms))
+			X.write_gro_gro(aa_grofile,atomtypes,len(aa_atoms))	
 
 		#if args.pl_map:
 		#	l=np.loadtxt('contacts.txt')
@@ -1323,28 +1325,37 @@ def main():
 		nucleotide_native = "nuc_native_P-S-B.pdb"
 		if nuc_pdbfile != 0:
 			N.writeGromacsTop(nuc_topfile,nuc_pdbfile,nativefile,btparams,rad,fconst,cutoff,no_Pcharge,native_pairs,P_Stretch,excl_rule)	
+		
+		#combining illes
+		if nuc_pdbfile != 0 and aa_status!=0:
 			nativefile = Z.mergeNativePDB(protein_native,nucleotide_native)
 			rad["CA_rad"] = CA_rad
 			topfile,atnum = Z.mergeTopfile(aa_topfile,nuc_topfile,cutoff,pdbfile,nativefile,rad,CBradii,interface,custom_nuc)
 			grofile = Z.mergeGrofile(aa_grofile,nuc_grofile,atnum)
 			Z.genContactfile(topfile,nativefile)
 			#Z.nucproInterface_AroElec(pdbfile,nativefile,cutoff)
-		else:
+		elif aa_status==1:
 			topfile = aa_topfile; grofile = aa_grofile
-
+		else:
+			topfile = nuc_topfile; grofile = nuc_grofile
+		
 		U.make_dir('PATH');U.make_dir('MD')
 		U.make_dir('MD/AA');U.make_dir('MD/Nuc');U.make_dir('MD/Nuc_AA')
 		U.make_dir('Native_PDBs')
 		#U.make_dir_struc('PATH','MD')
 		lU = Utility()	#local inheritance of Utils
-		lU.make_dir_sub_struc('MD/AA',[aa_grofile,aa_topfile,tablefile])
+		if aa_status==1:
+			lU.make_dir_sub_struc('MD/AA',[aa_grofile,aa_topfile,tablefile])
+			if atomtypes == 2:
+				lU.make_dir_sub_struc('Native_PDBs',["native_cb.pdb","native_ca.pdb"])
+			elif atomtypes == 1:
+				lU.make_dir_sub_struc('Native_PDBs',["native_ca.pdb"])			
 		if nuc_pdbfile != 0:
 			lU.make_dir_sub_struc('MD/Nuc',[nuc_grofile,nuc_topfile,tablefile])
-			lU.make_dir_sub_struc('Native_PDBs',["native_CB_P-S-B.pdb","nuc_native_P-S-B.pdb"])
-		if atomtypes == 2:
-			lU.make_dir_sub_struc('Native_PDBs',["native_cb.pdb","native_ca.pdb"])
-		elif atomtypes == 1:
-			lU.make_dir_sub_struc('Native_PDBs',["native_ca.pdb"])			
+			if aa_status==1:
+				lU.make_dir_sub_struc('Native_PDBs',["native_CB_P-S-B.pdb","nuc_native_P-S-B.pdb"])
+			else:
+				lU.make_dir_sub_struc('Native_PDBs',["nuc_native_P-S-B.pdb"])
 		lU.make_dir_sub_struc('MD/Nuc_AA',[grofile,topfile,tablefile])
 		print ("Protein .gro and .top file saved in ./MD/AA")
 		print ("Nucleic Acids .gro and .top file saved in ./MD/Nuc")

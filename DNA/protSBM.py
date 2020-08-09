@@ -756,7 +756,12 @@ class protsbm(Select,object):
 
             #protein sequence (chains appended)
             seq = self.get_aa_sequence(pdbfile)
-
+            checksize = open(pdbfile)
+            lines = checksize.readlines()
+            if len(lines)<=1:
+                print ("Warning!!! There are no Amino-acid residues in the pdbfile. Using only nucleottide model")
+                return 0
+        
             if CAcom:
                 CA=self.get_back_bone_COM(pdbfile)      
                 CA_coords = CA[:, 0].tolist()   #converting array to list
