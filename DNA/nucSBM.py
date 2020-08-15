@@ -41,21 +41,24 @@ class PrePDB(Select):
 		return terminal_residues
 	def homoNmer2Monomer(self,file):
 		#Convert a homo-multimer to a monomer
-		print (">>converting homo-N-mer(if the pdb is) to a monomer.")
+		print (">>> converting homo-N-mer(if the pdb is) to a monomer.")
 		#reading pdb
 		P = PDBParser(PERMISSIVE=0)
+		print (file)
 		structure = P.get_structure('test', file)
 		model = structure.get_chains()
 		in_chain = dict()
 		residues_in_chain = list()
-		global chain_list; chain_list = list()		
+		global chain_list; chain_list = list()	
 		for chain in model:
+			rescount = 0 	#initializing chain residue count
 			l = list()
 			c = chain.get_id()
 			for residue in chain:
 				#adding residue name to list l
-				if [residue.get_resname(),residue.get_id()[1]] not in l:
-					l.append([residue.get_resname(),residue.get_id()[1]])
+				if [residue.get_resname(),rescount] not in l:
+					l.append([residue.get_resname(),rescount])
+				rescount += 1
 			if l not in residues_in_chain:
 				#adding the list of residues in the chain list
 				#storing only unique lists
@@ -69,7 +72,7 @@ class PrePDB(Select):
 		return "mono_"+file
 	def appendChain(self,file):
 		#returns chain with renumbered residues
-		print (">>>Appending the residues of the chains.\n>>>The chain_id remains same,", file)
+		print (">>> Appending the residues of the chains.\n>>> The chain_id remains same,", file)
 		chain_terminal = list()
 		fin = open(file)
 		lines = [l for l in fin.readlines() if not l[12:16].strip().startswith('H')]
@@ -107,6 +110,9 @@ class PrePDB(Select):
 						aalines.append(l.strip())					
 		if len(nuclines) == 0:
 			print ("The PDB file lacks DNA/RNA. Prefer using the protein obly model......The code will continue")
+		if not nuclines[len(nuclines)-1].startswith("TER"):
+			#if nucleotide chain doesnot end with a ter
+			nuclines.append("TER")
 		lines = nuclines + aalines
 		if len(lines) == 0:
 			print ("Encountered enpty file!!!!!! ",file," returning 0. The code will run normally if this function was not called for the first time")
@@ -129,6 +135,7 @@ class PrePDB(Select):
 				chain_number += 1
 			else:
 				fout.write(l)    
+		fout.close()
 		return [outfile,chain_terminal]
 	def sepNucPro(self,file):
 		#Function separates nucleotide and protein components of a pdbfile

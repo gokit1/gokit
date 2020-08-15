@@ -9,6 +9,7 @@ from __future__ import print_function
 from Bio.PDB.PDBParser import PDBParser
 from Bio.PDB.PDBIO import PDBIO,Select
 import collections
+import argparse
 import numpy as np
 import random as rnd
 from protSBM import protsbm
@@ -870,76 +871,79 @@ class nucprosbm():
 				fout.write('%d %d %d %d\n' % (c1,a1,c2,a2))
 		return "Nuc-AA_contact.txt"
 def main():
-	import argparse
-	parser = argparse.ArgumentParser(description="Generate GROMACS and OPTIM potential files for enhanced SBM models.")
-	#_______For Proteins
-	#CA rad float
-	parser.add_argument("--CA_rad","-CA_rad", help="Radius for C-alpha atom. Default=4.0")
-	#CA @ COM (T/F)
-	parser.add_argument("--CAcom","-CAcom",action='store_true',help="Place C-alpha at COM of backbone")
-	#CB rad float (same for all beads) default uses statistically derived values
-	parser.add_argument("--CB_rad","-CB_rad", help="User defined for attype 2.")
-	parser.add_argument('--CB_radii',"-CB_radii",action='store_true', help='External contact map in format chain res chain res')
-	#force constants
-	parser.add_argument("--Kb","-Kb", help="Kbond")
-	parser.add_argument("--Ka","-Ka", help="Kangle")
-	parser.add_argument("--Kd","-Kd", help="Kdihedral")
+	parser = argparse.ArgumentParser(description="Generate GROMACS and OPTIM potential files for Protein + Nucleic Acids enhanced SBM models.")
+
+	#input options for protein
+	parser.add_argument("--CA_rad","-CA_rad",type=float, help="User defined radius for C-alpha (same for all beads) in Angstrom. Default: 4.0A")
+	parser.add_argument("--CAcom","-CAcom",action='store_true',help="Place C-alpha at COM of backbone. Default: False")
+	parser.add_argument("--CB_rad","-CB_rad",type=float, help="User defined radius for C-beta (same for all beads) in Angstrom for attype 2. Default: Statistically Derived for each AA-residue")
+	parser.add_argument('--CB_radii',"-CB_radii",action='store_true', help='User defined C-beta radii from radii.dat (AA-3-letter-code       radius-in-Angsrtom)')
+	parser.add_argument("--Kb","-Kb", help="User defined force constant K_bond for Proteins")
+	parser.add_argument("--Ka","-Ka", help="User defined force constant K_angle for Proteins")
+	parser.add_argument("--Kd","-Kd", help="User defined force constant K_dihedral for Proteins")
+
 	#native  determining contacts parameters
-	parser.add_argument("--cutoff","-cutoff", help="Cut-off for contact-map generation")
-	parser.add_argument("--scaling","-scaling", help="Scaling for mapping to all-atom contact-map.")
+	parser.add_argument("--cutoff","-cutoff",type=float,help="User defined Cut-off (in Angstrom) for contact-map generation. Default: 4.5A")
+	parser.add_argument("--scaling","-scaling", help="User defined scaling for mapping to all-atom contact-map.")
+	
 	#atom type 1: CA only. 2: Ca+Cb
-	parser.add_argument("--attype", "-attype",help="Number of atom types. E.g. 1 for CA, 2 for CA and CB")
-	#CB position
-	parser.add_argument("--CBcom","-CBcom", action='store_true', default=False,help='Put CB at center of mass of side-chain (no hydrogens)')
-	parser.add_argument("--CBfar", "-CBfar", action='store_true', help="Place C-beta on farthest non-hydrogen atom.")
+	parser.add_argument("--attype", "-attype", type=int, help="Level of Amino-acid coarse-graining 1 for CA-only, 2 for CA+CB. Dafault: 2 (CA+CB)")
+	#CB position #if attype = 2
+	parser.add_argument("--CBcom","-CBcom", action='store_true', default=False,help='Put C-beta at side-chain COM (no hydrogens). Default: True')
+	parser.add_argument("--CBfar", "-CBfar", action='store_true', help="Place C-beta on farthest non-hydrogen atom. Default: False")
+
 	#
-	parser.add_argument("--dsb", "-dsb",action='store_true', help="Use desolvation barrier potential for contacts.")
+	parser.add_argument("--dsb", "-dsb",action='store_true', help="Use desolvation barrier potential for contacts. Default: False")
 	parser.add_argument("--native_ca","-native_ca", help='Native file with only C-alphas. Just grep pdb. ')
 	#files
-	#output
-	parser.add_argument("--grotop","-grotop",help='Gromacs topology file output name.')
-	parser.add_argument("--pdbgro","-pdbgro", help='Name for .gro file.')
 	
 	#input
-	parser.add_argument("--aa_pdb","-aa_pdb", help='all-atom pdbfile e.g. 1qys.pdb')
+	parser.add_argument("--aa_pdb","-aa_pdb", help='User input all-atom pdbfile e.g. 1qys.pdb')
+
+	#output
+	parser.add_argument("--grotop","-grotop",help='Gromacs topology file output name (tool adds prefix nuc_  and prot_ for independednt file). Default: gromacs.top')
+	parser.add_argument("--pdbgro","-pdbgro", help='Name for output .gro file.(tool adds prefix nuc_  and prot_ for independednt file). Default: gromacs.gro')
 
 	#file parameters
-	parser.add_argument("--w_native","-w_native", help='Write native files, CA-CB_P-S-B from all atom PDB file.')
-	parser.add_argument("--pl_map","-pl_map", action='store_true', default=False, help='Plot contact map for two bead model')
-	parser.add_argument("--skip_glycine","-skip_glycine", action='store_true', default=False, help='Skip putting Cbeta on glycine')
+	#parser.add_argument("--w_native","-w_native", help='Write native files, CA-CB_P-S-B from all atom PDB file.')
+	parser.add_argument("--pl_map","-pl_map", action='store_true', default=False, help='Plot contact map for two bead model. Default: False')
+	#parser.add_argument("--CBgly","--CBGLY","-CBgly","-CBGLY",action='store_true',default=False,help='Add C-beta for glycine (pdb-file must have H-atoms). Default: Flase ')
+	parser.add_argument("--skip_glycine","-skip_glycine", action='store_true', default=False, help='Skip putting C-beta on glycine')
 	parser.add_argument('--btmap',"-btmap", action='store_true', help='Use Betancourt-Thirumalai interaction matrix.')
 	parser.add_argument('--mjmap',"-mjmap", action='store_true', help='Use Miyazawa-Jernighan interaction matrix.')
 
-	#_____For Nucleotide
+	#For Nucleotide
 	#radius for P,B,S
-	parser.add_argument("--P_rad", help="Radius for Backbone Phosphate group bead. Default=3.7A")
-	parser.add_argument("--S_rad", help="Radius for Backbone Sugar group bead. Default=3.7A")
-	parser.add_argument("--Bpu_rad", help="Radius for N-Base Purine bead. Default=1.5A")
-	parser.add_argument("--Bpy_rad", help="Radius for N-Base Pyrimidine bead. Default=1.5A")
+	parser.add_argument("--P_rad", help="User defined radius for Backbone Phosphate bead. Default=3.7A")
+	parser.add_argument("--S_rad", help="User defined radius for Backbone Sugar bead. Default=3.7A")
+	parser.add_argument("--Bpu_rad", help="User defined radius for N-Base Purine bead. Default=1.5A")
+	parser.add_argument("--Bpy_rad", help="User defined radius for N-Base Pyrimidine bead. Default=1.5A")
 	
 	#force constants
-	parser.add_argument("--nKb", help="Kbond for RNA/DNA")
-	parser.add_argument("--nKa", help="Kangle for RNA/DNA. Default=20")
-	parser.add_argument("--nKd", help="Kdihedral for Bi-Si-Si+1-Bi+1. Default=0.5")
-	parser.add_argument("--P_nKd", help="Kdihedral for Backbone Pi-Pi+1-Pi+2-Pi+3. Default=0.7")
+	parser.add_argument("--nKb", help="User defined force constant K_bond for RNA/DNA")
+	parser.add_argument("--nKa", help="User defined force constant K_angle for RNA/DNA. Default=20")
+	parser.add_argument("--nKd", help="User defined force constant K_dihedral for Bi-Si-Si+1-Bi+1. Default=0.5")
+	parser.add_argument("--P_nKd", help="User defined force constant K_dihedral for Backbone Pi-Pi+1-Pi+2-Pi+3. Default=0.7")
 	parser.add_argument("--P_stretch",help="Stretch the backbone dihedral to 180 degrees. Default = Use native  backbone dihedral")
+
 	#positions
 	parser.add_argument("--Bpu_pos", help="Put input atom of Purine [N1,C2,H2-N2,N3,C4,C5,C6,O6-N6,N7,C8,N9,COM] as position of B. Default=COM(Center_of_Mass)")
 	parser.add_argument("--Bpy_pos", help="Put input atom of Pyrimidine [N1,C2,O2,N3,C4,O4-N4,C5,C6,COM] as position of B. Default=COM(Center_of_Mass)")
-	parser.add_argument("--S_pos", help="Put input atom of Sugar [C1',C2',C3',C4',C5',H2'-O2',O3',O4',O5',COM] as position of S   . Default=COM(Center_of_Mass)")
+	parser.add_argument("--S_pos", help="Put input atom of Sugar [C1',C2',C3',C4',C5',H2'-O2',O3',O4',O5',COM] as position of S. Default=COM(Center_of_Mass)")
 	parser.add_argument("--P_pos", help="Put input atom of Phosphate [P,OP1,OP2,O5',COM] group as position of P. Default=COM(Center_of_Mass)")
 	
 	#common
-	parser.add_argument("--all_chains", action='store_true', default=False, help='Will Not remove identical chains.')	
+	parser.add_argument("--monomerize", action='store_true', default=False, help='Remove duplicate chains from a homo-multimer. Default: False')	
+	parser.add_argument("--all_chains","--all_chain", action='store_true', help='Keep duplicate chains. Default: True')	
 	parser.add_argument("--pistacklen", help="pi-pi stacking length. Default=3.6A")
 
 	#electrostatic
-	parser.add_argument("--debye",action='store_true', help="Use debye electrostatic term")
-	parser.add_argument("--T", help="System temperature. Default = 100K")
-	parser.add_argument("--CBcharge","-CBcharge", action='store_true', default=False, help='Put charges on CB for K,L,H,D,E')
-	parser.add_argument("--no_Pcharge","-no_Pcharge", action='store_true', default=False, help='No negative charge on Phosphate bead')
-	parser.add_argument("--iconc", help="Solvant ion conc. Default=0.1M")  
-	parser.add_argument("--irad", help="Solvant ion rad. Default=1.4A")  
+	parser.add_argument("--debye",action='store_true', help="Use Debye-Huckel electrostatic term.")
+	parser.add_argument("--T", help="Temperature for Debye length calculation. Default = 298K")
+	parser.add_argument("--CBcharge","-CBcharge", action='store_true', default=False, help='Put charges on CB for K,L,H,D,E. Default: False')
+	parser.add_argument("--no_Pcharge","-no_Pcharge", action='store_true', default=False, help='No negative charge on Phosphate bead. Default: False')
+	parser.add_argument("--iconc", help="Solvant ion conc.(N) for Debye length calcluation. Default=0.1M")  
+	parser.add_argument("--irad", help="Solvant ion rad for Debye length calcluation. Default=1.4A")  
 	parser.add_argument("--dielec", help="Dielectric constant of solvant. Default=70")
 	
 	#disabled for now
@@ -952,18 +956,18 @@ def main():
 
 	#extras
 	parser.add_argument("--interface","-interface", action='store_true', default=False, help='Takes input for Nucleiotide_Protein interface from file nucpro_interface.input.')
-	parser.add_argument("--custom_nuc", help='Use custom non native DNA/RNA structure1.')
-	parser.add_argument("--control", action='store_true', help='Use the native system as control. custom_nuc will bet set to Fasle.')
+	parser.add_argument("--custom_nuc", help='Use custom non native DNA/RNA structure Eg.: polyT.pdb. Default: Use from native structure')
+	parser.add_argument("--control", action='store_true', help='Use the native system as control. Use DNA/RNA bound to native protein site. --custom_nuc will be disabled. Default: False (Move DNA/RNA away from native binding site)')
 	#exclusion volume
 	parser.add_argument("--excl_rule",help="Use 1: Geometric mean. 2: Arithmatic mean")
 	parser.add_argument("--Kr", help="Krepulsion. Default=5.7A")
 
 	args = parser.parse_args()
 
-	X = protsbm()
-	U = Utils()
-	N = nucsbm()
-	Z = nucprosbm()
+	X = protsbm()	#Protein SBM class
+	N = nucsbm()	#Nuc SBM class
+	Z = nucprosbm()	#Nuc Pro interface
+	U = Utils()		
 
 	#defualt potoein-NA parameters
 	interface = False
@@ -993,11 +997,11 @@ def main():
 	#Set default parameters for nucleotides
 	fconst = dict()					#force_csontant
 	rad = dict()					#CG bead radii
-	fconst["nKb"]= 200				#KCal/mol
-	fconst["nKa"] = 40				#KCal/mol
-	fconst["nKd"] = 0.5				#KCal/mol
-	fconst["P_nKd"] = 0.7			#KCal/mol
-	fconst["Kr"] = 5.7				#KCal/mol
+	fconst["nKb"]= 200				
+	fconst["nKa"] = 40				
+	fconst["nKd"] = 0.5				
+	fconst["P_nKd"] = 0.7			
+	fconst["Kr"] = 5.7				
 	rad["P"] = 3.7					#A
 	rad["S"] = 3.7					#A
 	rad["Bpy"] = 1.5				#A
@@ -1010,12 +1014,13 @@ def main():
 	D =	70							#dilectric constant (dimensionlsess)
 	no_Pcharge = False
 	debye = False
-	T = 120	#for electrostatic
+	T = 298							#for Debye length calculation
 	
 	pur_atom = ("N1","C2","H2-N2","N3","C4","C5","C6","O6-N6","N7","C8","N9","COM")
 	pyr_atom = ("N1","C2","O2","N3","C4","O4-N4","C5","C6","H7-C7","COM")
 	sug_atom = ("C1'","C2'","C3'","C4'","C5'","H2'-O2'","O3'","O4'","O5'","COM")
 	phos_atom = ("P","OP1","OP2","O5'","COM")
+
 	#default position
 	Bpu_pos = "COM"		#Center of Mass for purine
 	Bpy_pos = "COM"		#Center of Mass for pyrimidine
@@ -1023,16 +1028,21 @@ def main():
 	S_pos = "COM"			#Center of Mass for sugar
 
 
-	if args.control:
-		control_run = True
+
 	if args.excl_rule:
 		excl_rule = int(args.excl_rule)
 		if excl_rule not in (1,2):
-			print ("Choose correct exclusion rule. Use 1: Geometric mean or 2: Arithmatic mean")
+			print ("Error: Choose correct exclusion rule. Use 1: Geometric mean or 2: Arithmatic mean")
 	else:
 		excl_rule = 1
+
 	#setting common parameters
 	#replacing default parameters with input parameters for proteins
+
+	if args.control:	#Use Protein with DNA/RNA bound at natve site
+		control_run = True
+	else:
+		control_run = False
 	if not control_run:
 		#check for custom nuc if no control run
 		custom_nuc_file = ""
@@ -1040,15 +1050,22 @@ def main():
 			custom_nuc = True
 			custom_nuc_file = args.custom_nuc
 	else:
-		print ("===========>>>>Generating files for control test..")
+		if args.custom_nuc:
+			print ("Error: --custom_nuc cannot be used with --control")
+			exit()
+		print (">>> Generating files for control test..")
 		custom_nuc = False
 
 	if args.attype:
 		atomtypes = int(args.attype)
 		if atomtypes == 1:
-			print ("Using only CA model for protein. All other CB parameters will be ingnored.")
+			print (">>> Using CA-only model for protein. All other CB parameters will be ingnored.")
+	else:
+		atomtypes = 2
+	
 	if args.interface:
 		interface = True
+	
 	if args.Kb:
 		Kb=float(args.Kb)
 	if args.Kd:
@@ -1062,38 +1079,66 @@ def main():
 		btparams=True
 	else:
 		btparams=False
+	
 	if args.CB_radii:
+		if atomtypes != 2:
+			print ("WARNING: User opted for only-CA model. Ignoring all C-beta parameters.")
 		U.file_exists('radii.dat')
 		CBradii=True
 	else:
 		CBradii=False
+
 	if args.skip_glycine:
+		if atomtypes != 2:
+			print ("WARNING: User opted for only-CA model. Ignoring all C-beta parameters.")
 		skip_glycine=True
 		sopc = False
+
 	if args.CBcharge:
+		if atomtypes != 2:
+			print ("WARNING: User opted for only-CA model. Ignoring all C-beta parameters.")
 		CBcharge = True
+
 	if args.no_Pcharge:
 		no_Pcharge = True
+	else:
+		no_Pcharge = False
+
 	if args.CAcom:
 		CAcom=True
+
+	if args.all_chains and args.monomerize:
+		print ("Error. Conflicting input arguments. --monomerize and --all_chains")
+		exit()
+	if args.monomerize:
+		if control_run:
+			print ("NOT A GREAT IDEA to use --monomerize with --control !!!.\n monomerize will select the first unique Protein and RNA/DNA chain, which obviosuly might not be the chain you want to use as control. Please manually remove the chains.")
+			exit()
+		all_chains = False
+	else:
+		all_chains = True
 	if args.dswap:
 		dswap=True
 		print ('This one assumes both chains are identical.')
+		print ("Setting --all_chains True")
+		all_chains = True
+	
 	if args.CA_rad:
 		CA_rad=float(args.CA_rad)
-		print ("Setting CA_rad to ",CA_rad)
+		print (">>> Setting CA_rad to ",CA_rad)
+
 	if args.CB_rad:
-		if atomtypes == 1:
-			print ("You have given CB radius but have set CA only model, check your input again.")
-			exit()
+		if atomtypes != 2:
+			print ("WARNING: User opted for only-CA model. Ignoring all C-beta parameters.")
 		CB_rad = float(args.CB_rad)
 		aa_resi = X.amino_acid_dict2()
 		fout = open("radii.dat","w+")
-		print ("CB radius given via user input. Storing in radii.dat")
+		print (">>> C-beta radius given via user input. Storing in radii.dat")
 		for i in aa_resi:
 			fout.write('%s%4.2f\n' % (i.ljust(4),CB_rad))
 		fout.close()
-		CBradii = True		
+		CBradii = True	#Read CB radius from radii.dat	
+
 	if args.hphobic:
 		hphobic=True
 	if args.dsb:
@@ -1106,9 +1151,10 @@ def main():
 		hpstrength = args.hpstrength
 	else:
 		hpstrength=1
-	#set global variables
 	
 	if args.CBfar:
+		if atomtypes != 2:
+			print ("WARNING: User opted from only-CA model. Ignoring all C-beta parameters.")
 		CBcom=False
 		CBfar=True
 
@@ -1127,32 +1173,35 @@ def main():
 		if argsbuf in pur_atom:
 			Bpu_pos = argsbuf
 		else:
-			print("Warning!!! Wrong Atom name entered for Purine. The program will continue with default parameter")
+			print("Error: Wrong Atom name entered for Purine. Use --help option to check allowed atom names")
+			exit()
 	if args.Bpy_pos:
 		argsbuf = str(args.Bpy_pos)
 		if argsbuf in pyr_atom:
 			Bpy_pos = argsbuf
 		else:
-			print("Warning!!! Wrong Atom name entered for Pyrimidine. The program will continue with default parameter")
+			print("Error: Wrong Atom name entered for Pyrimidine. Use --help option to check allowed atom names")
+			exit()
 	if args.P_pos:
 		argsbuf = str(args.P_pos)
 		if argsbuf in phos_atom:
 			P_pos = argsbuf
 		else:
-			print("Warning!!! Wrong Atom name entered for Phosphate. The program will continue with default parameter")
+			print("Error: Wrong Atom name entered for Phosphate. Use --help option to check allowed atom names")
+			exit()
 	if args.S_pos:
 		argsbuf = str(args.S_pos)
 		if argsbuf in sug_atom:
 			S_pos = argsbuf
 		else:
-			print("Warning!!! Wrong Atom name entered for Sugar. The program will continue with default parameter")
+			print("Error: Wrong Atom name entered for Sugar. Use --help option to check allowed atom names")
+			exit()
 	if args.P_stretch:
 		P_Stretch = True
 	else:
 		P_Stretch = False
 	
 	CG_pos = {"Bpu":Bpu_pos,"Bpy":Bpy_pos,"S":S_pos,"P":P_pos}	
-	print ("{CB: Far: ",CBfar,"; COM: ",CBcom,CG_pos)
 	#Force constants
 	if args.nKb:
 		fconst["nKb"] = float(args.nKb)
@@ -1190,8 +1239,8 @@ def main():
 	if args.T:
 		T = float(args.T)
 	sol_params = {"conc":iconc,"rad":irad,"D":D}
-	#initializing global paramters
 
+	#initializing global paramters
 	X.globals(Ka,Kb,Kd,CA_rad,skip_glycine,sopc,dswap,btparams,CAcom,hphobic,hpstrength,hpdist,dsb,mjmap,btmap,CBfar,CBcharge)
 	#########################
 
@@ -1210,43 +1259,39 @@ def main():
 		tablefile = N.writeTablefile(debye,D,iconc,irad,T)
 
 	#the parameter is NOT needed.
-	if args.w_native:
-		if args.attype:
-			atomtypes = int(args.attype)
-		else:
-			#default atomtypes
-			atomtypes = 2
-		try:
-			#pdb file given to --w_native
-			pdbfile=args.w_native
-		except:
-			#pdb file given to input file
-			pdbfile=args.aa_pdb
+	#if args.w_native:
+	#	if args.attype:
+	#		atomtypes = int(args.attype)
+	#	else:
+	#		#default atomtypes
+	#		atomtypes = 2
+	#	try:
+	#		#pdb file given to --w_native
+	#		pdbfile=args.w_native
+	#	except:
+	#		#pdb file given to input file
+	#		pdbfile=args.aa_pdb
+	#
+	#	#creating separate nuc and aa pdb file
+	#	(nuc_pdbfile,aa_pdbfile) = PrePDB().sepNucPro(pdbfile)
 
-		#creating separate nuc and aa pdb file
-		(nuc_pdbfile,aa_pdbfile) = PrePDB().sepNucPro(pdbfile)
-
-		#protein native file
-		aa_status=X.write_CB_to_native(aa_pdbfile,False,atomtypes)
-		#nucleotide native file
-		nuc_status=N.writeNative(nuc_pdbfile,CG_pos,grofile)
+	#	#protein native file
+	#	aa_status=X.write_CB_to_native(aa_pdbfile,False,atomtypes)
+	#	#nucleotide native file
+	#	nuc_status=N.writeNative(nuc_pdbfile,CG_pos,grofile)
 
 	if args.aa_pdb:
-		#checking for atom tyoes (repeated)
-		if args.attype:
-			atomtypes = int(args.attype)
-		else:
-			atomtypes = 2
-			print (">>>Protein Atomtypes not defined. Using default atom types = 2 [CA,CB]")		
 		pdbfile=args.aa_pdb
-
-		#checking for identical chains. 
-		if not args.all_chains:
-			#converting homodimer to monomer
-			pdbfile = PrePDB().homoNmer2Monomer(pdbfile)
 
 		#append chains without changing the chain id
 		(pdbfile,terminal_residues) = PrePDB().appendChain(pdbfile)
+
+		#checking for identical chains. 
+		if not all_chains:
+			#converting homodimer to monomer
+			pdbfile = PrePDB().homoNmer2Monomer(pdbfile)
+
+
 
 		#seprating pdbs
 		(nuc_pdbfile,aa_pdbfile) = PrePDB().sepNucPro(pdbfile)
@@ -1259,7 +1304,7 @@ def main():
 				custom_nuc_file = nuc_pdbfile
 			#realign input nuc_pdbfile to avoid overlaping coo-rdinates
 			nuc_pdbfile = Z.coordinateTransform(aa_pdbfile,custom_nuc_file)
-		
+
 		#Writing protein native file
 		aa_status=X.write_CB_to_native(aa_pdbfile,sopc,atomtypes)
 		
@@ -1361,6 +1406,8 @@ def main():
 		print ("Nucleic Acids .gro and .top file saved in ./MD/Nuc")
 		print ("Protein-Nucleic Acids .gro and .top file saved in ./MD/Nuc_AA")
 		print ("All native Coarse Grain .pdb files in ./Native_PDBs")
-		print ("All other files generated are in the current working directory")		
+		print ("All other files generated are in the current working directory")	
+	else:
+		print ("Error. No input pdb file given.")	
 if __name__ == '__main__':
 	main()

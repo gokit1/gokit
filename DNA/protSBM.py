@@ -34,6 +34,7 @@ import collections
 import os
 from util import Utils
 from table import tables
+
 #Some conventions:
 #First atom is always a C-alpha. This helps find non-bonded atoms easily.
 
