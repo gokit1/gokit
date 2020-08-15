@@ -24,8 +24,6 @@
 
 	--aa_pdb		N/A 			Name of input all-atom pdb file.
 
-	-w_native					Write Coarse-Grain pdb files.
-
 	--skip_glycine		False			Skip C-beta for Glycine (if not set false, input aa_pdb must have Hydrogens).
 
 	--CBcharge		False			Put charge at CB position.
@@ -86,7 +84,7 @@
 
 	Argument		Default			Discription			
 
-	--all_chains		False			Keep all chains in a homo-multimer (default removes identical chain.
+	--monomerize		False			Keep only unique chains.
 
 	--dielec X		78			Dielectric constant.		
 
