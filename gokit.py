@@ -87,7 +87,7 @@ class esbm(object):
             'ILE': 'I', 'PRO': 'P', 'THR': 'T', 'PHE': 'F', 'ASN': 'N',
             'GLY': 'G', 'HIS': 'H', 'LEU': 'L', 'ARG': 'R', 'TRP': 'W',
             'ALA': 'A', 'VAL': 'V', 'GLU': 'E', 'TYR': 'Y', 'MET': 'M'}
-            inv_d = {v: k for k, v in d.iteritems()}
+            inv_d = {v: k for k, v in d.items()}
             return inv_d
         def amino_acid_dict2(self):
             d = {'CYS': 'C', 'ASP': 'D', 'SER': 'S', 'GLN': 'Q', 'LYS': 'K',
@@ -175,7 +175,7 @@ class esbm(object):
              #           print COM
                         COM1 += COM
                         count = count + 1
-                COM1 = np.array(COM1).reshape(len(COM1) / 2, 2)
+                COM1 = np.array(COM1).reshape(len(COM1) // 2, 2)
             return COM1
 
         def get_side_chain_COM(self,pdbfile,skip_glycine):
@@ -227,7 +227,7 @@ class esbm(object):
                             #print COM
                             COM1+=COM
                         count = count + 1
-                COM1=np.array(COM1).reshape(len(COM1)/2,2)
+                COM1=np.array(COM1).reshape(len(COM1)//2,2)
                 #coordinates,resnum
                 # print (COM1)
                 # print (len(COM1))
@@ -409,7 +409,7 @@ class esbm(object):
             # #scaling = 0.7
             # traj=md.load(pdbfile)
             # topology=traj.topology
-            # for i in xrange(0,natoms):
+            # for i in range(0,natoms):
             #     #atoms in same residue
             #     s=Y.get_atoms_in_residue(topology,i)
             #     if len(s)>1:
@@ -583,7 +583,7 @@ class esbm(object):
             f.write('\n%d %s\n' % (natoms, str1))
             count_cb=0
             all=[];atnum=[];atomcharge=0;atommass=1.0
-            for i in xrange(0,natoms):
+            for i in range(0,natoms):
                 a1=i+1
                 a5=Y.get_atom_name(topol,i)[0].strip()
                 a3=Y.get_residue_number(topol,i)[0]+1
@@ -772,7 +772,7 @@ class esbm(object):
                 #d_ca=self.two_lists_to_dict(residue_list,CA_indices)
 
                 #write native-contacts first.
-                for i in xrange(0, len(nc)):
+                for i in range(0, len(nc)):
                     res1 = int(nc[i][0]); res2 = int(nc[i][1])
                     #print nc[i][0],nc[i][1]
                     res1 = Y.get_atoms_in_residue(topology, res1);res2 = Y.get_atoms_in_residue(topology, res2)
@@ -786,7 +786,7 @@ class esbm(object):
 
                 # write side-chain contacts next
                 sc_contacts=[]
-                for i in xrange(0, len(sc)):
+                for i in range(0, len(sc)):
                     ##map CB in residue to CB in two bead file.
                     res1 = int(sc[i][0]);res2=int(sc[i][1])
                     #print (res1,res2,nativefile)
@@ -821,7 +821,7 @@ class esbm(object):
                         #f3.write(' %s\t%d\t%s\t%d\n' % ('1', int(res1) + 1, '1', int(res2) + 1))
 
                 #write bb-sc contacts next
-                for i in xrange(0,len(nc_sc)):
+                for i in range(0,len(nc_sc)):
                     res1 = int(nc_sc[i][0]);res2 = int(nc_sc[i][1]);
                     res1 = Y.get_atoms_in_residue(topology, res1); res2 = Y.get_atoms_in_residue(topology, res2)
                     assert len(res1)>=1 and len(res2)>=1
@@ -838,7 +838,7 @@ class esbm(object):
                 #write angle-angle repulsion term for sop-sc model only!
                 if reddy:
                     epsl=1 #kcal/mol
-                    for i in xrange(0,len(nn_angles)):
+                    for i in range(0,len(nn_angles)):
                         contacttype=1
                         #Use the 6 term from LJ potential for repulsion!(supply negative to make repulsive)
                         # fudgeQQ,qi,qj,V,W for gromacs
@@ -901,7 +901,7 @@ class esbm(object):
             pairs_CA=[]
             pairs_CB=[]
             top=md.load(nativefile).topology
-            for i in xrange(len(CA_indices)-1):
+            for i in range(len(CA_indices)-1):
                 assert (Y.get_atom_name(top, CA_indices[i])[0].strip() == 'CA')
                 pairs_CA.append([CA_indices[i],CA_indices[i+1]])
             # print (Y.get_residue_number(nativefile, CA_indices[i]))
@@ -909,7 +909,7 @@ class esbm(object):
             CA_dist = Y.get_distances(traj, pairs_CA) * 10
             traj = md.load(nativefile)
             topology = traj.topology
-            for i in xrange(num_ca):
+            for i in range(num_ca):
                 #if two atoms per residue then make pair, else GLYCINE
                 j=Y.get_atoms_in_residue(topology,i)
                 if len(j)==2:
@@ -956,7 +956,7 @@ class esbm(object):
             coords = np.asarray(Y.get_pdb_coords(nativefile) )
             num_atoms=len(coords)
             triplets=[]
-            for i in xrange(1,len(coords)-1):
+            for i in range(1,len(coords)-1):
                 triplets.append([i-1, i, i+1])
             #triplets=list(combinations(CA_indices,3))
             num_angles=len(coords)-2
@@ -969,7 +969,7 @@ class esbm(object):
             count=0
             all=[]
             count=0
-            for i in xrange(len(triplets)):
+            for i in range(len(triplets)):
                 #print triplets[i],CA_angles[0][i]
                 all.append([triplets[i][0]+1,triplets[i][1]+1,triplets[i][2]+1, CA_angles[0][i],K_angle])
                 if w_sbm:
@@ -977,7 +977,7 @@ class esbm(object):
                 count=count+1
             if dswap:
                  count=0
-                 for i in xrange(len(triplets)):
+                 for i in range(len(triplets)):
                      all.append([triplets[i][0]+1+num_atoms,triplets[i][1]+1+num_atoms,triplets[i][2]+1+num_atoms, CA_angles[0][i], K_angle])
                      if w_sbm:
                       f.write(' %s\t%s\t%d\t%f\t%e\n' % (triplets[i][0]+1+num_atoms,triplets[i][1]+1+num_atoms,triplets[i][2]+1+num_atoms, CA_angles[0][i],K_angle))
@@ -997,7 +997,7 @@ class esbm(object):
             #print indices
             quadruplets = []
             K_dihedral=float(Kd)
-            for i in xrange(2, len(indices) - 1):
+            for i in range(2, len(indices) - 1):
                 quadruplets.append([indices[i-2],indices[i-1], indices[i], indices[i+1]])
             if dswap:
                 num_dihedrals=2*len(quadruplets)
@@ -1010,14 +1010,14 @@ class esbm(object):
             all=[]
 
             count=0
-            for i in xrange(len(quadruplets)):
+            for i in range(len(quadruplets)):
                 #print triplets[i],CA_angles[0][i]
                 all.append([quadruplets[i][0],quadruplets[i][1],quadruplets[i][2],quadruplets[i][3], '1 ', dihedrals[0][i],K_dihedral])
                 if w_sbm:
                  f.write(' %d\t%d\t%d\t%d\t%s\t%e\t%e\n'% (quadruplets[i][0]+1,quadruplets[i][1]+1,quadruplets[i][2]+1,quadruplets[i][3]+1, '1 ', dihedrals[0][i],K_dihedral))
                 count=count+1
             if dswap:
-                for i in xrange(len(quadruplets)):
+                for i in range(len(quadruplets)):
                     all.append([quadruplets[i][0]+num_atoms, quadruplets[i][1]+num_atoms, quadruplets[i][2]+num_atoms, quadruplets[i][3]+num_atoms, '1 ',
                                 dihedrals[0][i], K_dihedral])
                     f.write(' %d\t%d\t%d\t%d\t%s\t%e\t%e\n' % (
@@ -1098,12 +1098,12 @@ class esbm(object):
             f.write('%s\n' % (';nr  type  resnr residue atom  cgnr'))
             d = self.get_atom_names(pdbfile,atomtypes,sopc)
             e=self.get_atom_types(pdbfile,atomtypes,sopc)
-            for i in xrange(0,len(atoms)):
+            for i in range(0,len(atoms)):
                 type=int(e[d[i].strip()])
                 d[i]=d[i].rjust(4)
                 f.write('\t%d\t%s\t%d\t%s\t%s\t%d \n' %(atoms[i][0],d[i],atoms[i][2],atoms[i][3],d[i].strip()[:2],atoms[i][0]))
             if dswap:
-                for i in xrange(0, len(atoms)):
+                for i in range(0, len(atoms)):
                      type = int(e[d[i].strip()])
                      d[i] = d[i].rjust(4)
                      f.write('\t%d\t%s\t%d\t%s\t%s\t%d \n' % (
@@ -1129,7 +1129,7 @@ class esbm(object):
             if dsb:
                 ptype=9
             if ptype==1:
-                for i in xrange(0,len(bonds)):
+                for i in range(0,len(bonds)):
                     f.write('\t%d\t%d\t%s %12.9e %12.9e\n' %(bonds[i][0],bonds[i][1], str(ptype),bonds[i][3]/10,Kb))
                 f.close()
                 #print (bonds)
@@ -1139,19 +1139,19 @@ class esbm(object):
                 kcalAtokjA=418.4 #kcal/mol/A2 to kcal/mol/nm2
                 Kb=float(20*kcalAtokjA) #Gromacs units
                 R=float(0.2) #nm
-                for i in xrange(0,len(bonds)):
+                for i in range(0,len(bonds)):
                     #not sure of format for top file. (where does distance go?)
                     f.write('\t%d\t%d\t%s %12.9e %12.9e %12.9e\n' %(bonds[i][0]+1,bonds[i][1]+1, str(ptype),bonds[i][2]/10,R,Kb))
                 f.close()
             elif ptype==9:
-                for i in xrange(0,len(bonds)):
+                for i in range(0,len(bonds)):
                     f.write('\t%d\t%d\t%s %12.9e %12.9e\n' %(bonds[i][0],bonds[i][1], '1',bonds[i][3]/10,Kb))
                 #contacts written in bonds section.
                 #get_contacts from contacts.txt
                 dsb_contacts=Y.get_pairs_ext('contacts.txt')
                 print (dsb_contacts[0][0])
                 count_dsb=0
-                for i in xrange(0,len(dsb_contacts)):
+                for i in range(0,len(dsb_contacts)):
                     f.write('\t%d\t%d\t%s %s %s\n' % (dsb_contacts[i][0]+1,dsb_contacts[i][1]+1, str(ptype),str(count_dsb+1), '1'))
                     count_dsb=count_dsb+1
                 #generate table_files here
@@ -1163,7 +1163,7 @@ class esbm(object):
                 # write exclusions section
                 f.write('\n\t%s\n' % ('[ exclusions ]'))
                 f.write('\t%s\n' % ('; ai aj'))
-                for i in xrange(0, len(dsb_contacts)):
+                for i in range(0, len(dsb_contacts)):
                     f.write('\t%d\t%d\n' % (dsb_contacts[i][0]+1, dsb_contacts[i][1]+1))
                 f.close()
                 return bonds
@@ -1183,7 +1183,7 @@ class esbm(object):
             f.write('\n%s\n' % ('[ angles ]'))
             f.write('%s\t%s\t%s\t%s\t%s\t%s\n' % (';ai', 'aj', 'ak','func', 'th0(deg)', 'Ka'))
             angles=self.write_angles_section(nativefile,Ka)
-            for i in xrange(0, len(angles)):
+            for i in range(0, len(angles)):
                 f.write('\t%d\t%d\t%d\t%s %12.9e %12.9e\n' % (angles[i][0],angles[i][1],angles[i][2],'1',angles[i][3]*radtodeg, Ka))
             f.close()
             return
@@ -1201,7 +1201,7 @@ class esbm(object):
             f.write('\n%s\n' % ('[ dihedrals ]'))
             d=self.write_dihedrals_section(nativefile,Kd)
             f.write('%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' % (';ai','aj','ak','al','func','phi0(deg)','Kd','mult'))
-            for i in xrange(0, len(d)):
+            for i in range(0, len(d)):
                 #GROMAC dihedrals in degrees. For dihedraltype 1 add 180.
                 l1= float(d[i][5])*radtodeg+180
                 d1=int(d[i][0])
@@ -1238,7 +1238,7 @@ class esbm(object):
             assert (contacttype in contacts_allowed),'Only the 10-12 potential contacttype=2 is implemented'
             assert atomtypes<=2
             count_angles=0
-            for i in xrange(0,len(contacts)):
+            for i in range(0,len(contacts)):
                 contacttype=int(contacts[i][2])
                 #print contacttype
                 if contacttype==2:
@@ -1270,7 +1270,7 @@ class esbm(object):
             #write exlusions
             f.write('\n\t%s\n' % ('[ exclusions ]'))
             f.write('\t%s\n' % ('; ai aj'))
-            for i in xrange(0,len(contacts)):
+            for i in range(0,len(contacts)):
                 f.write('\t%d\t%d\n'%(contacts[i][0],contacts[i][1]))
             f.close()
             return
@@ -1321,7 +1321,7 @@ class esbm(object):
             #assert len(c)==len(a)
             d=self.get_atom_names(pdbfile,atomtypes,sopc)
             count=0
-            for i in xrange(0,len(a)):
+            for i in range(0,len(a)):
                 #print a[i][2],a[i][3],a[i][4],d[count],c[i][0],c[i][1],c[i][2],a[i][0]
                 f.write("%5d%-5s%5s%5d%8.3f%8.3f%8.3f\n" % (a[i][2],a[i][3],d[count][:2],a[i][0],c[i][0],c[i][1],c[i][2]))
                 f1.write("%-5s%8.3f%8.3f%8.3f\n" % ('SB',c[i][0]*10,c[i][1]*10,c[i][2]*10))#nm to A
@@ -1400,7 +1400,7 @@ class esbm(object):
                 f = open(grofilename, "w+")
                 f.write('%s\n' % ('Grofile generated from Go-kit'))
                 f.write('%d\n' % (len(atomnames)))
-                for i in xrange(0,len(residues)):
+                for i in range(0,len(residues)):
                     #print i,d1[d[i]],atomnames[i],xyz[0][i][1]
                     f.write("%5d%-5s%5s%5d%8.3f%8.3f%8.3f\n" % (
                     i+1,d1[d[i]],atomnames[i],i+1,xyz[0][i][0],xyz[0][i][1],xyz[0][i][2]))
