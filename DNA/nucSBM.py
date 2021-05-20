@@ -75,7 +75,8 @@ class PrePDB(Select):
 		print (">>> Appending the residues of the chains.\n>>> The chain_id remains same,", file)
 		chain_terminal = list()
 		fin = open(file)
-		lines = [l for l in fin.readlines() if not l[12:16].strip().startswith('H')]
+		#lines = [l for l in fin.readlines() if not l[12:16].strip().startswith('H')]
+		lines = [l for l in fin.readlines()]
 		nuc_res = ("A","G","T","U","C","DA","DG","DT","DC")
 		nuclines = list(); aalines = list()
 		multi_occ = dict()	#pdb lines hashed to atom name
@@ -110,9 +111,10 @@ class PrePDB(Select):
 						aalines.append(l.strip())					
 		if len(nuclines) == 0:
 			print ("The PDB file lacks DNA/RNA. Prefer using the protein obly model......The code will continue")
-		if not nuclines[len(nuclines)-1].startswith("TER"):
-			#if nucleotide chain doesnot end with a ter
-			nuclines.append("TER")
+		else:
+			if not nuclines[len(nuclines)-1].startswith("TER"):
+				#if nucleotide chain doesnot end with a ter
+				nuclines.append("TER")
 		lines = nuclines + aalines
 		if len(lines) == 0:
 			print ("Encountered enpty file!!!!!! ",file," returning 0. The code will run normally if this function was not called for the first time")
@@ -141,11 +143,11 @@ class PrePDB(Select):
 		#Function separates nucleotide and protein components of a pdbfile
 		P = PDBParser(PERMISSIVE=0)
 		structure = P.get_structure('test', file)
-		print (">>writing nucleotide only file: ","nuc_"+file)
+		print (">>> writing nucleotide only file: ","nuc_"+file)
 		io = PDBIO()
 		io.set_structure(structure)
 		io.save("nuc_"+file,nucsbm())
-		print (">>writing protein only file: ","aa_"+file)
+		print (">>> writing protein only file: ","aa_"+file)
 		io.set_structure(structure)
 		io.save("aa_"+file,protsbm())
 		return ("nuc_"+file,"aa_"+file)
@@ -1399,8 +1401,8 @@ class nucsbm(protsbm,Select):
 		self.write_gro_tail(topfilename)
 		print ('See file:',topfilename,'for GROMACS topology.')
 		return 1
-	def writeTablefile(self,debye,D,iconc,irad,T):
-		print (">>Print table file",'table_nuc-aa.xvg')
+	def writeTablefile(self,debye,D,iconc,irad,T,power):
+		print (">>Print table file",'table_debye_'+str(power)+'_12.xvg')
 		pi = np.pi
 		irad = irad/10		#convertig A to nm
 		jtoc = 0.239		#C/J
@@ -1436,7 +1438,7 @@ class nucsbm(protsbm,Select):
 		Ke=jtoc*Ke*Bk/(D)
 		#Joule_Cal_jhol
 		
-		fout = open('table_nuc-aa.xvg','w+')
+		fout = open('table_debye_'+str(power)+'_12.xvg','w+')
 		fout1 = open("table_nuc-aa_RNA_RNA.xvg","w+")
 		for i in range(0,2*29018+2):
 			r = float(i)*0.002
@@ -1448,18 +1450,18 @@ class nucsbm(protsbm,Select):
 				else:
 					V = 0
 					V_1 = 0
-				C10 	= -1/r**10	
-				C10_1	= -10/r**11 
+				Cn 	= -1/r**power 	
+				Cn_1	= -10/r**(power+1) 
 				C12		= 1/r**12
 				C12_1	= 12/r**13
-				fout.write('%e %e %e %e %e %e %e\n' %(r,V,V_1,C10,C10_1,C12,C12_1))
-				fout1.write('%e %e %e %e %e %e %e\n' %(r,0,0,C10,C10_1,C12,C12_1))
+				fout.write('%e %e %e %e %e %e %e\n' %(r,V,V_1,Cn,Cn_1,C12,C12_1))
+				fout1.write('%e %e %e %e %e %e %e\n' %(r,0,0,Cn,Cn_1,C12,C12_1))
 			else:
 				fout.write('%e %e %e %e %e %e %e\n' %(r,0,0,0,0,0,0))
 				fout1.write('%e %e %e %e %e %e %e\n' %(r,0,0,0,0,0,0))
 		fout.close()
 		fout1.close()
-		return 	'table_nuc-aa.xvg'
+		return 	'table_debye_'+str(power)+'_12.xvg'
 
 def main():
 	import argparse

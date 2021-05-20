@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-PyeSBM:
+GoKit2.py:
 usage: python nucproSBM.py --options
 
 """
@@ -49,11 +49,12 @@ class nucprosbm():
 		coord = np.array(coord)
 		#geometric center of aa structure
 		#calculated by avereaging over all atomic co-ordibares
-		aa_geocent = sum(coord)/len(coord);coord = coord-aa_geocent
+		aa_geocent = sum(coord)/len(coord)
 		
 		#maximum distance of any atom from geometric center
 		#this ditacnce will define the radius of a sphere that can completely surround the protein
 		aa_rad = 0
+		coord = coord-aa_geocent
 		for i in coord:
 			d = sum(i**2)**0.5
 			if d > aa_rad:
@@ -75,6 +76,7 @@ class nucprosbm():
 			if i.startswith("ATOM"):
 				coord.append(np.float_([i[30:38],i[38:46],i[46:54]]))
 				total_nuc_residues = int(i[22:26])
+		assert total_nuc_residues == int(nuclines[len(nuclines)-1][22:26])
 		#nucleotide coordinates
 		coord = np.array(coord)
 		#geometric center of aa structure
@@ -909,6 +911,7 @@ def main():
 	parser.add_argument("--pl_map","-pl_map", action='store_true', default=False, help='Plot contact map for two bead model. Default: False')
 	#parser.add_argument("--CBgly","--CBGLY","-CBgly","-CBGLY",action='store_true',default=False,help='Add C-beta for glycine (pdb-file must have H-atoms). Default: Flase ')
 	parser.add_argument("--skip_glycine","-skip_glycine", action='store_true', default=False, help='Skip putting C-beta on glycine')
+	parser.add_argument("--sopsc","-sopsc","-SPOSC","--SOPSC",action="store_true",default=False, help='Use SOP-SC two bead model')
 	parser.add_argument('--btmap',"-btmap", action='store_true', help='Use Betancourt-Thirumalai interaction matrix.')
 	parser.add_argument('--mjmap',"-mjmap", action='store_true', help='Use Miyazawa-Jernighan interaction matrix.')
 
@@ -977,7 +980,7 @@ def main():
 	#Set default parameters for proteins
 	#For preteins
 	atomtypes = 2
-	sopc=True
+	sopc=False #True
 	btparams=False
 	mjmap=False
 	btmap=False
@@ -1015,7 +1018,7 @@ def main():
 	no_Pcharge = False
 	debye = False
 	T = 298							#for Debye length calculation
-	
+	power = 10						#C^n n = 6,10...
 	pur_atom = ("N1","C2","H2-N2","N3","C4","C5","C6","O6-N6","N7","C8","N9","COM")
 	pyr_atom = ("N1","C2","O2","N3","C4","O4-N4","C5","C6","H7-C7","COM")
 	sug_atom = ("C1'","C2'","C3'","C4'","C5'","H2'-O2'","O3'","O4'","O5'","COM")
@@ -1033,6 +1036,9 @@ def main():
 		excl_rule = int(args.excl_rule)
 		if excl_rule not in (1,2):
 			print ("Error: Choose correct exclusion rule. Use 1: Geometric mean or 2: Arithmatic mean")
+		if args.sopsc and excl_rule == 1:
+			print ("Error: Exclusion rule 1 not supported with SOP-SC")
+			exit()
 	else:
 		excl_rule = 1
 
@@ -1094,6 +1100,18 @@ def main():
 		skip_glycine=True
 		sopc = False
 
+	if args.sopsc:
+		if skip_glycine:
+			print ("Error. Conflicting input arguments. skip_glycine cannot be used with SOP-SC model")
+			exit()
+		if atomtypes!=2:
+			print ("Error. SOP-SC works with 2-bead model")
+			exit()
+		sopc = True
+		excl_rule = 2
+		power = 6	#use C^6 instead of C^10
+		print ("Warning: User opted for SOP-SC, make sure pdbfile contains H-atoms")
+		print ("Warning: Using Exlusion rule 2")
 	if args.CBcharge:
 		if atomtypes != 2:
 			print ("WARNING: User opted for only-CA model. Ignoring all C-beta parameters.")
@@ -1256,7 +1274,8 @@ def main():
 
 	#writing table file
 	if CBcharge or not no_Pcharge:
-		tablefile = N.writeTablefile(debye,D,iconc,irad,T)
+		
+		tablefile = N.writeTablefile(debye,D,iconc,irad,T,power)
 
 	#the parameter is NOT needed.
 	#if args.w_native:
@@ -1290,8 +1309,6 @@ def main():
 		if not all_chains:
 			#converting homodimer to monomer
 			pdbfile = PrePDB().homoNmer2Monomer(pdbfile)
-
-
 
 		#seprating pdbs
 		(nuc_pdbfile,aa_pdbfile) = PrePDB().sepNucPro(pdbfile)
@@ -1340,13 +1357,13 @@ def main():
 
 		#Generating sample DNA-RNA files
 		#Based on the user input parameters the all_atom structure of B-form dsDNA and A-form ds-RNA (generated using NUCGEN-plus:http://nucleix.mbu.iisc.ernet.in/nucgenplus/about.html)
-		
+		#This will be used to determine bonded and non-bonded params
 		# was converted into a 3 bead coarse grain form
-		#RNA sample file
+		#RNA sample file (A-helix)
 		sample_outpdb = "sample_b-dna.pdb"
 		sample_outgro = "b.dna.gro"
 		N.writeNative(sample_outpdb,CG_pos,sample_outgro)
-		#DVA sample file
+		#DVA sample file (B-helix)
 		sample_outpdb = "sample_a-rna.pdb"
 		sample_outgro = "a.rna.gro"
 		N.writeNative(sample_outpdb,CG_pos,sample_outgro)

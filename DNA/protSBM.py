@@ -373,8 +373,8 @@ class pdb_kit():
                         #print (x1,y1,distance*10)
                         contacts.append([i, j,distance, distance])
                         count=count+1
-        print ("Found",count,"bb-bb contacts");
-        #np.savetxt ('bb_sopsc.dat',contacts,fmt='%-4d  %-4d  %10.6f  %10.6f')
+        print ("Found",count,"bb-bb contacts")
+        np.savetxt ('bb_sopsc.dat',contacts,fmt='%-4d  %-4d  %10.6f  %10.6f')
         return contacts
     def get_ss_contacts_SOPC(self,pdbfile, nativefile, cutoff, scaling, separation):
         cutoff = float(cutoff);scaling = float(scaling)
@@ -384,6 +384,7 @@ class pdb_kit():
         count = 0
         ncb = 0
         found_GLY_without_CB = False
+        #loading CBs
         for i in fin:
             if i.startswith("ATOM"):
                 if i[17:20] != "GLY":
@@ -398,6 +399,9 @@ class pdb_kit():
                         side_CB[ncb] = np.float_([1000000,10000000,100000000])
                         found_GLY_without_CB = True
                         ncb += 1
+                        #found GLY CA, iterating ncb residue counter
+                        # assuming the CB doesnot exist
+                        # if CB found next, the (ncb-1) will be used as the key   
                     if i[12:16].strip() == "CB":
                         side_CB[ncb-1] = np.float_([i[30:38],i[38:46],i[46:54]])
                         found_GLY_without_CB = False
@@ -429,7 +433,8 @@ class pdb_kit():
                 if i[12:16].strip() == "CA":
                     if found_gly_without_cb:
                         #Directly hit next CA after GLY CA
-                        #Found gly in nativre without CB...Adding dummy co-ordinates
+                        #so this if in fact, is for previous iteration
+                        #Found gly in native_cb.pdb without CB...Adding dummy co-ordinates
                         sc[ncb] = np.float_([1000000,100000,100000])
                         print ("Missing GLY CB!!!. Check your input")
                         ncb += 1
@@ -449,17 +454,15 @@ class pdb_kit():
         assert(len(sc)==len(bb))
         assert(ncb==len(sc))
         assert(ncb==nca)
-        #######_______TESTING________#
-        for i in range(0,nca-separation):
-            for j in range(i+separation,nca):
-                #if np.absolute(j-i) < separation:
-                #   continue
+        for i in range(0,nca):
+            for j in range(0,ncb):
+                if np.absolute(j-i) < separation:
+                   continue
                 #here nca =  ncb
-                x1 = sc[i]; x2 = bb[i]
-                y1 = bb[j]; y2 = sc[j]
-                # CB-CA
+                x1 = bb[i]; #x2 = sc[i]
+                y1 = sc[j]; #y2 = bb[j]
                 distance = np.sum((y1-x1)**2)**0.5
-                if (distance <= 8.0):
+                if (distance <= cutoff):
                     contacts.append([i, j, distance, distance])
                     count += 1
                 # x2 and y2:
@@ -471,7 +474,7 @@ class pdb_kit():
                 #   contacts.append([i, j, distance * 10, distance * 10])
                 #   count += 1
         print("Found", count, "bb-sc contacts. See SOP-SC.txt")
-        np.savetxt('new_bb_sc_sopc.dat', contacts,fmt='%-4d  %-4d  %10.6f  %10.6f')
+        np.savetxt('bbsc_sopc.dat', contacts,fmt='%-4d  %-4d  %10.6f  %10.6f')
         contacts = np.asarray(contacts)
         return contacts
     def get_SOPC_non_native_angles(self,nativefile,CA_rad,epsl,CG_indices):
@@ -493,7 +496,7 @@ class pdb_kit():
         #get side-chain radius.
         U=Utils(); sc_rad=U.amino_acid_radius_dict()
 
-        CB_indices.pop(0) #remove first element from list.
+        #CB_indices.pop(0) #remove first element from list.
         fin = open(nativefile)
         sc_residue = dict()
         for i in fin:
@@ -501,7 +504,7 @@ class pdb_kit():
                 if int(i[6:11])-1 in CB_indices:
                     sc_residue[int(i[6:11])-1] = i[17:20].strip()
         fin.close()
-        for i in CB_indices[:-1] :
+        for i in CB_indices[1:-1]:   #exclude first and last CB
             #assign radii to each side-chain
             name = sc_residue[i]
             sigmasc=float(sc_rad[name])
@@ -512,7 +515,7 @@ class pdb_kit():
             contacts.append([i, i-3,sigmabs,sigmabs])
 
         print('Found', count, 'non-native,non-bonded bb-sc angular interactions')
-        #np.savetxt('nn_angles_sopsc.dat', contacts, fmt='%-4d  %-4d  %10.6f  %10.6f')
+        np.savetxt('nn_angles_sopsc.dat', contacts, fmt='%-4d  %-4d  %10.6f  %10.6f')
         #must retturn residue numbers, and not atom numbers!
         return contacts
 
@@ -523,6 +526,7 @@ class protsbm(Select,object):
     #! CONTACTTYPES for OPTIM
     #1 is 6 - 12
     #2 is 10 - 12
+    #11 SOP-SC non-native angle 
     #5 as gaussian, no ex - vol
     #6 as gaussian, w ex-vol
     #7 is dual gaussian
@@ -664,7 +668,10 @@ class protsbm(Select,object):
             #opeing structure
             p = PDBParser(PERMISSIVE=0)
             structure = p.get_structure('test', pdbfile)
-            backbone=['N','CA','C','O']
+            # N-H or NH1H2H3 (terminal), CA-HA, O and C 
+            backbone=['N','CA','C','O',
+                        'HA',"H","HN","HT","H1","H2","H3",
+                        "HT1","HT2","HT3","OXT","OT1","OT2"]
             COM1=[]
             count = 0
             for model in structure:
@@ -674,6 +681,7 @@ class protsbm(Select,object):
                         mass = []
                         #storing native residue number in count
                         count = residue.id[1]
+                        res=residue.get_resname().strip()
                         for atom in residue:
                             #get side chain only
                             if atom.name not in backbone:
@@ -683,11 +691,14 @@ class protsbm(Select,object):
                                 mass.append(atom._assign_atom_mass())
                                 assert len(mass)!=0, "Zero length mass array!"
                                 #print atom.get_parent()
-                        #get COM for every
+                        #Make sure GLYCINE is excluded.
+                        if res=="GLY" and res != glyname:
+                            #coord = [coord[len(coord)-1]] #choose co-ord of last H in sidechain
+                            #mass  = [mass[len(mass)-1]]
+                            coord = [coord[0]] #choose co-ord of last H in sidechain
+                            mass  = [mass[0]]
                         coord=np.array(coord)
                         mass=np.array(mass)
-                        res=residue.get_resname().strip()
-                        #Make sure GLYCINE is excluded.
                         if res==glyname:
                             print ("Excluding glycine, res = ",count+1)
                             #print atom_mass
@@ -701,6 +712,13 @@ class protsbm(Select,object):
                             COM = [[np.matmul(([float(atom_mass / mass_sum) for atom_mass in mass]),coord)],[count]]
                             #print COM
                             COM1+=COM
+                        #__TESTING__#
+                        #print (coord)
+                        #print (mass)
+                        #print (mass_sum)
+                        #print (COM)
+                        #exit()
+                        #___________#
                         #count = count + 1
                         #print ("testing_count",count)
                 COM1=np.array(COM1).reshape(len(COM1)/2,2)
@@ -1186,7 +1204,6 @@ class protsbm(Select,object):
             f1= open('contacts.txt', "w+")
             f2 = open('backbone.txt', "w+")
 
-            contacttype=2
             strength_CA=float(1.0) #eps bb-bb
             strength_CB=float(1.0) #eps bb-sc
 
@@ -1252,13 +1269,22 @@ class protsbm(Select,object):
                 if skip_glycine:
                     sopc=False
                 L = pdb_kit()
+                Y = conmaps()   #
                 if sopc:
-                   nc = L.get_bb_contacts_SOPC(pdbfile,nativefile,4,1.0,4)                
-                   sc = L.get_ss_contacts_SOPC(pdbfile,nativefile,4,1.0,2)
-                   nc_sc=L.get_bs_contacts_SOPC(pdbfile,nativefile,4,1.0,2)
-                   #nn_angles = Y.get_SOPC_non_native_angles(pdbfile, nativefile, 3.8, 1.0)
-                   nn_angles = L.get_SOPC_non_native_angles(nativefile,3.8,1.0,CG_indices)
+                    contacttype=1 #C6-C12 potentail 
+                    nc = L.get_bb_contacts_SOPC(pdbfile,nativefile,8,1.0,3)                
+                    sc = L.get_ss_contacts_SOPC(pdbfile,nativefile,8,1.0,2)
+                    nc_sc=L.get_bs_contacts_SOPC(pdbfile,nativefile,8,1.0,2)
+                    #_TESTING_#
+                    #nn_angles = L.get_SOPC_non_native_angles(nativefile,3.8,1.0,CG_indices)
+                    #_TESTING_#
+                    # using conmaps 
+                    #nc = Y.get_bb_contacts_SOPC(pdbfile,nativefile,8,1.0,3)                  
+                    #sc = Y.get_ss_contacts_SOPC(pdbfile,nativefile,8,1.0,2)
+                    #nc_sc=Y.get_bs_contacts_SOPC(pdbfile,nativefile,8,1.0,2)
+                    nn_angles = Y.get_SOPC_non_native_angles(pdbfile, nativefile, 3.8, 1.0)
                 else:
+                    contacttype=2   #C10-C12 potential
                     #separation 
                     cacasep=4;cacbsep=3;cbcbsep=3
                     
@@ -1306,7 +1332,6 @@ class protsbm(Select,object):
                     (res1,res2) = pairs_bb[i]
                     f2.write(' %s\t%d\t%s\t%d\n' % ('1', int(res1)+1, '1', int(res2)+1))
                     contacts.append([res1+1, res2+1, int(contacttype), dist, strength_CA])
-
                 # write side-chain contacts next
                 for i in range(0, len(sc)):
                     ##map CB in residue to CB in two bead file.
@@ -1338,6 +1363,9 @@ class protsbm(Select,object):
                         res2bt = d[Y.get_residue_name(nativefile, int(res2))[0]]
                         strength_CB=float(Y.get_btmap_val(res1bt,res2bt,'interaction.dat'))
                         strength_CB=0.5*(0.7- float(strength_CB))*300*Kb*0.001987 #kcal/mol
+                        #the model is calibrated with all values Kcal mol-1 K-1
+                        #althoough GROMACS uses KJ mol-1 K-1, but to keep strength
+                        #in proportions, we use 0.001987 in the expression above
                         contacts.append([res1 + 1, res2 + 1, int(contacttype), dist,strength_CB])
                         print ([res1 + 1, res2 + 1, int(contacttype), dist, strength_CB, 'SCSCbt'])
                     #_---------------------------#
@@ -1373,7 +1401,6 @@ class protsbm(Select,object):
                     pair_sopc = list()
                     epsl=1 #kcal/mol
                     for i in range(0,len(nn_angles)):
-                        contacttype=1
                         #Use the 6 term from LJ potential for repulsion!(supply negative to make repulsive)
                         # fudgeQQ,qi,qj,V,W for gromacs
                         res1=int(nn_angles[i][0]);res2=int(nn_angles[i][1])
@@ -1381,21 +1408,21 @@ class protsbm(Select,object):
                         pair_sopc.append([res1, res2])#;  pair = np.reshape(pair, (1, 2))
                     pair_sopc.sort()   
                     distances = Measure().distances(nativefile,pair_sopc)
+                    sop_nn_angle_contacttype=11  # 11 for sop-sc non-native angle
                     for i in range(0,len(pair_sopc)):
                         (res1,res2) = pair_sopc[i]
-                        dist = distances[i]
+                        dist = distances[0][i]
                         #dist = md.compute_distances(traj, pair, periodic=False, opt=True)[0][0] * 10
-                        contacts.append([res1 + 1, res2 + 1, int(contacttype),dist,epsl])
+                        contacts.append([res1 + 1, res2 + 1, int(sop_nn_angle_contacttype),dist,epsl])
+
             else:
                 U.fatal_errors(7)
-
             # check if contacts are being repeated.
             contacts=np.asarray(contacts)
             contacts= contacts[np.argsort(contacts[:,0])]
             test=[]
             for i in contacts:
                 j=tuple(i)
-                #print (j)
                 test.append(j)
             #remove repeat contacts.
             a=set(test)
@@ -1682,27 +1709,36 @@ class protsbm(Select,object):
             #f.write('%s\n' % ('[ nonbond_params ]'))
             #add non-bonded r6 term in sop-sc model for all non-bonded non-native interactions.
             #f.write('%s\n' % ('; i j  func sigma(c10)    eps(c12)'))
-
             #CA-CA
-            #r = ((CA_rad/10 + cA_rad/10)/2)**12
-            r = ((CA_rad/10 + CA_rad/10))**12
-            f.write('  %s\t%s\t1\t%e\t%e\n' % ('CA','CA',0,r))
+            if sopc:
+                r = -((CA_rad/10 + CA_rad/10))**6
+                f.write('  %s\t%s\t1\t%e\t%e\n' % ('CA','CA',r,0))
+            else:
+                r = ((CA_rad/10 + CA_rad/10))**12
+                f.write('  %s\t%s\t1\t%e\t%e\n' % ('CA','CA',0,r))
             #CA-CB excl
             for i in (atoms_in_top):
                 if i[0]!='CA':
-                    #r = ((CA_rad/10 + i[5]/10)/2)**12
-                    r = ((CA_rad/10 + i[5]/10))**12
-                    f.write('  %s\t%s\t1\t%e\t%e\n' % ('CA',i[0].strip(),0,r))
+                    if sopc:
+                        r = -((CA_rad/10 + i[5]/10))**6
+                        f.write('  %s\t%s\t1\t%e\t%e\n' % ('CA',i[0].strip(),r,0))
+                    else:
+                        r = ((CA_rad/10 + i[5]/10))**12
+                        f.write('  %s\t%s\t1\t%e\t%e\n' % ('CA',i[0].strip(),0,r))
             for x in range(0,len(atoms_in_top)):
                 i = atoms_in_top[x]
                 if i[0]!="CA":
                     for y in range(x,len(atoms_in_top)):
                         j = atoms_in_top[y]
                         if j[0]!='CA':
-                            #r  = ((i[5]/10 + j[5]/10)/2)**12
-                            r  = ((i[5]/10 + j[5]/10))**12 
-                            f.write('  %s\t%s\t1\t%e\t%e\n' % (i[0].strip(),j[0].strip(),0,r))
+                            if sopc:
+                                r = -((CA_rad/10 + i[5]/10))**6
+                                f.write('  %s\t%s\t1\t%e\t%e\n' % ('CA',i[0].strip(),r,0))
+                            else:
+                                r  = ((i[5]/10 + j[5]/10))**12 
+                                f.write('  %s\t%s\t1\t%e\t%e\n' % (i[0].strip(),j[0].strip(),0,r))
             f.close()
+            return
         def write_gro_atomtypes(self,topfilename,atomtypes,pdbfile,sopc,CA_rad,CBcom,CBradii,excl_rule):
             print (">>> writing Protein GROMACS topology atomtypes section",topfilename,atomtypes,pdbfile,sopc,CA_rad)
 
@@ -1714,18 +1750,26 @@ class protsbm(Select,object):
             assert a[0][0]=='CA'    #make sure that tha fist element is CA
             ca=a[0]
 
-            CA_rad12=(CA_rad/10)**12
             f.write('%s\n'%('[ atomtypes ]'))
             f.write('%s\n' % ('; name mass  charge ptype c6    c12'))
-            f.write('   %s %8.3f %8.3f %s\t%e\t%e \n' % (ca[0], ca[1], ca[2], ca[3], ca[4], CA_rad12))
+            if sopc:
+                CA_rad6=-(CA_rad/10)**6
+                f.write('   %s %8.3f %8.3f %s\t%e\t%e \n' % (ca[0], ca[1], ca[2], ca[3], CA_rad6,0))            
+            else:
+                CA_rad12=(CA_rad/10)**12
+                f.write('   %s %8.3f %8.3f %s\t%e\t%e \n' % (ca[0], ca[1], ca[2], ca[3], ca[4], CA_rad12))
             for i in (a):
                 if i[0]!='CA':
-                    r=(i[5]/10)**12 #C12 term
-                    f.write('  %s %8.3f %8.3f %s\t%e\t%e \n'%(i[0],i[1],i[2],i[3],i[4],r))
-    
+                    if not sopc:
+                        r=(i[5]/10)**12 #C12 term
+                        f.write('  %s %8.3f %8.3f %s\t%e\t%e \n'%(i[0],i[1],i[2],i[3],i[4],r))
+                    elif sopc:
+                        r=-(i[5]/10)**6 #C6 term but used for repul hence using - sign 
+                        f.write('  %s %8.3f %8.3f %s\t%e\t%e \n'%(i[0],i[1],i[2],i[3],r,0))
+
             #add non-bonded r6 term in sop-sc model for all non-bonded non-native interactions.
             f.write('\n%s\n' % ('[ nonbond_params ]'))
-            f.write('%s\n' % ('; i j  func sigma(c10)    eps(c12)'))
+            f.write('%s\n' % ('; i j  func  C^n    c^12'))
             f.close()
             if excl_rule == 2:
                 #The input files by default direct use of Combination rule 1 (Geometric mean) in Gromacs
@@ -1765,6 +1809,8 @@ class protsbm(Select,object):
             #GROMACS 4.5.2 : FENE=7 AND HARMONIC=1
             allowed_pots=[1,7,9]
             ptype=1 #READ POTENTIAL FROM DICTIONARY HERE IF NEEDED.
+            if sopc:
+                ptype=7 #FENE
             assert ((ptype in allowed_pots)),'Make sure potential is included in allowed_pots.'
             assert atomtypes <= 2
 
@@ -1786,12 +1832,24 @@ class protsbm(Select,object):
             elif ptype==7:
                 #FENE potential.
                 kcalAtokjA=418.4 #kcal/mol/A2 to kcal/mol/nm2
-                Kb=float(20*kcalAtokjA) #Gromacs units
-                R=float(0.2) #nm
+                R=float(20*kcalAtokjA) #Gromacs units
+                Kb = float(Kb*100)     #nm
                 for i in range(0,len(bonds)):
                     #not sure of format for top file. (where does distance go?)
-                    f.write('\t%d\t%d\t%s %e %e %e\n' %(bonds[i][0]+1,bonds[i][1]+1, str(ptype),bonds[i][2]/10,R,Kb))
+                    f.write('\t%d\t%d\t%s %e %e\n' %(bonds[i][0],bonds[i][1], str(ptype),bonds[i][3]/10,Kb))
+                    #f.write('\t%d\t%d\t%s %e %e %e\n' %(bonds[i][0],bonds[i][1], str(ptype),bonds[i][2]/10,R,Kb))
                 f.close()
+                #__TESTING__#
+                fcheck = open("bonds.check","w+")
+                for i in bonds:
+                    if int(i[1])-int(i[0]) == 2:
+                        fcheck.write("%d\t%d\t%f\n"%(i[0]-1,i[1]-1,i[3]))
+                for i in bonds:
+                    if int(i[1])-int(i[0]) == 1:
+                        fcheck.write("%d\t%d\t%f\n"%(i[0]-1,i[1]-1,i[3]))
+                fcheck.close()
+                #___________#
+                return bonds
             
             elif ptype==9:
                 for i in range(0,len(bonds)):
@@ -1820,11 +1878,14 @@ class protsbm(Select,object):
             #Input units KJ mol-1
             ##GROMACS units KJ mol-1  
             Ka = float(Ka)
-
             assert atomtypes <= 2
             f = open(topfilename, "a")
             f.write('\n%s\n' % ('[ angles ]'))
             f.write('%s\t%s\t%s\t%s\t%s\t%s\n' % (';ai', 'aj', 'ak','func', 'th0(deg)', 'Ka'))
+            if sopc:
+                print ("SOP-SC, angle term")
+                f.close()
+                return 0
             angles=self.write_angles_section(nativefile,Ka,atomtypes,CG_indices)
             for i in range(0, len(angles)):
                 f.write('\t%d\t%d\t%d\t%s %e %e\n' % (angles[i][0],angles[i][1],angles[i][2],'1',angles[i][3]*radtodeg, Ka))
@@ -1847,7 +1908,6 @@ class protsbm(Select,object):
             #Kphi*(1 + cos(n(phi-180-phi0))) = Kphi*(1 + cos(n180)*cos(n(phi-phi0)))
             #if n is odd i.e. n=1,3.... then cos(n180) = -1
             #hence Edihedrals = Kphi*(1 - cos(n(phi-phi0)))
-
             phase = 180
             radtodeg = 180/np.pi
             Kd=float(Kd)        #KJ/mol
@@ -1856,6 +1916,11 @@ class protsbm(Select,object):
             #dihedrals section
             f = open(topfilename, "a")
             f.write('\n%s\n' % ('[ dihedrals ]'))
+            if sopc:
+                print ("No dihedral term in SOP-SC model")
+                f.close()
+                return 0
+
             d=self.write_dihedrals_section(nativefile,Kd,atomtypes,CG_indices)
             f.write('%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\n' % (';ai','aj','ak','al','func','phi0(deg)','Kd','mult'))
             for i in range(0, len(d)):
@@ -1884,7 +1949,6 @@ class protsbm(Select,object):
             f.close()
         def write_gro_pairs(self,topfilename,atomtypes,nativefile,pdbfile,contacttype,cutoff,sopc,btparams,CG_indices):
             print (">> writing GROMACS pairs sections",topfilename,atomtypes,nativefile,pdbfile,contacttype,cutoff,sopc,btparams)
-            contacts_allowed=[1,2]
             assert atomtypes <= 2
             if skip_glycine:
                 sopc=False
@@ -1894,36 +1958,43 @@ class protsbm(Select,object):
 
             f.write('\t%s\n' % ('; ai aj type A B'))
             btfile='interaction.dat'
-            #cutoff=4.5
             contacts=self.write_contacts_section(pdbfile,nativefile,btfile,cutoff,atomtypes,sopc,btparams,dswap,CG_indices)
-            assert (contacttype in contacts_allowed),'Only the 10-12 potential contacttype=2 is implemented'
             if dsb: #global variable
                 #contacts will be added as bonds
                 return contacts
-
+            if sopc:
+                nn_angles_temp = []
             for i in range(0,len(contacts)):
                 contacttype=int(contacts[i][2])
-                #print contacttype
+                # gromacs contact type is 1 for table potentials.
+                # optim contact types differ.
+                epsilonij=float(contacts[i][4])
+                #print epsilonij
                 if contacttype==2:
-                    # gromacs contact type is 1 for table potentials.
-                    # optim contact types differ.
-
-                    epsilonij=float(contacts[i][4])
-                    #print epsilonij
                     #12-19 potential.
                     B=((contacts[i][3]*0.1)**12)*5*epsilonij
                     A=((contacts[i][3]*0.1)**10)*6*epsilonij
-                    #i-j
                     f.write('\t%d\t%d\t%s\t%e\t%e\n' % (contacts[i][0],contacts[i][1],'1',A,B))
-                # elif contacttype==1 and sopc:
-                #     count_angles=count_angles+1
-                #     A=float(0.0)
-                #     B=-(contacts[i][3]*0.1)**6 #sigmabb*6 and (sigma_bs)**6 (minus for repilsive)
-                #     #print contacts[i][3]
-                #     q1=0;q2=0;fudgeqq=1
-                #     #Fudgeqq,qi,qj,V,W
-                #     f.write('\t%d\t%d\t%s\t%d\t%e\t%e\t%e\t%e\n' % (contacts[i][0], contacts[i][1],'2',fudgeqq,q1,q2,B,A))
-                #     print ("Writing", count_angles, "additional entries in pairs section. SOPC =",sopc)
+                elif contacttype==1:
+                    #12-6 potential.
+                    B=((contacts[i][3]*0.1)**12)*1*epsilonij
+                    A=((contacts[i][3]*0.1)**6)*2*epsilonij
+                    f.write('\t%d\t%d\t%s\t%e\t%e\n' % (contacts[i][0],contacts[i][1],'1',A,B))                    
+                elif contacttype==11:
+                    nn_angles_temp.append(contacts[i])
+            if sopc:
+                count_angles = 0
+                f.write(";SOP-SC non-native anlge based pairs\n")
+                for i in nn_angles_temp:
+                    count_angles=count_angles+1
+                    A=float(0.0)
+                    B=-(i[3]*0.1)**6 #sigmabb*6 and (sigma_bs)**6 (minus for repilsive)
+                    f.write('\t%d\t%d\t%s\t%e\t%e\n' % (i[0],i[1],'1',B,A))                    
+                    #q1=0;q2=0;fudgeqq=1
+                    #Fudgeqq,qi,qj,V,W
+                    #f.write('\t%d\t%d\t%s\t%d\t%e\t%e\t%e\t%e\n' % (i[0], i[1],'2',fudgeqq,q1,q2,B,A))
+                    print ("Writing", count_angles, "additional entries in pairs section. SOPC =",sopc)
+                del(nn_angles_temp)
             f.close()
             return contacts
         def write_gro_exclusions(self,topfilename,contacts):
@@ -2018,7 +2089,6 @@ class protsbm(Select,object):
             global terminal_residue 
             terminal_residue = self.get_chain_termianl_residue_index(nativefile)
             CG_indices = (CA_indices,CB_indices,terminal_residue)
-
             #write gromacs format files.
             self.write_gro_header(topfilename,atomtypes)
             self.write_header_SBM()

@@ -244,10 +244,7 @@ class conmaps():
                 if x1 and y1:
                     if np.absolute(i[1]-i[0])>=separation:
                        # CB-CA
-                        ##___TESTING___#
-                        #pair = ([i[0], i[1]]);
-                        pair = (x1,y1)
-                        ##___TESTING___#
+                        pair = (y1,x1)
                         pair = np.reshape(pair, (1, 2))
                         distance = md.compute_distances(traj, pair)[0][0]
                         #cutoff and scaling criterion.
@@ -257,17 +254,17 @@ class conmaps():
                             #print(pair, distance, x1, y1)
                             contacts.append([i[0], i[1], distance * 10, distance * 10])
                             count = count + 1
-                # if x2 and y2:
-                #      if np.absolute(i[1]-i[0])>=separation:
-                #          #CA-CB
-                #          pair = ([i[0], i[1]]);
-                #          pair = np.reshape(pair, (1, 2))
-                #          distance = md.compute_distances(traj, pair)[0][0]
-                #          # cutoff and scaling criterion.
-                #          if (distance * 10 <= 8.0):
-                #              # print(pair, distance, x1, y1)
-                #              contacts.append([i[0], i[1], distance * 10, distance * 10])
-                #              count = count + 1
+                if x2 and y2:
+                     if np.absolute(i[1]-i[0])>=separation:
+                         #CA-CB
+                         pair = (x2,y2)
+                         pair = np.reshape(pair, (1, 2))
+                         distance = md.compute_distances(traj, pair)[0][0]
+                         # cutoff and scaling criterion.
+                         if (distance * 10 <= 8.0):
+                             # print(pair, distance, x1, y1)
+                             contacts.append([i[0], i[1], distance * 10, distance * 10])
+                             count = count + 1
             print("Found", count, "bb-sc contacts. See SOP-SC.txt")
             np.savetxt('bb_sc_sopc.dat', contacts,fmt='%-4d  %-4d  %10.6f  %10.6f')
             contacts = np.asarray(contacts)
