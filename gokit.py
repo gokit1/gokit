@@ -139,7 +139,7 @@ class esbm(object):
             for i in index:
                 CB1+=[[CB_coord[count]],Y.get_residue_number(topology,i)]
                 count=count+1
-            CB1 = np.array(CB1).reshape(len(CB1) / 2, 2)
+            CB1 = np.array(CB1, dtype=object).reshape(len(CB1) // 2, 2)
             print (CB1)
             return CB1
 
@@ -175,7 +175,7 @@ class esbm(object):
              #           print COM
                         COM1 += COM
                         count = count + 1
-                COM1 = np.array(COM1).reshape(len(COM1) / 2, 2)
+                COM1 = np.array(COM1, dtype=object).reshape(len(COM1) // 2, 2)
             return COM1
 
         def get_side_chain_COM(self,pdbfile,skip_glycine):
@@ -227,7 +227,7 @@ class esbm(object):
                             #print COM
                             COM1+=COM
                         count = count + 1
-                COM1=np.array(COM1).reshape(len(COM1)/2,2)
+                COM1=np.array(COM1, dtype=object).reshape(len(COM1)//2,2)
                 #coordinates,resnum
                 # print (COM1)
                 # print (len(COM1))
@@ -373,8 +373,8 @@ class esbm(object):
             for i in range(n_res):
                CB.append([self.get_farthest_atom_in_residue(pdbfile,i),i])
 
-            #COM1 = np.array(COM1).reshape(len(COM1) / 2, 2)
-            CB=np.array(CB).reshape(len(CB),2)
+            #COM1 = np.array(COM1, dtype=object).reshape(len(COM1) // 2, 2)
+            CB=np.array(CB, dtype=object).reshape(len(CB),2)
             print (CB)
             return (CB)
 
